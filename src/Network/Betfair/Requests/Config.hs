@@ -5,12 +5,13 @@ module Network.Betfair.Requests.Config
     )
 where
 
-import           Prelude (String)
+import           Network.Betfair.Types.AppKey (AppKey)
+import           Prelude                      (String)
 
 data Config = Config { username      :: String
                      , password      :: String
-                     , appKey        :: String
-                     , delayedAppKey :: String
+                     , appKey        :: AppKey
+                     , delayedAppKey :: AppKey
                      }
 
 defaultConfig :: Config

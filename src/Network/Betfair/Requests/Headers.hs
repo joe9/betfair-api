@@ -3,18 +3,16 @@
 module Network.Betfair.Requests.Headers
    ( headers
    , bs
-   , AppKey
 --    , cibs
    ) where
 
-import qualified Data.ByteString.UTF8        as B (ByteString,
-                                                   fromString)
-import qualified Data.CaseInsensitive        as CI (CI, mk)
-import           Network.HTTP.Types.Header   (RequestHeaders)
+import qualified Data.ByteString.UTF8         as B (ByteString,
+                                                    fromString)
+import qualified Data.CaseInsensitive         as CI (CI, mk)
+import           Network.HTTP.Types.Header    (RequestHeaders)
 
-import           Network.Betfair.Types.Token (Token)
-
-type AppKey = String
+import           Network.Betfair.Types.AppKey (AppKey)
+import           Network.Betfair.Types.Token  (Token)
 
 headers :: AppKey -> Maybe Token -> RequestHeaders
 headers appKey Nothing =

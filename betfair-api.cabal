@@ -18,7 +18,8 @@ source-repository head
     location:        https://github.com/joe9/betfair-api.git
 
 library
-  exposed-modules: Network.Betfair.Types.CancelExecutionReport
+  exposed-modules: Network.Betfair.Types.AppKey
+                     Network.Betfair.Types.CancelExecutionReport
                      Network.Betfair.Types.CancelInstruction
                      Network.Betfair.Types.CancelInstructionReport
                      Network.Betfair.Types.Competition
@@ -65,6 +66,7 @@ library
                      Network.Betfair.Types.Side
                      Network.Betfair.Types.StartingPrices
                      Network.Betfair.Types.TimeRange
+                     Network.Betfair.Types.Token
                      Network.Betfair.Requests.APIRequest
                      Network.Betfair.Requests.CancelOrders
                      Network.Betfair.Requests.Config

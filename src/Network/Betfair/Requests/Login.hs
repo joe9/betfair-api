@@ -20,10 +20,6 @@ import           Network.Betfair.Requests.ParseLogin  (getToken)
 import           Network.Betfair.Requests.WriterLog   (Log)
 import           Network.Betfair.Types.Token          (Token)
 
-type UserName = String
-type Password = String
-type AppKey = String
-
 loginRequest :: Config -> IO Request
 loginRequest c =
   fmap (encodeBody c)

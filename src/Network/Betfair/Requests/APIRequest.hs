@@ -13,8 +13,9 @@ import           Data.ByteString.Lazy.UTF8          (fromString)
 import           Network.HTTP.Conduit               (Request (method, requestBody, requestHeaders), RequestBody (RequestBodyLBS),
                                                      parseUrl)
 
-import           Network.Betfair.Requests.Headers   (AppKey, headers)
+import           Network.Betfair.Requests.Headers   (headers)
 import           Network.Betfair.Requests.WriterLog (Log)
+import           Network.Betfair.Types.AppKey       (AppKey)
 import           Network.Betfair.Types.Token        (Token)
 
 apiRequest :: ByteString -> RWST (AppKey, Token) Log s IO Request
