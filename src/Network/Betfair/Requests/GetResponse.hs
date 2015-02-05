@@ -11,12 +11,8 @@ module Network.Betfair.Requests.GetResponse
 import           Control.Monad.RWS
 import qualified Data.ByteString.Lazy               as L (ByteString)
 import qualified Data.ByteString.Lazy.UTF8          as LUTF8 (toString)
-import           Data.Default                       (Default (def))
-import           Network.Connection                 (ProxySettings (SockSettingsSimple))
-import           Network.HTTP.Conduit               (Manager,
-                                                     ManagerSettings,
-                                                     Request, Response (responseBody),
-                                                     httpLbs, mkManagerSettings)
+import           Network.HTTP.Conduit               (Manager, Request, Response (responseBody),
+                                                     httpLbs)
 
 import           Network.Betfair.Requests.WriterLog (Log, groomedLog)
 
