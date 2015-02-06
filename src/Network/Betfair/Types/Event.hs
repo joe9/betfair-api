@@ -1,14 +1,13 @@
 {-# OPTIONS_GHC -Wall #-}
-{-# LANGUAGE FlexibleContexts     #-}
-{-# LANGUAGE TemplateHaskell      #-}
-{-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE FlexibleContexts, TemplateHaskell, UndecidableInstances
+             #-}
 
 module Network.Betfair.Types.Event
    ( Event(..)
    ) where
 
-import           Data.Aeson.TH (Options (omitNothingFields),
-                                defaultOptions, deriveJSON)
+import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
+                      deriveJSON)
 
 type DateString = String
 

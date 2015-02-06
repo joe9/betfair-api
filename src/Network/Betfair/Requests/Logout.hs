@@ -1,23 +1,29 @@
 {-# OPTIONS_GHC -Wall #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Network.Betfair.Requests.Logout
-   ( logoutRequest
-   , logout
+   ( logout
    ) where
 
-import qualified Data.ByteString.Lazy                 as L
-import           Network.HTTP.Conduit
+import Control.Monad.RWS
+import Network.HTTP.Conduit
 
-import           Network.Betfair.Requests.GetResponse
-import           Network.Betfair.Requests.Headers
-import           Network.Betfair.Requests.Login
-import           Network.Betfair.Requests.ParseLogout
-import           Network.Betfair.Types.Token          (Token)
+import Network.Betfair.Requests.GetResponse
+import Network.Betfair.Requests.Headers
+import Network.Betfair.Requests.ParseLogout
+import Network.Betfair.Requests.WriterLog   (Log)
+import Network.Betfair.Types.AppKey
+import Network.Betfair.Types.Token          (Token)
 
-logoutRequest :: Token -> IO Request
-logoutRequest t =
- parseUrl "https://identitysso.betfair.com/api/logout"
-   >>= (\req -> return $ req {requestHeaders = headers (Just t)})
+logoutRequest :: RWST (AppKey, Token) Log s IO Request
+logoutRequest =
+  (\(a,t) -> lift . fmap (\req -> req { requestHeaders = headers a (Just t)
+                                    -- no need of B.fromString below due
+                                    -- to overloadedStrings extension
+                                    , method = "POST"
+                                    })
+         $ parseUrl "https://identitysso.betfair.com/api/logout"
+  ) =<< ask
 
-logout :: Token -> IO (Response L.ByteString)
-logout t = logoutRequest t >>= getResponse
+logout :: RWST (AppKey,Token) Log Manager IO Logout
+logout = fmap getLogout . getResponseBodyString =<< logoutRequest

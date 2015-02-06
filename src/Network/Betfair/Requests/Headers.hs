@@ -6,13 +6,13 @@ module Network.Betfair.Requests.Headers
 --    , cibs
    ) where
 
-import qualified Data.ByteString.UTF8         as B (ByteString,
-                                                    fromString)
-import qualified Data.CaseInsensitive         as CI (CI, mk)
-import           Network.HTTP.Types.Header    (RequestHeaders)
+import qualified Data.ByteString.UTF8      as B (ByteString,
+                                                 fromString)
+import qualified Data.CaseInsensitive      as CI (CI, mk)
+import           Network.HTTP.Types.Header (RequestHeaders)
 
-import           Network.Betfair.Types.AppKey (AppKey)
-import           Network.Betfair.Types.Token  (Token)
+import Network.Betfair.Types.AppKey (AppKey)
+import Network.Betfair.Types.Token  (Token)
 
 headers :: AppKey -> Maybe Token -> RequestHeaders
 headers appKey Nothing =
@@ -20,6 +20,11 @@ headers appKey Nothing =
 --     , ( cibs "X-Application" , bs delayedAppKey )
     , ( cibs "X-Application" , bs appKey )
     , ( cibs "Content-Type"  , bs "application/json" )
+    , ( cibs "Accept-Encoding"  , bs "gzip" )
+    -- this should not be necessary in HTTP 1.1 as keep-alive
+    -- is the default. But, just adding it in to check if it
+    -- makes a difference
+    , ( cibs "Connection"  , bs "Keep-Alive" )
     ]
 headers appKey (Just token) =
     ( cibs "X-Authentication" , bs token )

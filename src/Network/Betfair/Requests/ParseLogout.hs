@@ -6,10 +6,11 @@ module Network.Betfair.Requests.ParseLogout
    , getLogout
    ) where
 
-import           Safe
-import           Text.JSON.Generic
+import Prelude           hiding (error, product)
+import Safe
+import Text.JSON.Generic
 
-import           Network.Betfair.Types.Token (Token)
+import Network.Betfair.Types.Token (Token)
 
 data JsonLogout = JsonLogout
    { token   :: String
@@ -31,7 +32,7 @@ data Logout = Logout
    { lToken   :: Token
    , lProduct :: String
    , lStatus  :: Status
-   , lError   :: Error
+   , lError   :: Maybe Error
    } deriving (Eq, Show, Data, Typeable)
 
 -- use below in ghci to see how the string is encoded in JSON
@@ -49,8 +50,7 @@ getLogout = jsonLogoutToLogout . getJsonLogout
 jsonLogoutToLogout :: JsonLogout -> Logout
 jsonLogoutToLogout j =
    Logout (token j)
-            (Network.Betfair.Requests.ParseLogout.product j)
+            (product j)
             (readNote "ParseLogout: cannot read status"
                 . status $ j)
-            (readNote "ParseLogout: cannot read error"
-                . Network.Betfair.Requests.ParseLogout.error $ j)
+            (readMay . error $ j)

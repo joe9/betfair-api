@@ -12,26 +12,25 @@ module Network.Betfair.Requests.ListMarketBook
    , JsonRequest(..)
    ) where
 
-import           Control.Monad.RWS                        (RWST)
-import qualified Data.Aeson                               as A (decode, encode)
-import           Data.Aeson.TH                            (Options (omitNothingFields), defaultOptions,
-                                                           deriveJSON)
-import           Data.Default                             (Default (..))
-import           Network.HTTP.Conduit                     (Manager)
-import           Safe                                     (fromJustNote)
+import           Control.Monad.RWS    (RWST)
+import qualified Data.Aeson           as A (decode, encode)
+import           Data.Aeson.TH        (Options (omitNothingFields),
+                                       defaultOptions, deriveJSON)
+import           Data.Default         (Default (..))
+import           Network.HTTP.Conduit (Manager)
+import           Safe                 (fromJustNote)
 
-import           Network.Betfair.Requests.APIRequest      (apiRequest)
-import           Network.Betfair.Requests.GetResponse     (getResponseBody, getResponseBodyString)
-import           Network.Betfair.Requests.WriterLog       (Log,
-                                                           groomedLog)
-import           Network.Betfair.Types.AppKey             (AppKey)
-import           Network.Betfair.Types.MarketBook         (MarketBook)
-import           Network.Betfair.Types.MatchProjection    (MatchProjection)
-import           Network.Betfair.Types.OrderProjection    (OrderProjection)
-import           Network.Betfair.Types.PriceData          (PriceData)
-import           Network.Betfair.Types.PriceProjection    (PriceProjection (priceData))
-import           Network.Betfair.Types.ResponseMarketBook (Response (result))
-import           Network.Betfair.Types.Token              (Token)
+import Network.Betfair.Requests.APIRequest      (apiRequest)
+import Network.Betfair.Requests.GetResponse     (getResponseBody, getResponseBodyString)
+import Network.Betfair.Requests.WriterLog       (Log, groomedLog)
+import Network.Betfair.Types.AppKey             (AppKey)
+import Network.Betfair.Types.MarketBook         (MarketBook)
+import Network.Betfair.Types.MatchProjection    (MatchProjection)
+import Network.Betfair.Types.OrderProjection    (OrderProjection)
+import Network.Betfair.Types.PriceData          (PriceData)
+import Network.Betfair.Types.PriceProjection    (PriceProjection (priceData))
+import Network.Betfair.Types.ResponseMarketBook (Response (result))
+import Network.Betfair.Types.Token              (Token)
 
 data JsonRequest = JsonRequest
    { jsonrpc :: String
@@ -77,14 +76,15 @@ listMarketBook jp = do
   =<< apiRequest (A.encode $ jsonRequest jp)
 
 type MarketId = String
-marketBook :: MarketId -> PriceData
+marketBook :: MarketId -> [PriceData]
            -> RWST (AppKey,Token) Log Manager IO [MarketBook]
 marketBook mktid pd =
     listMarketBook (def { marketIds = [mktid]
-                        , priceProjection = def {priceData = [pd]}
+                        , priceProjection = def {priceData = pd}
                         })
 
-listMarketBookResponseBodyString :: String -> RWST (AppKey,Token) Log Manager IO String
+listMarketBookResponseBodyString :: String
+                               -> RWST (AppKey,Token) Log Manager IO String
 listMarketBookResponseBodyString mktid =
   getResponseBodyString
   =<< apiRequest (A.encode . jsonRequest $ def {marketIds = [mktid]})
