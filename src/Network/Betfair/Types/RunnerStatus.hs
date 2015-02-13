@@ -6,9 +6,9 @@ module Network.Betfair.Types.RunnerStatus
    ( RunnerStatus(..)
    ) where
 
-import           Data.Aeson.TH   (Options (omitNothingFields),
-                                  defaultOptions, deriveJSON)
-import           Data.Default.TH (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
 data RunnerStatus = ACTIVE
                       | WINNER
@@ -16,7 +16,7 @@ data RunnerStatus = ACTIVE
                       | REMOVED_VACANT
                       | REMOVED
                       | HIDDEN
-   deriving (Eq, Show)
+   deriving (Eq, Show, Read)
 
 deriveDefault ''RunnerStatus
 $(deriveJSON defaultOptions {omitNothingFields = True} ''RunnerStatus)

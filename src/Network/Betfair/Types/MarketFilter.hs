@@ -9,13 +9,13 @@ module Network.Betfair.Types.MarketFilter
    ( MarketFilter(..)
    ) where
 
-import           Data.Aeson.TH                           (Options (omitNothingFields), defaultOptions,
-                                                          deriveJSON)
-import           Data.Default.TH                         (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
-import           Network.Betfair.Types.MarketBettingType (MarketBettingType)
-import           Network.Betfair.Types.OrderStatus       (OrderStatus)
-import           Network.Betfair.Types.TimeRange         (TimeRange)
+import Network.Betfair.Types.MarketBettingType (MarketBettingType)
+import Network.Betfair.Types.OrderStatus       (OrderStatus)
+import Network.Betfair.Types.TimeRange         (TimeRange)
 
 data MarketFilter = MarketFilter
    { textQuery          :: Maybe String
@@ -42,4 +42,3 @@ data MarketFilter = MarketFilter
 $(deriveJSON defaultOptions {omitNothingFields = True} ''MarketFilter)
 
 deriveDefault ''MarketFilter
-

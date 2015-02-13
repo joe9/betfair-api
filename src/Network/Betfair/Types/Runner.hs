@@ -7,16 +7,15 @@ module Network.Betfair.Types.Runner
    ( Runner(..)
    ) where
 
-import           Data.Aeson.TH                        (Options (omitNothingFields),
-                                                       defaultOptions,
-                                                       deriveJSON)
-import           Data.Default.TH                      (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
-import           Network.Betfair.Types.ExchangePrices (ExchangePrices)
-import           Network.Betfair.Types.Match          (Match)
-import           Network.Betfair.Types.Order          (Order)
-import           Network.Betfair.Types.RunnerStatus   (RunnerStatus)
-import           Network.Betfair.Types.StartingPrices (StartingPrices)
+import Network.Betfair.Types.ExchangePrices (ExchangePrices)
+import Network.Betfair.Types.Match          (Match)
+import Network.Betfair.Types.Order          (Order)
+import Network.Betfair.Types.RunnerStatus   (RunnerStatus)
+import Network.Betfair.Types.StartingPrices (StartingPrices)
 
 type DateString = String
 

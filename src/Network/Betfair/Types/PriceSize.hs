@@ -7,14 +7,14 @@ module Network.Betfair.Types.PriceSize
    ( PriceSize(..)
    ) where
 
-import           Data.Aeson.TH   (Options (omitNothingFields),
-                                  defaultOptions, deriveJSON)
-import           Data.Default.TH (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
 data PriceSize = PriceSize
    { price :: Double
    , size  :: Double
-   } deriving (Eq, Show)
+   } deriving (Eq, Show, Read)
 
 deriveDefault ''PriceSize
 $(deriveJSON defaultOptions {omitNothingFields = True} ''PriceSize)
