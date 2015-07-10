@@ -36,8 +36,9 @@ import           Network.Betfair.Requests.GetResponse          (getResponseBody,
 import           Network.Betfair.Requests.WriterLog            (Log, groomedLog)
 import           Network.Betfair.Types.AppKey                  (AppKey)
 import           Network.Betfair.Types.MarketCatalogue         (MarketCatalogue)
-import           Network.Betfair.Types.MarketFilter            (MarketFilter (marketIds))
-import           Network.Betfair.Types.MarketProjection        (MarketProjection)
+import           Network.Betfair.Types.MarketBettingType       (MarketBettingType)
+import           Network.Betfair.Types.MarketFilter            (MarketFilter (marketIds,marketBettingTypes))
+import           Network.Betfair.Types.MarketProjection        (MarketProjection(..))
 import           Network.Betfair.Types.MarketSort              (MarketSort)
 import           Network.Betfair.Types.ResponseMarketCatalogue (Response (result))
 import           Network.Betfair.Types.Token                   (Token)
@@ -68,7 +69,18 @@ data JsonParameters = JsonParameters
 instance Default JsonParameters where
  -- TODO change this back to 1000 after testing
  -- def = JsonParameters def def def 1000 def
- def = JsonParameters def def def 1000 def
+ def = JsonParameters (def {marketBettingTypes = [def :: MarketBettingType]})
+                      (Just [ COMPETITION
+                            , EVENT
+                            , EVENT_TYPE
+                            , MARKET_START_TIME
+--                             , MARKET_DESCRIPTION
+                            , RUNNER_DESCRIPTION
+--                             , RUNNER_METADATA
+                            ])
+                      def
+                      1000
+                      def
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''JsonParameters)
 $(deriveJSON defaultOptions {omitNothingFields = True} ''JsonRequest)
