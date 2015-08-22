@@ -69,18 +69,21 @@ data JsonParameters = JsonParameters
 instance Default JsonParameters where
  -- TODO change this back to 1000 after testing
  -- def = JsonParameters def def def 1000 def
- def = JsonParameters (def {marketBettingTypes = [def :: MarketBettingType]})
-                      (Just [ COMPETITION
-                            , EVENT
-                            , EVENT_TYPE
-                            , MARKET_START_TIME
+ def = JsonParameters
+          (def {marketBettingTypes = [def :: MarketBettingType]})
+          -- The weight of all the below are 0.
+          --   Hence, I should get the maximum of 1000 markets
+          (Just [ COMPETITION
+                , EVENT
+                , EVENT_TYPE
+                , MARKET_START_TIME
 --                             , MARKET_DESCRIPTION
-                            , RUNNER_DESCRIPTION
+                , RUNNER_DESCRIPTION
 --                             , RUNNER_METADATA
-                            ])
-                      def
-                      1000
-                      def
+                ])
+          def
+          1000
+          def
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''JsonParameters)
 $(deriveJSON defaultOptions {omitNothingFields = True} ''JsonRequest)
