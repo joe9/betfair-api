@@ -8,18 +8,40 @@ module Network.Betfair.Requests.GetResponse
    ) where
 
 -- import qualified Data.ByteString.UTF8 as B
+import           Control.Exception         (try)
 import           Control.Monad.RWS
-import qualified Data.ByteString.Lazy               as L (ByteString)
-import qualified Data.ByteString.Lazy.UTF8          as LUTF8 (toString)
-import           Network.HTTP.Conduit               (Manager, Request, Response (responseBody),
-                                                     httpLbs)
+import qualified Data.ByteString.Lazy      as L (ByteString)
+import qualified Data.ByteString.Lazy.UTF8 as LUTF8 (toString)
+import           Network.HTTP.Conduit      (HttpException (..),
+                                            Manager, Request,
+                                            Response (responseBody),
+                                            Response (), httpLbs)
 
-import           Network.Betfair.Requests.WriterLog (Log, groomedLog)
+import Network.Betfair.Requests.WriterLog (Log, groomedLog)
+
+continueOrError :: Request -> Manager -> HttpException -> Int
+                -> IO (Response L.ByteString)
+continueOrError req manager e@(ResponseTimeout) i =
+  if i > 9
+  then error $ "Network.Betfair.Requests.GetResponse.hs: HttpException - "
+               ++ (show (e :: HttpException)) ++ " for 10 attempts"
+  else tryForResponse req (i + 1) manager
+continueOrError _ _ e _ =
+  error $ "Network.Betfair.Requests.GetResponse.hs: HttpException - "
+               ++ (show (e :: HttpException))
+
+tryForResponse :: Request -> Int -> Manager -> IO (Response L.ByteString)
+tryForResponse req i manager = do
+    eresponse <- try $ httpLbs req manager
+    case eresponse of
+--         Left e -> print (e :: HttpException)
+        Left e -> continueOrError req manager e i
+        Right response -> return response
 
 getResponse :: Request -> RWST r Log Manager IO (Response L.ByteString)
 getResponse req =
   groomedLog
-  =<< lift . httpLbs req
+  =<< lift . tryForResponse req 0
   =<< (\_ -> get)
   =<< groomedLog req
 
