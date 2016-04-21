@@ -25,7 +25,9 @@ continueOrError req manager e@(ResponseTimeout) i =
   if i > 9
   then error $ "Network.Betfair.Requests.GetResponse.hs: HttpException - "
                ++ (show (e :: HttpException)) ++ " for 10 attempts"
-  else tryForResponse req (i + 1) manager
+  else putStrLn ("Network.Betfair.Requests.GetResponse.hs: HttpException - "
+               ++ (show (e :: HttpException)) ++ " for " ++ (show i) ++ " attempts, Trying again")
+        >> tryForResponse req (i + 1) manager
 continueOrError _ _ e _ =
   error $ "Network.Betfair.Requests.GetResponse.hs: HttpException - "
                ++ (show (e :: HttpException))
