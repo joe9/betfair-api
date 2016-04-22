@@ -19,33 +19,30 @@ import           Network.HTTP.Conduit      (HttpException (..),
 
 import Network.Betfair.Requests.WriterLog (Log, groomedLog)
 
-continueOrError :: Request -> Manager -> HttpException -> Int
-                -> IO (Response L.ByteString)
-continueOrError req manager e@(ResponseTimeout) i =
+continueOrError :: Request -> HttpException -> Int
+                -> RWST r Log Manager IO (Response L.ByteString)
+continueOrError req e@(ResponseTimeout) i =
   if i > 9
   then error $ "Network.Betfair.Requests.GetResponse.hs: HttpException - "
                ++ (show (e :: HttpException)) ++ " for 10 attempts"
-  else putStrLn ("Network.Betfair.Requests.GetResponse.hs: HttpException - "
+  else groomedLog ("Network.Betfair.Requests.GetResponse.hs: HttpException - "
                ++ (show (e :: HttpException)) ++ " for " ++ (show i) ++ " attempts, Trying again")
-        >> tryForResponse req (i + 1) manager
-continueOrError _ _ e _ =
+        >> tryForResponse req (i + 1)
+continueOrError _ e _ =
   error $ "Network.Betfair.Requests.GetResponse.hs: HttpException - "
                ++ (show (e :: HttpException))
 
-tryForResponse :: Request -> Int -> Manager -> IO (Response L.ByteString)
-tryForResponse req i manager = do
-    eresponse <- try $ httpLbs req manager
-    case eresponse of
---         Left e -> print (e :: HttpException)
-        Left e -> continueOrError req manager e i
-        Right response -> return response
+tryForResponse :: Request -> Int -> RWST r Log Manager IO (Response L.ByteString)
+tryForResponse req i = do
+  manager <- get
+  eresponse <- lift . try $ httpLbs req manager
+  case eresponse of
+      --         Left e -> print (e :: HttpException)
+    Left e -> continueOrError req e i
+    Right response -> return response
 
 getResponse :: Request -> RWST r Log Manager IO (Response L.ByteString)
-getResponse req =
-  groomedLog
-  =<< lift . tryForResponse req 0
-  =<< (\_ -> get)
-  =<< groomedLog req
+getResponse req = groomedLog =<< flip tryForResponse 0 =<< groomedLog req
 
 getResponseBodyString :: Request -> RWST r Log Manager IO String
 getResponseBodyString req =
