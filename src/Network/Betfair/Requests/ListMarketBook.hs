@@ -9,6 +9,7 @@ module Network.Betfair.Requests.ListMarketBook
    , listMarketBook
    , listMarketBookResponseBodyString
    , marketBook
+   , marketBooks
    , JsonRequest(..)
    ) where
 
@@ -18,7 +19,6 @@ import           Data.Aeson.TH        (Options (omitNothingFields),
                                        defaultOptions, deriveJSON)
 import           Data.Default         (Default (..))
 import           Network.HTTP.Conduit (Manager)
-import           Safe                 (fromJustNote)
 
 import Network.Betfair.Requests.APIRequest      (apiRequest)
 import Network.Betfair.Requests.GetResponse     (getResponseBody,
@@ -80,6 +80,13 @@ marketBook :: MarketId -> [PriceData]
            -> RWST (AppKey,Token) Log Manager IO [MarketBook]
 marketBook mktid pd =
     listMarketBook (def { marketIds = [mktid]
+                        , priceProjection = def {priceData = pd}
+                        })
+
+marketBooks :: [MarketId] -> [PriceData]
+           -> RWST (AppKey,Token) Log Manager IO [MarketBook]
+marketBooks mktids pd =
+    listMarketBook (def { marketIds = mktids
                         , priceProjection = def {priceData = pd}
                         })
 
