@@ -21,7 +21,8 @@ import           Network.HTTP.Conduit (Manager)
 import           Safe                 (fromJustNote)
 
 import Network.Betfair.Requests.APIRequest      (apiRequest)
-import Network.Betfair.Requests.GetResponse     (getResponseBody, getResponseBodyString)
+import Network.Betfair.Requests.GetResponse     (getResponseBody,
+                                                 getResponseBodyString)
 import Network.Betfair.Requests.WriterLog       (Log, groomedLog)
 import Network.Betfair.Types.AppKey             (AppKey)
 import Network.Betfair.Types.MarketBook         (MarketBook)
