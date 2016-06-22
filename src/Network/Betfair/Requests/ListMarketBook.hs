@@ -68,8 +68,7 @@ jsonRequest jp = def {params = Just jp}
 listMarketBook :: JsonParameters
                -> RWST (AppKey,Token) Log Manager IO [MarketBook]
 listMarketBook jp = do
-  return . result
-         . fromJustNote "listMarketBook: no result"
+  return . concatMap result
   =<< groomedLog
   =<< (\b -> return (A.decode b :: Maybe Response))
   =<< getResponseBody
