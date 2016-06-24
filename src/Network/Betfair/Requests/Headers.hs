@@ -20,7 +20,8 @@ headers appKey Nothing =
 --     , ( cibs "X-Application" , bs delayedAppKey )
     , ( cibs "X-Application" , bs appKey )
     , ( cibs "Content-Type"  , bs "application/json" )
-    , ( cibs "Accept-Encoding"  , bs "gzip" )
+    -- below as recommended by Betfair "Best Practice"
+    , ( cibs "Accept-Encoding"  , bs "gzip,deflate" )
     -- this should not be necessary in HTTP 1.1 as keep-alive
     -- is the default. But, just adding it in to check if it
     -- makes a difference
