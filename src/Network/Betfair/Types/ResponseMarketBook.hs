@@ -5,11 +5,10 @@ module Network.Betfair.Types.ResponseMarketBook
    ( Response(..)
    ) where
 
-import           Data.Aeson.TH                    (Options (omitNothingFields),
-                                                   defaultOptions,
-                                                   deriveJSON)
+import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
+                      deriveJSON)
 
-import           Network.Betfair.Types.MarketBook (MarketBook)
+import Network.Betfair.Types.MarketBook (MarketBook)
 
 data Response = Response
    { jsonrpc :: String
