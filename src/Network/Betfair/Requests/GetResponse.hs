@@ -13,6 +13,7 @@ import           Control.Monad.RWS
 import qualified Data.Aeson                as A (decode)
 import qualified Data.ByteString.Lazy      as L (ByteString)
 import qualified Data.ByteString.Lazy.UTF8 as LUTF8 (toString)
+import           Data.Maybe                (isJust)
 import           Network.HTTP.Conduit      (HttpException (..),
                                             Manager, Request,
                                             Response (responseBody),
@@ -55,13 +56,15 @@ getResponseBody b =
 
 failOnBettingException :: L.ByteString -> RWST r Log Manager IO L.ByteString
 failOnBettingException b
-  | checkForBettingException b =
-     fail $ "Network.Betfair.Requests.GetResponse.hs: BettingException: " ++ show b
+  | hasBettingException b =
+     fail $ "Network.Betfair.Requests.GetResponse.hs: BettingException: "
+            ++ show b
+            ++ ", parsed as: "
+            ++ show (bettingException b)
   | otherwise = return b
 
-checkForBettingException :: L.ByteString -> Bool
-checkForBettingException b = hasError (A.decode b :: Maybe BettingException)
+bettingException :: L.ByteString -> Maybe BettingException
+bettingException = A.decode
 
-hasError :: Maybe BettingException -> Bool
-hasError Nothing = False
-hasError (Just _) = True
+hasBettingException :: L.ByteString -> Bool
+hasBettingException = isJust . bettingException

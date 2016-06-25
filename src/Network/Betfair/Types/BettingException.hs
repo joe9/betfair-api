@@ -11,11 +11,7 @@ import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
 import Data.Default.TH (deriveDefault)
 
-import Network.Betfair.Types.Error
-import Network.Betfair.Types.MarketStatus (MarketStatus)
-import Network.Betfair.Types.Runner       (Runner)
-
-type DateString = String
+import Network.Betfair.Types.Error (Error)
 
 data BettingException = BettingException
    { jsonrpc :: String

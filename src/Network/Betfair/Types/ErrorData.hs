@@ -4,7 +4,7 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Types.ErrorData
-   ( ErrorData
+   ( ErrorData(..)
    ) where
 
 import Data.Aeson.TH   (Options (fieldLabelModifier, omitNothingFields),
@@ -12,10 +12,6 @@ import Data.Aeson.TH   (Options (fieldLabelModifier, omitNothingFields),
 import Data.Default.TH (deriveDefault)
 
 import Network.Betfair.Types.APINGException (APINGException)
-import Network.Betfair.Types.MarketStatus   (MarketStatus)
-import Network.Betfair.Types.Runner         (Runner)
-
-type DateString = String
 
 data ErrorData = ErrorData
    { exceptionname  :: String

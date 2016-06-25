@@ -6,11 +6,10 @@ module Network.Betfair.Requests.ParseLogin
    , Login(..)
    ) where
 
-import           Safe                        (readNote)
-import           Text.JSON.Generic           (Data, Typeable,
-                                              decodeJSON)
+import Safe              (readNote)
+import Text.JSON.Generic (Data, Typeable, decodeJSON)
 
-import           Network.Betfair.Types.Token (Token)
+import Network.Betfair.Types.Token (Token)
 
 data JsonLogin = JsonLogin
    { token   :: String
