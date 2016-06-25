@@ -18,94 +18,98 @@ source-repository head
     location:        https://github.com/joe9/betfair-api.git
 
 library
-  exposed-modules: Network.Betfair.Types.AppKey
-                     Network.Betfair.Types.CancelExecutionReport
-                     Network.Betfair.Types.CancelInstruction
-                     Network.Betfair.Types.CancelInstructionReport
-                     Network.Betfair.Types.Competition
-                     Network.Betfair.Types.Event
-                     Network.Betfair.Types.EventType
-                     Network.Betfair.Types.ExBestOffersOverrides
-                     Network.Betfair.Types.ExchangePrices
-                     Network.Betfair.Types.ExecutionReportErrorCode
-                     Network.Betfair.Types.ExecutionReportStatus
-                     Network.Betfair.Types.InstructionReportErrorCode
-                     Network.Betfair.Types.InstructionReportStatus
-                     Network.Betfair.Types.LimitOnCloseOrder
-                     Network.Betfair.Types.LimitOrder
-                     Network.Betfair.Types.MarketBettingType
-                     Network.Betfair.Types.MarketBook
-                     Network.Betfair.Types.MarketCatalogue
-                     Network.Betfair.Types.MarketDescription
-                     Network.Betfair.Types.MarketFilter
-                     Network.Betfair.Types.MarketOnCloseOrder
-                     Network.Betfair.Types.MarketProjection
-                     Network.Betfair.Types.MarketSort
-                     Network.Betfair.Types.MarketStatus
-                     Network.Betfair.Types.Match
-                     Network.Betfair.Types.MatchProjection
-                     Network.Betfair.Types.Order
-                     Network.Betfair.Types.OrderProjection
-                     Network.Betfair.Types.OrderStatus
-                     Network.Betfair.Types.OrderType
-                     Network.Betfair.Types.PersistenceType
-                     Network.Betfair.Types.PlaceExecutionReport
-                     Network.Betfair.Types.PlaceInstruction
-                     Network.Betfair.Types.PlaceInstructionReport
-                     Network.Betfair.Types.PriceData
-                     Network.Betfair.Types.PriceProjection
-                     Network.Betfair.Types.PriceSize
-                     Network.Betfair.Types.ResponseCancelOrders
-                     Network.Betfair.Types.ResponseMarketBook
-                     Network.Betfair.Types.ResponseMarketCatalogue
-                     Network.Betfair.Types.ResponsePlaceOrders
-                     Network.Betfair.Types.RollupModel
-                     Network.Betfair.Types.Runner
-                     Network.Betfair.Types.RunnerCatalog
-                     Network.Betfair.Types.RunnerStatus
-                     Network.Betfair.Types.Side
-                     Network.Betfair.Types.StartingPrices
-                     Network.Betfair.Types.TimeRange
-                     Network.Betfair.Types.Token
-                     Network.Betfair.Requests.APIRequest
-                     Network.Betfair.Requests.CancelOrders
-                     Network.Betfair.Requests.Config
-                     Network.Betfair.Requests.GetResponse
-                     Network.Betfair.Requests.Headers
-                     Network.Betfair.Requests.ListMarketBook
-                     Network.Betfair.Requests.ListMarketCatalogue
-                     Network.Betfair.Requests.Login
-                     Network.Betfair.Requests.Logout
-                     Network.Betfair.Requests.ParseKeepAlive
-                     Network.Betfair.Requests.ParseLogin
-                     Network.Betfair.Requests.ParseLogout
-                     Network.Betfair.Requests.PlaceOrders
-                     Network.Betfair.Requests.WriterLog
+  exposed-modules: Network.Betfair.Types.APINGException
+                   Network.Betfair.Types.AppKey
+                   Network.Betfair.Types.BettingException
+                   Network.Betfair.Types.CancelExecutionReport
+                   Network.Betfair.Types.CancelInstruction
+                   Network.Betfair.Types.CancelInstructionReport
+                   Network.Betfair.Types.Competition
+                   Network.Betfair.Types.Error
+                   Network.Betfair.Types.ErrorData
+                   Network.Betfair.Types.Event
+                   Network.Betfair.Types.EventType
+                   Network.Betfair.Types.ExBestOffersOverrides
+                   Network.Betfair.Types.ExchangePrices
+                   Network.Betfair.Types.ExecutionReportErrorCode
+                   Network.Betfair.Types.ExecutionReportStatus
+                   Network.Betfair.Types.InstructionReportErrorCode
+                   Network.Betfair.Types.InstructionReportStatus
+                   Network.Betfair.Types.LimitOnCloseOrder
+                   Network.Betfair.Types.LimitOrder
+                   Network.Betfair.Types.MarketBettingType
+                   Network.Betfair.Types.MarketBook
+                   Network.Betfair.Types.MarketCatalogue
+                   Network.Betfair.Types.MarketDescription
+                   Network.Betfair.Types.MarketFilter
+                   Network.Betfair.Types.MarketOnCloseOrder
+                   Network.Betfair.Types.MarketProjection
+                   Network.Betfair.Types.MarketSort
+                   Network.Betfair.Types.MarketStatus
+                   Network.Betfair.Types.Match
+                   Network.Betfair.Types.MatchProjection
+                   Network.Betfair.Types.Order
+                   Network.Betfair.Types.OrderProjection
+                   Network.Betfair.Types.OrderStatus
+                   Network.Betfair.Types.OrderType
+                   Network.Betfair.Types.PersistenceType
+                   Network.Betfair.Types.PlaceExecutionReport
+                   Network.Betfair.Types.PlaceInstruction
+                   Network.Betfair.Types.PlaceInstructionReport
+                   Network.Betfair.Types.PriceData
+                   Network.Betfair.Types.PriceProjection
+                   Network.Betfair.Types.PriceSize
+                   Network.Betfair.Types.ResponseCancelOrders
+                   Network.Betfair.Types.ResponseMarketBook
+                   Network.Betfair.Types.ResponseMarketCatalogue
+                   Network.Betfair.Types.ResponsePlaceOrders
+                   Network.Betfair.Types.RollupModel
+                   Network.Betfair.Types.Runner
+                   Network.Betfair.Types.RunnerCatalog
+                   Network.Betfair.Types.RunnerStatus
+                   Network.Betfair.Types.Side
+                   Network.Betfair.Types.StartingPrices
+                   Network.Betfair.Types.TimeRange
+                   Network.Betfair.Types.Token
+                   Network.Betfair.Requests.APIRequest
+                   Network.Betfair.Requests.CancelOrders
+                   Network.Betfair.Requests.Config
+                   Network.Betfair.Requests.GetResponse
+                   Network.Betfair.Requests.Headers
+                   Network.Betfair.Requests.ListMarketBook
+                   Network.Betfair.Requests.ListMarketCatalogue
+                   Network.Betfair.Requests.Login
+                   Network.Betfair.Requests.Logout
+                   Network.Betfair.Requests.ParseKeepAlive
+                   Network.Betfair.Requests.ParseLogin
+                   Network.Betfair.Requests.ParseLogout
+                   Network.Betfair.Requests.PlaceOrders
+                   Network.Betfair.Requests.WriterLog
 
 --                       Network.Betfair.Requests.KeepAlive
 --                       Network.Betfair.Requests.Logout
   other-extensions:    DeriveDataTypeable
-                        , FlexibleContexts
-                        , TemplateHaskell
-                        , UndecidableInstances
-                        , OverloadedStrings
+                     , FlexibleContexts
+                     , TemplateHaskell
+                     , UndecidableInstances
+                     , OverloadedStrings
   build-depends:       base
-                        , mtl
-                        , json
-                        , data-default
-                        , time
-                        , iso8601-time
-                        , aeson
-                        , bytestring
-                        , safe
-                        , utf8-string
-                        , http-conduit
-                        , case-insensitive
-                        , http-types
-                        , connection
-                        , template-default
-                        , groom
-                        , old-locale
+                     , mtl
+                     , json
+                     , data-default
+                     , time
+                     , iso8601-time
+                     , aeson
+                     , bytestring
+                     , safe
+                     , utf8-string
+                     , http-conduit
+                     , case-insensitive
+                     , http-types
+                     , connection
+                     , template-default
+                     , groom
+                     , old-locale
   ghc-options:         -Wall
   hs-source-dirs:      src
   default-language:    Haskell2010
