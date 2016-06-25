@@ -16,14 +16,14 @@ import Network.Betfair.Types.ErrorData (ErrorData)
 data Error = Error
    { code    :: Integer
    , message :: String
-   , eData   :: Maybe ErrorData
+   , errorData   :: Maybe ErrorData
    } deriving (Eq)
 
 deriveDefault ''Error
 -- from http://stackoverflow.com/questions/30696089/how-to-handle-capital-case-in-json
 $(deriveJSON defaultOptions
               { omitNothingFields = True
-              , fieldLabelModifier = let f "eData" = "Data"
+              , fieldLabelModifier = let f "errorData" = "data"
                                          f other = other
                                      in f
               } ''Error)
@@ -36,7 +36,7 @@ showError a =
    "Error: { code :" ++ show (code a)
         ++ ", description: " ++ show (lookup (code a) errorCodes)
         ++ ", message: " ++ message a
-        ++ ", data: " ++ show (eData a) ++ "}"
+        ++ ", data: " ++ show (errorData a) ++ "}"
 
 errorCodes :: [(Integer,String)]
 errorCodes =
