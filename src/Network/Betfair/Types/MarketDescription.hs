@@ -29,6 +29,7 @@ data MarketDescription = MarketDescription
    , wallet             :: Maybe String
    , rules              :: Maybe String
    , rulesHasDate       :: Maybe Bool
+   , eachWayDivisor     :: Maybe Double
    , clarifications     :: Maybe String
    } deriving (Eq, Show)
 
