@@ -73,6 +73,7 @@ listMarketBook jp = do
   =<< groomedLog
   =<< (\b -> return (A.decode b :: Maybe Response))
   =<< getResponseBody
+  =<< (\r -> groomedLog (jsonRequest jp) >> return r)
   =<< apiRequest (A.encode $ jsonRequest jp)
 
 type MarketId = String
