@@ -14,7 +14,7 @@ import Data.Default.TH (deriveDefault)
 data PriceSize = PriceSize
    { price :: Double
    , size  :: Double
-   } deriving (Eq, Show, Read)
+   } deriving (Eq, Show, Read, Ord)
 
 deriveDefault ''PriceSize
 $(deriveJSON defaultOptions {omitNothingFields = True} ''PriceSize)
