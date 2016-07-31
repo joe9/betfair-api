@@ -15,6 +15,7 @@ import qualified Data.ByteString.Lazy      as L (ByteString)
 import qualified Data.ByteString.Lazy.UTF8 as LUTF8 (toString)
 import           Data.Maybe                (isJust)
 import           Network.HTTP.Conduit      (HttpException (..),
+                                            HttpExceptionContent (..),
                                             Manager, Request,
                                             Response (responseBody),
                                             Response (), httpLbs)
@@ -24,7 +25,7 @@ import Network.Betfair.Types.BettingException (BettingException (..))
 
 continueOrFail :: Request -> HttpException -> Int
                    -> RWST r Log Manager IO (Response L.ByteString)
-continueOrFail req e@(ResponseTimeout) i =
+continueOrFail req e@(HttpExceptionRequest _ ResponseTimeout) i =
   if i > 9
   then fail $ "Network.Betfair.Requests.GetResponse.hs: HttpException - "
                   ++ (show (e :: HttpException)) ++ " for 10 attempts"
