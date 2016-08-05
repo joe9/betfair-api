@@ -8,7 +8,7 @@ module Network.Betfair.Requests.GetResponse
    ) where
 
 -- import qualified Data.ByteString.UTF8 as B
-import           Control.Exception         (try)
+import           Control.Exception.Safe
 import           Control.Monad.RWS
 import qualified Data.Aeson                as A (decode)
 import qualified Data.ByteString.Lazy      as L (ByteString)
@@ -23,25 +23,23 @@ import           Network.HTTP.Conduit      (HttpException (..),
 import Network.Betfair.Requests.WriterLog     (Log, groomedLog)
 import Network.Betfair.Types.BettingException (BettingException (..))
 
-continueOrFail :: Request -> HttpException -> Int
+tryRequestAgain :: Request -> HttpException -> Int
                    -> RWST r Log Manager IO (Response L.ByteString)
-continueOrFail req e@(HttpExceptionRequest _ ResponseTimeout) i =
-  if i > 9
-  then fail $ "Network.Betfair.Requests.GetResponse.hs: HttpException - "
-                  ++ (show (e :: HttpException)) ++ " for 10 attempts"
-  else groomedLog ("Network.Betfair.Requests.GetResponse.hs: HttpException - "
+tryRequestAgain req e i
+  | i > 9 = throwM e
+  | otherwise =
+     groomedLog ("Network.Betfair.Requests.GetResponse.hs: HttpException - "
                ++ (show (e :: HttpException)) ++ " for " ++ (show i) ++ " attempts, Trying again")
         >> tryForResponse req (i + 1)
-continueOrFail _ e _ =
-  fail $ "Network.Betfair.Requests.GetResponse.hs: HttpException - "
-                  ++ (show (e :: HttpException))
 
 tryForResponse :: Request -> Int -> RWST r Log Manager IO (Response L.ByteString)
 tryForResponse req i = do
   manager <- get
   eresponse <- lift . try $ httpLbs req manager
   case eresponse of
-    Left e -> continueOrFail req e i
+    Left e@(HttpExceptionRequest _ ResponseTimeout) -> tryRequestAgain req e i
+    -- let the caller deal with any other synchronous exception
+    Left e  -> throwM e
     Right response -> return response
 
 getResponse :: Request -> RWST r Log Manager IO (Response L.ByteString)
