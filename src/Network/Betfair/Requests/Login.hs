@@ -64,7 +64,7 @@ loginRequest c =
 sessionToken
   :: Config -> RWST r Log Manager IO (Either String Token)
 sessionToken c =
-  fmap (parseLogin . eitherDecode) . getResponseBody =<< lift (loginRequest c)
+  fmap parseLogin . getResponseBody =<< lift (loginRequest c)
 
 parseLogin
   :: Either String Login -> Either String Token
