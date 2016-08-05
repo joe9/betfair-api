@@ -12,7 +12,7 @@ import Data.ByteString.Lazy      (ByteString)
 import Data.ByteString.Lazy.UTF8 (fromString)
 import Network.HTTP.Conduit      (Request (method, requestBody, requestHeaders),
                                   RequestBody (RequestBodyLBS),
-                                  parseUrl)
+                                  parseUrlThrow)
 
 import Network.Betfair.Requests.Headers   (headers)
 import Network.Betfair.Requests.WriterLog (Log)
@@ -28,7 +28,7 @@ apiRequest jsonBody =
                                     , requestBody =
                                          RequestBodyLBS jsonBody
                                     })
-         $ parseUrl "https://api.betfair.com/exchange/betting/json-rpc/v1"
+         $ parseUrlThrow "https://api.betfair.com/exchange/betting/json-rpc/v1"
   ) =<< ask
 
 apiRequestString :: String -> RWST (AppKey, Token) Log s IO Request
