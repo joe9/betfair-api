@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -Wall #-}
 
 module Network.Betfair.Requests.Config
-    ( Config(..)
+    ( Config(..), defaultConfig
     )
 where
 
@@ -16,6 +16,3 @@ data Config = Config { username      :: String
 
 defaultConfig :: Config
 defaultConfig = Config "" "" "" ""
-
--- delayedAppKey :: String
--- delayedAppKey = ""
