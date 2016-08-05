@@ -3,7 +3,9 @@
 
 module Network.Betfair.Requests.Login
   (sessionToken
-  ,login, Login(..),JsonRequest(..))
+  ,login
+  ,Login(..)
+  ,JsonRequest(..))
   where
 
 import           Control.Monad.RWS    (MonadTrans (lift), RWST)
@@ -12,7 +14,7 @@ import           Data.Aeson.TH
 import qualified Data.ByteString.Lazy as L (ByteString)
 import           Data.Either.Utils
 import           Network.HTTP.Conduit
-import           Prelude                              hiding (error)
+import           Prelude              hiding (error)
 
 import           Network.Betfair.Requests.Config
 import qualified Network.Betfair.Requests.Config      as C
