@@ -7,7 +7,6 @@ module Network.Betfair.Requests.GetResponse
   ,getResponseBodyString)
   where
 
--- import qualified Data.ByteString.UTF8 as B
 import           Control.Exception.Safe
 import           Control.Monad.RWS
 import           Data.Aeson
