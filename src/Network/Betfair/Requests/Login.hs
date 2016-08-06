@@ -67,7 +67,7 @@ loginRequest c =
 sessionToken
   :: Config
   -> RWST r Log Manager IO (Either (Either String BettingException) Token)
-sessionToken c = fmap parseLogin . getResponseBody =<< lift (loginRequest c)
+sessionToken c = fmap parseLogin . getDecodedResponse =<< lift (loginRequest c)
 
 parseLogin
   :: Either (Either String BettingException) Login

@@ -3,7 +3,7 @@
 
 module Network.Betfair.Requests.GetResponse
   (getResponse
-  ,getResponseBody
+  ,getDecodedResponse
   ,getResponseBodyString)
   where
 
@@ -68,11 +68,11 @@ getResponseBodyString req =
   fmap (LUTF8.toString . responseBody)
        (getResponse req)
 
-getResponseBody
+getDecodedResponse
   :: FromJSON a
   => Request
   -> RWST r Log Manager IO (Either (Either String BettingException) a)
-getResponseBody b =
+getDecodedResponse b =
   fmap (eitherDecodeAlsoCheckForBettingException . responseBody)
        (getResponse b)
 

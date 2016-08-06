@@ -23,7 +23,7 @@ import           Data.Aeson.TH                                 (Options (omitNot
 import           Data.Default                                  (Default (..))
 import           Data.Either
 import           Network.Betfair.Requests.APIRequest           (apiRequest)
-import           Network.Betfair.Requests.GetResponse          (getResponseBody,
+import           Network.Betfair.Requests.GetResponse          (getDecodedResponse,
                                                                 getResponseBodyString)
 import           Network.Betfair.Requests.WriterLog            (Log, groomedLog)
 import           Network.Betfair.Types.AppKey                  (AppKey)
@@ -108,7 +108,7 @@ listMarketCatalogue
   -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) [MarketCatalogue])
 listMarketCatalogue jp =
   groomedLog =<<
-  fmap (either Left (Right . result)) . getResponseBody =<<
+  fmap (either Left (Right . result)) . getDecodedResponse =<<
   (\r -> groomedLog (jsonRequest jp) >> return r) =<<
   apiRequest (A.encode $ jsonRequest jp)
 

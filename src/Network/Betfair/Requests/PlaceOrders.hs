@@ -20,7 +20,7 @@ import           Data.Aeson.TH                              (Options (omitNothin
 import           Data.Default                               (Default (..))
 import           Data.Default.TH                            (deriveDefault)
 import           Network.Betfair.Requests.APIRequest        (apiRequest)
-import           Network.Betfair.Requests.GetResponse       (getResponseBody,
+import           Network.Betfair.Requests.GetResponse       (getDecodedResponse,
                                                              getResponseBodyString)
 import           Network.Betfair.Requests.WriterLog         (Log, groomedLog)
 import           Network.Betfair.Types.AppKey               (AppKey)
@@ -69,7 +69,7 @@ placeOrderWithParams
   -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) PlaceExecutionReport)
 placeOrderWithParams jp =
   groomedLog =<<
-  fmap (either Left (Right . result)) . getResponseBody =<<
+  fmap (either Left (Right . result)) . getDecodedResponse =<<
   apiRequest (A.encode $ jsonRequest jp)
 
 type CustomerRef = String

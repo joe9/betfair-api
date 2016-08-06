@@ -59,4 +59,4 @@ keepAliveRequest =
 
 keepAlive
   :: RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) KeepAlive)
-keepAlive = getResponseBody =<< keepAliveRequest
+keepAlive = getDecodedResponse =<< keepAliveRequest

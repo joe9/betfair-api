@@ -59,4 +59,4 @@ logoutRequest =
 
 logout
   :: RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) Logout)
-logout = getResponseBody =<< logoutRequest
+logout = getDecodedResponse =<< logoutRequest
