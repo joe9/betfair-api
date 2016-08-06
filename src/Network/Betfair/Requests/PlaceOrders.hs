@@ -66,7 +66,7 @@ jsonRequest jp = def {params = Just jp}
 
 placeOrderWithParams
   :: JsonParameters
-  -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) PlaceExecutionReport)
+  -> IO (Either (Either String BettingException) PlaceExecutionReport)
 placeOrderWithParams jp =
   groomedLog =<<
   fmap (either Left (Right . result)) . getDecodedResponse =<<
@@ -80,7 +80,7 @@ placeOrder
   :: MarketId
   -> PlaceInstruction
   -> CustomerRef
-  -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) PlaceExecutionReport)
+  -> IO (Either (Either String BettingException) PlaceExecutionReport)
 placeOrder mktid pin cref =
   groomedLog
     (JsonParameters mktid
@@ -97,7 +97,7 @@ placeOrdersResponseBodyString
   :: MarketId
   -> PlaceInstruction
   -> CustomerRef
-  -> RWST (AppKey,Token) Log Manager IO String
+  -> IO String
 placeOrdersResponseBodyString mktid pin cref =
   apiRequest
     (A.encode . jr $

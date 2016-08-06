@@ -27,7 +27,7 @@ tryRequestAgain
   :: Request
   -> HttpException
   -> Int
-  -> RWST r Log Manager IO (Response L.ByteString)
+  -> IO (Response L.ByteString)
 tryRequestAgain req e i
   | i > 9 = throwM e
   | otherwise =
@@ -47,7 +47,7 @@ tryRequestAgain req e i
 -- the executed code such as "no network connection", "no host",
 -- etc.
 tryForResponse
-  :: Request -> Int -> RWST r Log Manager IO (Response L.ByteString)
+  :: Request -> Int -> IO (Response L.ByteString)
 tryForResponse req i =
   do manager <- get
      eresponse <- lift . try $ httpLbs req manager
@@ -59,11 +59,11 @@ tryForResponse req i =
        Right response -> return response
 
 getResponse
-  :: Request -> RWST r Log Manager IO (Response L.ByteString)
+  :: Request -> IO (Response L.ByteString)
 getResponse req = groomedLog =<< flip tryForResponse 0 =<< groomedLog req
 
 getResponseBodyString
-  :: Request -> RWST r Log Manager IO String
+  :: Request -> IO String
 getResponseBodyString req =
   fmap (LUTF8.toString . responseBody)
        (getResponse req)
@@ -71,7 +71,7 @@ getResponseBodyString req =
 getDecodedResponse
   :: FromJSON a
   => Request
-  -> RWST r Log Manager IO (Either (Either String BettingException) a)
+  -> IO (Either (Either String BettingException) a)
 getDecodedResponse b =
   fmap (eitherDecodeAlsoCheckForBettingException . responseBody)
        (getResponse b)

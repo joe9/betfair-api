@@ -1,18 +1,18 @@
 {-# OPTIONS_GHC -Wall #-}
 
-module Network.Betfair.Requests.Config
-  (Config(..)
-  ,defaultConfig)
+module Network.Betfair.Requests.Context
+  (Context(..)
+  ,defaultContext)
   where
 
 import Network.Betfair.Types.AppKey (AppKey)
 import Prelude                      (String)
 
-data Config =
-  Config {username      :: String
+data Context =
+  Context {username      :: String
          ,password      :: String
          ,appKey        :: AppKey
          ,delayedAppKey :: AppKey}
 
-defaultConfig :: Config
-defaultConfig = Config "" "" "" ""
+defaultContext :: Context
+defaultContext = Context "" "" "" ""

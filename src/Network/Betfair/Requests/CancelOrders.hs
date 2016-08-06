@@ -66,7 +66,7 @@ jsonRequest jp = def {params = Just jp}
 
 cancelOrderWithParams
   :: JsonParameters
-  -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) CancelExecutionReport)
+  -> IO (Either (Either String BettingException) CancelExecutionReport)
 cancelOrderWithParams jp =
   groomedLog =<<
   fmap (either Left (Right . result)) . getDecodedResponse =<<
@@ -80,7 +80,7 @@ cancelOrder
   :: MarketId
   -> CancelInstruction
   -> CustomerRef
-  -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) CancelExecutionReport)
+  -> IO (Either (Either String BettingException) CancelExecutionReport)
 cancelOrder mktid pin cref =
   groomedLog
     (JsonParameters mktid
@@ -97,7 +97,7 @@ cancelOrdersResponseBodyString
   :: MarketId
   -> CancelInstruction
   -> CustomerRef
-  -> RWST (AppKey,Token) Log Manager IO String
+  -> IO String
 cancelOrdersResponseBodyString mktid pin cref =
   apiRequest
     (A.encode . jr $

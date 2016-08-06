@@ -47,7 +47,7 @@ $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Error)
 
 logoutRequest
-  :: RWST (AppKey,Token) Log s IO Request
+  :: IO Request
 logoutRequest =
   (\(a,t) ->
      (lift .
@@ -58,5 +58,5 @@ logoutRequest =
   ask
 
 logout
-  :: RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) Logout)
+  :: IO (Either (Either String BettingException) Logout)
 logout = getDecodedResponse =<< logoutRequest

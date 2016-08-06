@@ -100,12 +100,12 @@ marketIdJsonRequest mktid = def {filter = def {marketIds = Just [mktid]}}
 
 marketCatalogue
   :: MarketId
-  -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) [MarketCatalogue])
+  -> IO (Either (Either String BettingException) [MarketCatalogue])
 marketCatalogue mktid = listMarketCatalogue (marketIdJsonRequest mktid)
 
 listMarketCatalogue
   :: JsonParameters
-  -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) [MarketCatalogue])
+  -> IO (Either (Either String BettingException) [MarketCatalogue])
 listMarketCatalogue jp =
   groomedLog =<<
   fmap (either Left (Right . result)) . getDecodedResponse =<<
@@ -113,6 +113,6 @@ listMarketCatalogue jp =
   apiRequest (A.encode $ jsonRequest jp)
 
 listMarketCatalogueResponseBodyString
-  :: JsonParameters -> RWST (AppKey,Token) Log Manager IO String
+  :: JsonParameters -> IO String
 listMarketCatalogueResponseBodyString jp =
   getResponseBodyString =<< apiRequest (A.encode $ jsonRequest jp)

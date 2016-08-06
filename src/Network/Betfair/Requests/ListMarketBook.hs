@@ -73,7 +73,7 @@ jsonRequest jp = def {params = Just jp}
 
 listMarketBook
   :: JsonParameters
-  -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) [MarketBook])
+  -> IO (Either (Either String BettingException) [MarketBook])
 listMarketBook jp =
   do groomedLog =<<
        fmap (either Left (Right . result)) . getDecodedResponse =<<
@@ -85,7 +85,7 @@ type MarketId = String
 marketBook
   :: MarketId
   -> [PriceData]
-  -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) [MarketBook])
+  -> IO (Either (Either String BettingException) [MarketBook])
 marketBook mktid pd =
   listMarketBook
     (def {marketIds = [mktid]
@@ -94,14 +94,14 @@ marketBook mktid pd =
 marketBooks
   :: [MarketId]
   -> [PriceData]
-  -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) [MarketBook])
+  -> IO (Either (Either String BettingException) [MarketBook])
 marketBooks mktids pd =
   listMarketBook
     (def {marketIds = mktids
          ,priceProjection = def {priceData = pd}})
 
 listMarketBookResponseBodyString
-  :: String -> RWST (AppKey,Token) Log Manager IO String
+  :: String -> IO String
 listMarketBookResponseBodyString mktid =
   getResponseBodyString =<<
   apiRequest (A.encode . jsonRequest $ def {marketIds = [mktid]})

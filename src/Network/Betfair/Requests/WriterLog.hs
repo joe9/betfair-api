@@ -14,12 +14,12 @@ import Text.Groom        (groom)
 
 type Log = String
 
-log :: String -> RWST r Log s IO ()
+log :: String -> IO ()
 log = tell . (++ "\n")
 
 groomedLog :: Show a
-           => a -> RWST r Log s IO a
+           => a -> IO a
 groomedLog s = (log . groom $ s) >> return s
 
-stdOutAndLog :: String -> RWST r Log s IO ()
+stdOutAndLog :: String -> IO ()
 stdOutAndLog s = log s >> (lift $ putStrLn s)

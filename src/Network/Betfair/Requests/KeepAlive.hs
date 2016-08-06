@@ -47,7 +47,7 @@ $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Error)
 
 keepAliveRequest
-  :: RWST (AppKey,Token) Log s IO Request
+  :: IO Request
 keepAliveRequest =
   (\(a,t) ->
      (lift .
@@ -58,5 +58,5 @@ keepAliveRequest =
   ask
 
 keepAlive
-  :: RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) KeepAlive)
+  :: IO (Either (Either String BettingException) KeepAlive)
 keepAlive = getDecodedResponse =<< keepAliveRequest

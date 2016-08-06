@@ -14,8 +14,8 @@ import           Data.Aeson
 import           Data.Aeson.TH
 import qualified Data.ByteString.Lazy                   as L (ByteString)
 import           Data.Either.Utils
-import           Network.Betfair.Requests.Config
-import qualified Network.Betfair.Requests.Config        as C
+import           Network.Betfair.Requests.Context
+import qualified Network.Betfair.Requests.Context        as C
 import           Network.Betfair.Requests.GetResponse
 import           Network.Betfair.Requests.Headers       (headers)
 import           Network.Betfair.Requests.WriterLog     (Log)
@@ -53,7 +53,7 @@ $(deriveJSON defaultOptions {omitNothingFields = True}
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonRequest)
 
-loginRequest :: Config -> IO Request
+loginRequest :: Context -> IO Request
 loginRequest c =
   fmap (\req ->
           req {requestHeaders = headers (appKey c) Nothing
@@ -65,8 +65,8 @@ loginRequest c =
   parseUrlThrow "https://identitysso.betfair.com/api/login"
 
 sessionToken
-  :: Config
-  -> RWST r Log Manager IO (Either (Either String BettingException) Token)
+  :: Context
+  -> IO (Either (Either String BettingException) Token)
 sessionToken c = fmap parseLogin . getDecodedResponse =<< lift (loginRequest c)
 
 parseLogin
@@ -79,7 +79,7 @@ parseLogin (Right l) =
     (token l)
 
 login
-  :: Config -> RWST r Log Manager IO (Response L.ByteString)
+  :: Context -> IO (Response L.ByteString)
 login c = getResponse =<< lift (loginRequest c)
 
 type LoginExceptionCodes = [(String,String)]

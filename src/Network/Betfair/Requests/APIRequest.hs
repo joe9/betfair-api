@@ -19,7 +19,7 @@ import Network.HTTP.Conduit               (Request (method, requestBody, request
                                            parseUrlThrow)
 
 apiRequest
-  :: ByteString -> RWST (AppKey,Token) Log s IO Request
+  :: ByteString -> IO Request
 apiRequest jsonBody =
   (\(a,t) ->
      lift .
@@ -35,5 +35,5 @@ apiRequest jsonBody =
   ask
 
 apiRequestString
-  :: String -> RWST (AppKey,Token) Log s IO Request
+  :: String -> IO Request
 apiRequestString s = apiRequest (fromString s)
