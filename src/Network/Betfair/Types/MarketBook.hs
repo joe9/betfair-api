@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,16 +9,17 @@ module Network.Betfair.Types.MarketBook
   (MarketBook(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH                      (Options (omitNothingFields),
                                            defaultOptions, deriveJSON)
 import Data.Default.TH                    (deriveDefault)
 import Network.Betfair.Types.MarketStatus (MarketStatus)
 import Network.Betfair.Types.Runner       (Runner)
 
-type DateString = String
+type DateString = Text
 
 data MarketBook =
-  MarketBook {marketId              :: String
+  MarketBook {marketId              :: Text
              ,isMarketDataDelayed   :: Bool
              ,status                :: Maybe MarketStatus
              ,betDelay              :: Maybe Int

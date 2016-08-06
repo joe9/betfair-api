@@ -1,4 +1,5 @@
-{-# OPTIONS_GHC -Wall #-}
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,33 +8,29 @@
 module Network.Betfair.Requests.PlaceOrders
   (placeOrder
   ,placeOrderWithParams
-  ,placeOrdersResponseBodyString
   ,JsonParameters(..)
   ,JsonRequest(..))
   where
 
-import           Control.Monad.RWS
+import           BasicPrelude
 import qualified Data.Aeson                                 as A (encode)
 import           Data.Aeson.TH                              (Options (omitNothingFields),
                                                              defaultOptions,
                                                              deriveJSON)
 import           Data.Default                               (Default (..))
-import           Data.Default.TH                            (deriveDefault)
+
 import           Network.Betfair.Requests.APIRequest        (apiRequest)
-import           Network.Betfair.Requests.GetResponse       (getDecodedResponse,
-                                                             getResponseBodyString)
-import           Network.Betfair.Requests.WriterLog         (Log, groomedLog)
-import           Network.Betfair.Types.AppKey               (AppKey)
+import           Network.Betfair.Requests.GetResponse       (getDecodedResponse)
+import           Network.Betfair.Requests.WriterLog         (groomedLog)
+import           Network.Betfair.Requests.Context
 import           Network.Betfair.Types.BettingException
 import           Network.Betfair.Types.PlaceExecutionReport (PlaceExecutionReport)
 import           Network.Betfair.Types.PlaceInstruction     (PlaceInstruction)
 import           Network.Betfair.Types.ResponsePlaceOrders  (Response (result))
-import           Network.Betfair.Types.Token                (Token)
-import           Network.HTTP.Conduit                       (Manager)
 
 data JsonRequest =
-  JsonRequest {jsonrpc :: String
-              ,method  :: String
+  JsonRequest {jsonrpc :: Text
+              ,method  :: Text
               ,params  :: Maybe JsonParameters
               ,id      :: Int}
   deriving (Eq,Show)
@@ -46,12 +43,14 @@ instance Default JsonRequest where
                 1
 
 data JsonParameters =
-  JsonParameters {marketId     :: String
+  JsonParameters {marketId     :: Text
                  ,instructions :: [PlaceInstruction]
-                 ,customerRef  :: String}
+                 ,customerRef  :: Text}
   deriving (Eq,Show)
 
-deriveDefault ''JsonParameters
+-- deriveDefault ''JsonParameters
+instance Default JsonParameters where
+  def = JsonParameters "" [] ""
 
 -- instance Default JsonParameters where
 --  def = JsonParameters def def def
@@ -65,44 +64,26 @@ jsonRequest :: JsonParameters -> JsonRequest
 jsonRequest jp = def {params = Just jp}
 
 placeOrderWithParams
-  :: JsonParameters
-  -> IO (Either (Either String BettingException) PlaceExecutionReport)
-placeOrderWithParams jp =
-  groomedLog =<<
-  fmap (either Left (Right . result)) . getDecodedResponse =<<
-  apiRequest (A.encode $ jsonRequest jp)
+  :: Context -> JsonParameters
+  -> IO (Either (Either Text BettingException) PlaceExecutionReport)
+placeOrderWithParams c jp =
+  groomedLog c =<<
+  fmap (either Left (Right . result)) . getDecodedResponse c =<<
+  apiRequest c (A.encode $ jsonRequest jp)
 
-type CustomerRef = String
+type CustomerRef = Text
 
-type MarketId = String
+type MarketId = Text
 
 placeOrder
-  :: MarketId
+  :: Context -> MarketId
   -> PlaceInstruction
   -> CustomerRef
-  -> IO (Either (Either String BettingException) PlaceExecutionReport)
-placeOrder mktid pin cref =
-  groomedLog
+  -> IO (Either (Either Text BettingException) PlaceExecutionReport)
+placeOrder c mktid pin cref =
+  groomedLog c
     (JsonParameters mktid
                     [pin]
                     cref) >>=
-  placeOrderWithParams
+  placeOrderWithParams c
 
---   >>= (\per -> (putStrLn $ groom per) >> return per)
--- below lines for debugging
--- placeOrder mktid pin cref _ =
---  (putStrLn $ groom (JsonParameters mktid [pin] cref))
---           >> return def
-placeOrdersResponseBodyString
-  :: MarketId
-  -> PlaceInstruction
-  -> CustomerRef
-  -> IO String
-placeOrdersResponseBodyString mktid pin cref =
-  apiRequest
-    (A.encode . jr $
-     JsonParameters mktid
-                    [pin]
-                    (take 32 cref)) >>=
-  getResponseBodyString
-  where jr = jsonRequest

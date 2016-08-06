@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,6 +9,7 @@ module Network.Betfair.Types.CancelInstructionReport
   (CancelInstructionReport(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH                                    (Options (omitNothingFields),
                                                          defaultOptions,
                                                          deriveJSON)
@@ -15,13 +18,13 @@ import Network.Betfair.Types.CancelInstruction          (CancelInstruction)
 import Network.Betfair.Types.InstructionReportErrorCode (InstructionReportErrorCode)
 import Network.Betfair.Types.InstructionReportStatus    (InstructionReportStatus)
 
--- type DateString = String
+-- type DateString = Text
 data CancelInstructionReport =
   CancelInstructionReport {status :: InstructionReportStatus
                           ,errorCode :: Maybe InstructionReportErrorCode
                           ,instruction :: Maybe CancelInstruction
                           ,sizeCancelled :: Double
-                          ,cancelledDate :: Maybe String -- DateString
+                          ,cancelledDate :: Maybe Text -- DateString
                           }
   deriving (Eq,Show)
 

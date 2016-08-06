@@ -1,42 +1,36 @@
-{-# OPTIONS_GHC -Wall #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module Network.Betfair.Requests.GetResponse
   (getResponse
   ,getDecodedResponse
-  ,getResponseBodyString)
+  ,getResponseBodyText)
   where
 
-import           Control.Exception.Safe
-import           Control.Monad.RWS
-import           Data.Aeson
-import qualified Data.ByteString.Lazy                   as L (ByteString)
-import qualified Data.ByteString.Lazy.UTF8              as LUTF8 (toString)
-import           Network.Betfair.Requests.WriterLog     (Log,
-                                                         groomedLog)
-import           Network.Betfair.Types.BettingException (BettingException (..))
-import           Network.HTTP.Conduit                   (HttpException (..),
-                                                         HttpExceptionContent (..),
-                                                         Manager,
-                                                         Request,
-                                                         Response (responseBody),
-                                                         Response (),
-                                                         httpLbs)
+import BasicPrelude
+import Data.Aeson
+import qualified Data.ByteString.Lazy as L (ByteString)
+import Data.String.Conversions
+import Network.HTTP.Conduit
+       (HttpException(..), HttpExceptionContent(..), Request,
+        Response(responseBody), Response(), httpLbs)
 
-tryRequestAgain
-  :: Request
-  -> HttpException
-  -> Int
-  -> IO (Response L.ByteString)
-tryRequestAgain req e i
-  | i > 9 = throwM e
+import Network.Betfair.Requests.Context
+import Network.Betfair.Requests.WriterLog
+import Network.Betfair.Types.BettingException (BettingException (..))
+
+tryRequestAgain :: Context -> Request
+                -> HttpException
+                -> Int
+                -> IO (Response L.ByteString)
+tryRequestAgain c req e i
+  | i > 9 = throwIO e
   | otherwise =
-    groomedLog
-      ("Network.Betfair.Requests.GetResponse.hs: HttpException - " ++
-       (show (e :: HttpException)) ++
-       " for " ++ (show i) ++ " attempts, Trying again") >>
-    tryForResponse req
-                   (i + 1)
+        groomedLog c
+            ("Network.Betfair.Requests.GetResponse.hs: HttpException - "
+             <> show (e :: HttpException)
+             <> " for " <> (show i) <> " attempts, Trying again") >>
+              tryForResponse c req (i + 1)
 
 -- https://haskell-lang.org/tutorial/exception-safety
 -- https://haskell-lang.org/library/safe-exceptions
@@ -47,42 +41,39 @@ tryRequestAgain req e i
 -- the executed code such as "no network connection", "no host",
 -- etc.
 tryForResponse
-  :: Request -> Int -> IO (Response L.ByteString)
-tryForResponse req i =
-  do manager <- get
-     eresponse <- lift . try $ httpLbs req manager
+  :: Context -> Request -> Int -> IO (Response L.ByteString)
+tryForResponse c req i =
+  do eresponse <- try $ httpLbs req (cManager c)
      case eresponse of
        Left e@(HttpExceptionRequest _ ResponseTimeout) ->
-         tryRequestAgain req e i
+         tryRequestAgain c req e i
        -- let the caller deal with any other synchronous exception
-       Left e -> throwM e
+       Left e -> throwIO e
        Right response -> return response
 
 getResponse
-  :: Request -> IO (Response L.ByteString)
-getResponse req = groomedLog =<< flip tryForResponse 0 =<< groomedLog req
+  :: Context -> Request -> IO (Response L.ByteString)
+getResponse c req = groomedLog c =<< flip (tryForResponse c) 0 =<< groomedLog c req
 
-getResponseBodyString
-  :: Request -> IO String
-getResponseBodyString req =
-  fmap (LUTF8.toString . responseBody)
-       (getResponse req)
+getResponseBodyText :: Context -> Request -> IO Text
+getResponseBodyText c req =
+  fmap (cs . responseBody)
+       (getResponse c req)
 
 getDecodedResponse
   :: FromJSON a
-  => Request
-  -> IO (Either (Either String BettingException) a)
-getDecodedResponse b =
+  => Context -> Request -> IO (Either (Either Text BettingException) a)
+getDecodedResponse c b =
   fmap (eitherDecodeAlsoCheckForBettingException . responseBody)
-       (getResponse b)
+       (getResponse c b)
 
 eitherDecodeAlsoCheckForBettingException
   :: FromJSON a
-  => L.ByteString -> Either (Either String BettingException) a
+  => L.ByteString -> Either (Either Text BettingException) a
 eitherDecodeAlsoCheckForBettingException b =
   case eitherDecode b of
     Left e ->
       case eitherDecode b :: Either String BettingException of
-        Left _  -> Left (Left e)
+        Left _  -> (Left . Left . show) e
         Right v -> Left (Right v)
     Right a -> Right a

@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
@@ -8,6 +10,7 @@ module Network.Betfair.Types.MarketFilter
   (MarketFilter(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH                           (Options (omitNothingFields),
                                                 defaultOptions,
                                                 deriveJSON)
@@ -17,19 +20,19 @@ import Network.Betfair.Types.OrderStatus       (OrderStatus)
 import Network.Betfair.Types.TimeRange         (TimeRange)
 
 data MarketFilter =
-  MarketFilter {textQuery          :: Maybe String
-               ,exchangeIds        :: Maybe [String]
-               ,eventTypeIds       :: Maybe [String]
-               ,eventIds           :: Maybe [String]
-               ,competitionIds     :: Maybe [String]
-               ,marketIds          :: Maybe [String]
-               ,venues             :: Maybe [String]
+  MarketFilter {textQuery          :: Maybe Text
+               ,exchangeIds        :: Maybe [Text]
+               ,eventTypeIds       :: Maybe [Text]
+               ,eventIds           :: Maybe [Text]
+               ,competitionIds     :: Maybe [Text]
+               ,marketIds          :: Maybe [Text]
+               ,venues             :: Maybe [Text]
                ,bspOnly            :: Maybe Bool
                ,turnInPlayEnabled  :: Maybe Bool
                ,inPlayOnly         :: Maybe Bool
                ,marketBettingTypes :: [MarketBettingType]
-               ,marketCountries    :: Maybe [String]
-               ,marketTypeCodes    :: Maybe [String]
+               ,marketCountries    :: Maybe [Text]
+               ,marketTypeCodes    :: Maybe [Text]
                ,marketStartTime    :: Maybe TimeRange
                ,withOrders         :: Maybe [OrderStatus]}
   deriving (Eq,Show)

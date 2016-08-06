@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,6 +9,7 @@ module Network.Betfair.Types.CancelExecutionReport
   (CancelExecutionReport(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH                                  (Options (omitNothingFields),
                                                        defaultOptions,
                                                        deriveJSON)
@@ -16,10 +19,10 @@ import Network.Betfair.Types.ExecutionReportErrorCode (ExecutionReportErrorCode)
 import Network.Betfair.Types.ExecutionReportStatus    (ExecutionReportStatus)
 
 data CancelExecutionReport =
-  CancelExecutionReport {customerRef :: Maybe String
+  CancelExecutionReport {customerRef :: Maybe Text
                         ,status :: ExecutionReportStatus
                         ,errorCode :: Maybe ExecutionReportErrorCode
-                        ,marketId :: Maybe String
+                        ,marketId :: Maybe Text
                         ,instructionReports :: Maybe [CancelInstructionReport]}
   deriving (Eq,Show)
 

@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,6 +9,7 @@ module Network.Betfair.Types.Order
   (Order(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH                         (Options (omitNothingFields),
                                               defaultOptions,
                                               deriveJSON)
@@ -16,10 +19,10 @@ import Network.Betfair.Types.OrderType       (OrderType)
 import Network.Betfair.Types.PersistenceType (PersistenceType)
 import Network.Betfair.Types.Side            (Side)
 
-type DateString = String
+type DateString = Text
 
 data Order =
-  Order {betId           :: String
+  Order {betId           :: Text
         ,orderType       :: OrderType
         ,status          :: OrderStatus
         ,persistenceType :: PersistenceType

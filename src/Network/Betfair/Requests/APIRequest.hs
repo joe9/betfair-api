@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -Wall #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module Network.Betfair.Requests.APIRequest
@@ -6,34 +6,29 @@ module Network.Betfair.Requests.APIRequest
   ,apiRequestString)
   where
 
-import Control.Monad.RWS                  (MonadReader (ask),
-                                           MonadTrans (lift), RWST)
-import Data.ByteString.Lazy               (ByteString)
-import Data.ByteString.Lazy.UTF8          (fromString)
-import Network.Betfair.Requests.Headers   (headers)
-import Network.Betfair.Requests.WriterLog (Log)
-import Network.Betfair.Types.AppKey       (AppKey)
-import Network.Betfair.Types.Token        (Token)
-import Network.HTTP.Conduit               (Request (method, requestBody, requestHeaders),
-                                           RequestBody (RequestBodyLBS),
-                                           parseUrlThrow)
+import           BasicPrelude
+import qualified Data.ByteString.Lazy             as L
+import           Data.String.Conversions
+import           Network.HTTP.Conduit             (Request (method, requestBody, requestHeaders),
+                                                   RequestBody (RequestBodyLBS),
+                                                   parseUrlThrow)
+
+
+import           Network.Betfair.Requests.Context
+import           Network.Betfair.Requests.Headers (headers)
 
 apiRequest
-  :: ByteString -> IO Request
-apiRequest jsonBody =
-  (\(a,t) ->
-     lift .
-     fmap (\req ->
-             req {requestHeaders = headers a (Just t)
-                 ,
-                    -- no need of B.fromString below due
-                    -- to overloadedStrings extension
-                    method =
-                    "POST"
-                 ,requestBody = RequestBodyLBS jsonBody}) $
-     parseUrlThrow "https://api.betfair.com/exchange/betting/json-rpc/v1") =<<
-  ask
+  :: Context -> L.ByteString -> IO Request
+apiRequest c jsonBody =
+  fmap (\req ->
+          req {requestHeaders =
+                 headers (cAppKey c)
+                         (Just (cToken c))
+              ,method = "POST"
+              ,requestBody = RequestBodyLBS jsonBody})
+       (parseUrlThrow "https://api.betfair.com/exchange/betting/json-rpc/v1")
 
-apiRequestString
-  :: String -> IO Request
-apiRequestString s = apiRequest (fromString s)
+apiRequestString :: Context -> Text -> IO Request
+apiRequestString c s =
+  apiRequest c
+             (cs s)

@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,15 +9,16 @@ module Network.Betfair.Types.Match
   (Match(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH              (Options (omitNothingFields),
                                    defaultOptions, deriveJSON)
 import Network.Betfair.Types.Side (Side)
 
-type DateString = String
+type DateString = Text
 
 data Match =
-  Match {betId     :: Maybe String
-        ,matchId   :: Maybe String
+  Match {betId     :: Maybe Text
+        ,matchId   :: Maybe Text
         ,side      :: Side
         ,price     :: Double
         ,size      :: Double

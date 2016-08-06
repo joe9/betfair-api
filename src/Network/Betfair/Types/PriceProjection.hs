@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
@@ -8,6 +10,7 @@ module Network.Betfair.Types.PriceProjection
   (PriceProjection(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH                               (Options (omitNothingFields),
                                                     defaultOptions,
                                                     deriveJSON)

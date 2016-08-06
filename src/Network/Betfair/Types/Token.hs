@@ -1,10 +1,13 @@
-{-# OPTIONS_GHC -Wall #-}
+{-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Network.Betfair.Types.Token
   (Token -- (..)
    )
   where
 
--- data Token = Token String
+import BasicPrelude
+
+-- data Token = Token Text
 --    deriving (Eq, Show)
-type Token = String
+type Token = Text

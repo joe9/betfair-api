@@ -1,51 +1,39 @@
-{-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Requests.ListMarketCatalogue
   (listMarketCatalogue
-  ,listMarketCatalogueResponseBodyString
   ,marketCatalogue
   ,jsonRequest
   ,JsonRequest(..)
   ,JsonParameters(..))
   where
 
-import           Control.Monad.RWS                             (Monad (return, (>>)),
-                                                                RWST,
-                                                                (=<<))
-import qualified Data.Aeson                                    as A (encode)
-import           Data.Aeson.TH                                 (Options (omitNothingFields),
-                                                                defaultOptions,
-                                                                deriveJSON)
-import           Data.Default                                  (Default (..))
-import           Data.Either
-import           Network.Betfair.Requests.APIRequest           (apiRequest)
-import           Network.Betfair.Requests.GetResponse          (getDecodedResponse,
-                                                                getResponseBodyString)
-import           Network.Betfair.Requests.WriterLog            (Log, groomedLog)
-import           Network.Betfair.Types.AppKey                  (AppKey)
-import           Network.Betfair.Types.BettingException
-import           Network.Betfair.Types.MarketBettingType       (MarketBettingType)
-import           Network.Betfair.Types.MarketCatalogue         (MarketCatalogue)
-import           Network.Betfair.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
-import           Network.Betfair.Types.MarketProjection        (MarketProjection (..))
-import           Network.Betfair.Types.MarketSort              (MarketSort)
-import           Network.Betfair.Types.ResponseMarketCatalogue (Response (result))
-import           Network.Betfair.Types.Token                   (Token)
-import           Network.HTTP.Conduit                          (Manager)
-import           Prelude                                       hiding
-                                                                (Monad,
-                                                                filter,
-                                                                return,
-                                                                (=<<),
-                                                                (>>))
+import           BasicPrelude  hiding (filter)
+import qualified Data.Aeson    as A (encode)
+import           Data.Aeson.TH (Options (omitNothingFields),
+                                defaultOptions, deriveJSON)
+import           Data.Default  (Default (..))
+
+import Network.Betfair.Requests.APIRequest           (apiRequest)
+import Network.Betfair.Requests.Context
+import Network.Betfair.Requests.GetResponse          (getDecodedResponse)
+import Network.Betfair.Requests.WriterLog            (groomedLog)
+import Network.Betfair.Types.BettingException
+import Network.Betfair.Types.MarketBettingType       (MarketBettingType)
+import Network.Betfair.Types.MarketCatalogue         (MarketCatalogue)
+import Network.Betfair.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
+import Network.Betfair.Types.MarketProjection        (MarketProjection (..))
+import Network.Betfair.Types.MarketSort              (MarketSort)
+import Network.Betfair.Types.ResponseMarketCatalogue (Response (result))
 
 data JsonRequest =
-  JsonRequest {jsonrpc :: String
-              ,method  :: String
+  JsonRequest {jsonrpc :: Text
+              ,method  :: Text
               ,params  :: Maybe JsonParameters
               ,id      :: Int}
   deriving (Eq,Show)
@@ -62,7 +50,7 @@ data JsonParameters =
                  ,marketProjection :: Maybe [MarketProjection]
                  ,sort             :: MarketSort
                  ,maxResults       :: Int
-                 ,locale           :: Maybe String}
+                 ,locale           :: Maybe Text}
   deriving (Eq,Show)
 
 -- deriveDefault ''JsonParameters
@@ -93,26 +81,29 @@ $(deriveJSON defaultOptions {omitNothingFields = True}
 jsonRequest :: JsonParameters -> JsonRequest
 jsonRequest jp = def {params = Just jp}
 
-type MarketId = String
+type MarketId = Text
 
 marketIdJsonRequest :: MarketId -> JsonParameters
 marketIdJsonRequest mktid = def {filter = def {marketIds = Just [mktid]}}
 
 marketCatalogue
-  :: MarketId
-  -> IO (Either (Either String BettingException) [MarketCatalogue])
-marketCatalogue mktid = listMarketCatalogue (marketIdJsonRequest mktid)
+  :: Context
+  -> MarketId
+  -> IO (Either (Either Text BettingException) [MarketCatalogue])
+marketCatalogue c mktid =
+  listMarketCatalogue c
+                      (marketIdJsonRequest mktid)
 
 listMarketCatalogue
-  :: JsonParameters
-  -> IO (Either (Either String BettingException) [MarketCatalogue])
-listMarketCatalogue jp =
-  groomedLog =<<
-  fmap (either Left (Right . result)) . getDecodedResponse =<<
-  (\r -> groomedLog (jsonRequest jp) >> return r) =<<
-  apiRequest (A.encode $ jsonRequest jp)
-
-listMarketCatalogueResponseBodyString
-  :: JsonParameters -> IO String
-listMarketCatalogueResponseBodyString jp =
-  getResponseBodyString =<< apiRequest (A.encode $ jsonRequest jp)
+  :: Context
+  -> JsonParameters
+  -> IO (Either (Either Text BettingException) [MarketCatalogue])
+listMarketCatalogue c jp =
+  groomedLog c =<<
+  fmap (either Left (Right . result)) . getDecodedResponse c =<<
+  (\r ->
+     groomedLog c
+                (jsonRequest jp) >>
+     return r) =<<
+  apiRequest c
+             (A.encode $ jsonRequest jp)

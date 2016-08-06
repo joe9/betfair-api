@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,14 +9,19 @@ module Network.Betfair.Types.Error
   (Error)
   where
 
+import BasicPrelude hiding (show)
+import qualified BasicPrelude as Prelude
 import Data.Aeson.TH                   (Options (fieldLabelModifier, omitNothingFields),
                                         defaultOptions, deriveJSON)
 import Data.Default.TH                 (deriveDefault)
+import Data.String.Conversions
+
 import Network.Betfair.Types.ErrorData (ErrorData)
+import GHC.Show
 
 data Error =
   Error {code      :: Integer
-        ,message   :: String
+        ,message   :: Text
         ,errorData :: Maybe ErrorData}
   deriving (Eq,Read)
 
@@ -30,15 +37,15 @@ $(deriveJSON
     ''Error)
 
 instance Show Error where
-  show = showError
+  show = cs . showError
 
-showError :: Error -> String
+showError :: Error -> Text
 showError a =
-  "Error: { code :" ++
-  show (code a) ++
-  ", description: " ++
-  show (lookup (code a) errorCodes) ++
-  ", message: " ++ message a ++ ", data: " ++ show (errorData a) ++ "}"
+  "Error: { code :" <>
+  Prelude.show (code a) <>
+  ", description: " <>
+  Prelude.show (lookup (code a) errorCodes) <>
+  ", message: " <> message a <> ", data: " <> Prelude.show (errorData a) <> "}"
 
 errorCodes :: [(Integer,String)]
 errorCodes =

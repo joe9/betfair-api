@@ -1,10 +1,13 @@
+{-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TemplateHaskell   #-}
 
 module Network.Betfair.Types.MarketCatalogue
   (MarketCatalogue(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH                           (Options (omitNothingFields),
                                                 defaultOptions,
                                                 deriveJSON)
@@ -14,11 +17,11 @@ import Network.Betfair.Types.EventType         (EventType)
 import Network.Betfair.Types.MarketDescription (MarketDescription)
 import Network.Betfair.Types.RunnerCatalog     (RunnerCatalog)
 
-type DateString = String
+type DateString = Text
 
 data MarketCatalogue =
-  MarketCatalogue {marketId        :: String
-                  ,marketName      :: String
+  MarketCatalogue {marketId        :: Text
+                  ,marketName      :: Text
                   ,marketStartTime :: Maybe DateString
                   ,description     :: Maybe MarketDescription
                   ,totalMatched    :: Maybe Double

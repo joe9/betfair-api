@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -Wall #-}
+{-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell   #-}
 
@@ -7,21 +7,20 @@ module Network.Betfair.Requests.Logout
   ,Logout(..))
   where
 
-import Control.Monad.RWS
+import BasicPrelude
 import Data.Aeson
 import Data.Aeson.TH
+import Network.HTTP.Conduit
+
+import Network.Betfair.Requests.Context
 import Network.Betfair.Requests.GetResponse
 import Network.Betfair.Requests.Headers
-import Network.Betfair.Requests.WriterLog     (Log)
-import Network.Betfair.Types.AppKey
 import Network.Betfair.Types.BettingException
 import Network.Betfair.Types.Token            (Token)
-import Network.HTTP.Conduit
-import Prelude                                hiding (error)
 
 data Logout =
   Logout {token   :: Token
-         ,product :: String
+         ,product :: Text
          ,status  :: Status
          ,error   :: Maybe Error}
   deriving (Eq,Read,Show)
@@ -39,24 +38,20 @@ data Error
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Logout)
-
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Status)
-
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Error)
 
-logoutRequest
-  :: IO Request
-logoutRequest =
-  (\(a,t) ->
-     (lift .
-      fmap (\req ->
-              req {requestHeaders = headers a (Just t)
-                  ,method = "POST"}) .
-      parseUrlThrow) "https://identitysso.betfair.com/api/logout") =<<
-  ask
+logoutRequest :: Context -> IO Request
+logoutRequest c =
+  (fmap (\req ->
+           req {requestHeaders =
+                  headers (cAppKey c)
+                          (Just (cToken c))
+               ,method = "POST"}) .
+   parseUrlThrow) "https://identitysso.betfair.com/api/logout"
 
 logout
-  :: IO (Either (Either String BettingException) Logout)
-logout = getDecodedResponse =<< logoutRequest
+  :: Context -> IO (Either (Either Text BettingException) Logout)
+logout c = getDecodedResponse c =<< logoutRequest c

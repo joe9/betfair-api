@@ -1,43 +1,39 @@
-{-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Requests.ListMarketBook
   (JsonParameters(..)
   ,listMarketBook
-  ,listMarketBookResponseBodyString
   ,marketBook
   ,marketBooks
   ,JsonRequest(..))
   where
 
-import           Control.Monad.RWS
-import qualified Data.Aeson                               as A (encode)
-import           Data.Aeson.TH                            (Options (omitNothingFields),
-                                                           defaultOptions,
-                                                           deriveJSON)
-import           Data.Default                             (Default (..))
-import           Network.Betfair.Requests.APIRequest      (apiRequest)
-import           Network.Betfair.Requests.GetResponse     (getDecodedResponse,
-                                                           getResponseBodyString)
-import           Network.Betfair.Requests.WriterLog       (Log,
-                                                           groomedLog)
-import           Network.Betfair.Types.AppKey             (AppKey)
-import           Network.Betfair.Types.BettingException
-import           Network.Betfair.Types.MarketBook         (MarketBook)
-import           Network.Betfair.Types.MatchProjection    (MatchProjection)
-import           Network.Betfair.Types.OrderProjection    (OrderProjection)
-import           Network.Betfair.Types.PriceData          (PriceData)
-import           Network.Betfair.Types.PriceProjection    (PriceProjection (priceData))
-import           Network.Betfair.Types.ResponseMarketBook
-import           Network.Betfair.Types.Token              (Token)
-import           Network.HTTP.Conduit                     (Manager)
+import           BasicPrelude
+import qualified Data.Aeson    as A (encode)
+import           Data.Aeson.TH (Options (omitNothingFields),
+                                defaultOptions, deriveJSON)
+import           Data.Default  (Default (..))
+
+import Network.Betfair.Requests.APIRequest      (apiRequest)
+import Network.Betfair.Requests.Context
+import Network.Betfair.Requests.GetResponse     (getDecodedResponse)
+import Network.Betfair.Requests.WriterLog
+import Network.Betfair.Types.BettingException
+import Network.Betfair.Types.MarketBook         (MarketBook)
+import Network.Betfair.Types.MatchProjection    (MatchProjection)
+import Network.Betfair.Types.OrderProjection    (OrderProjection)
+import Network.Betfair.Types.PriceData          (PriceData)
+import Network.Betfair.Types.PriceProjection    (PriceProjection (priceData))
+import Network.Betfair.Types.ResponseMarketBook
 
 data JsonRequest =
-  JsonRequest {jsonrpc :: String
-              ,method  :: String
+  JsonRequest {jsonrpc :: Text
+              ,method  :: Text
               ,params  :: Maybe JsonParameters
               ,id      :: Int}
   deriving (Eq,Show)
@@ -50,12 +46,12 @@ instance Default JsonRequest where
                 1
 
 data JsonParameters =
-  JsonParameters {marketIds       :: [String]
+  JsonParameters {marketIds       :: [Text]
                  ,priceProjection :: PriceProjection
                  ,orderProjection :: OrderProjection
                  ,matchProjection :: MatchProjection
-                 ,currencyCode    :: String
-                 ,locale          :: Maybe String}
+                 ,currencyCode    :: Text
+                 ,locale          :: Maybe Text}
   deriving (Eq,Show)
 
 -- deriveDefault ''JsonParameters
@@ -72,36 +68,39 @@ jsonRequest :: JsonParameters -> JsonRequest
 jsonRequest jp = def {params = Just jp}
 
 listMarketBook
-  :: JsonParameters
-  -> IO (Either (Either String BettingException) [MarketBook])
-listMarketBook jp =
-  do groomedLog =<<
-       fmap (either Left (Right . result)) . getDecodedResponse =<<
-       (\r -> groomedLog (jsonRequest jp) >> return r) =<<
-       apiRequest (A.encode $ jsonRequest jp)
+  :: Context
+  -> JsonParameters
+  -> IO (Either (Either Text BettingException) [MarketBook])
+listMarketBook c jp =
+  do groomedLog c =<<
+       fmap (either Left (Right . result)) . getDecodedResponse c =<<
+       (\r ->
+          groomedLog c
+                     (jsonRequest jp) >>
+          return r) =<<
+       apiRequest c
+                  (A.encode $ jsonRequest jp)
 
-type MarketId = String
+type MarketId = Text
 
 marketBook
-  :: MarketId
+  :: Context
+  -> MarketId
   -> [PriceData]
-  -> IO (Either (Either String BettingException) [MarketBook])
-marketBook mktid pd =
+  -> IO (Either (Either Text BettingException) [MarketBook])
+marketBook c mktid pd =
   listMarketBook
+    c
     (def {marketIds = [mktid]
          ,priceProjection = def {priceData = pd}})
 
 marketBooks
-  :: [MarketId]
+  :: Context
+  -> [MarketId]
   -> [PriceData]
-  -> IO (Either (Either String BettingException) [MarketBook])
-marketBooks mktids pd =
+  -> IO (Either (Either Text BettingException) [MarketBook])
+marketBooks c mktids pd =
   listMarketBook
+    c
     (def {marketIds = mktids
          ,priceProjection = def {priceData = pd}})
-
-listMarketBookResponseBodyString
-  :: String -> IO String
-listMarketBookResponseBodyString mktid =
-  getResponseBodyString =<<
-  apiRequest (A.encode . jsonRequest $ def {marketIds = [mktid]})

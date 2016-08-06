@@ -1,3 +1,4 @@
+{-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell   #-}
 
@@ -8,33 +9,30 @@ module Network.Betfair.Requests.Login
   ,JsonRequest(..))
   where
 
-import           Control.Monad.RWS                      (MonadTrans (lift),
-                                                         RWST)
+import           BasicPrelude         hiding (error)
 import           Data.Aeson
 import           Data.Aeson.TH
-import qualified Data.ByteString.Lazy                   as L (ByteString)
+import qualified Data.ByteString.Lazy as L (ByteString)
 import           Data.Either.Utils
-import           Network.Betfair.Requests.Context
-import qualified Network.Betfair.Requests.Context        as C
-import           Network.Betfair.Requests.GetResponse
-import           Network.Betfair.Requests.Headers       (headers)
-import           Network.Betfair.Requests.WriterLog     (Log)
-import           Network.Betfair.Types.BettingException hiding (error)
-import           Network.Betfair.Types.Token            (Token)
 import           Network.HTTP.Conduit
-import           Prelude                                hiding (error)
+
+import Network.Betfair.Requests.Context
+import Network.Betfair.Requests.GetResponse
+import Network.Betfair.Requests.Headers       (headers)
+import Network.Betfair.Types.BettingException hiding (error)
+import Network.Betfair.Types.Token            (Token)
 
 data JsonRequest =
-  JsonRequest {username :: String
-              ,password :: String}
+  JsonRequest {username :: Text
+              ,password :: Text}
   deriving (Eq,Show)
 
 data Login =
   Login {token            :: Maybe Token
-        ,product          :: String
+        ,product          :: Text
         ,status           :: Status
-        ,error            :: String
-        ,errorDescription :: Maybe String}
+        ,error            :: Text
+        ,errorDescription :: Maybe Text}
   deriving (Eq,Show)
 
 data Status
@@ -53,25 +51,26 @@ $(deriveJSON defaultOptions {omitNothingFields = True}
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonRequest)
 
-loginRequest :: Context -> IO Request
-loginRequest c =
+loginRequest
+  :: Context -> Text -> Text -> IO Request
+loginRequest c u p =
   fmap (\req ->
-          req {requestHeaders = headers (appKey c) Nothing
+          req {requestHeaders = headers (cAppKey c) Nothing
               ,method = "POST"
-              ,requestBody =
-                 RequestBodyLBS
-                   (encode (JsonRequest (C.username c)
-                                        (C.password c)))}) $
+              ,requestBody = RequestBodyLBS (encode (JsonRequest u p))}) $
   parseUrlThrow "https://identitysso.betfair.com/api/login"
 
 sessionToken
   :: Context
-  -> IO (Either (Either String BettingException) Token)
-sessionToken c = fmap parseLogin . getDecodedResponse =<< lift (loginRequest c)
+  -> Text
+  -> Text
+  -> IO (Either (Either Text BettingException) Token)
+sessionToken c u p =
+  fmap parseLogin . getDecodedResponse c =<< loginRequest c u p
 
 parseLogin
-  :: Either (Either String BettingException) Login
-  -> Either (Either String BettingException) Token
+  :: Either (Either Text BettingException) Login
+  -> Either (Either Text BettingException) Token
 parseLogin (Left e) = Left e
 parseLogin (Right l) =
   maybeToEither
@@ -79,10 +78,10 @@ parseLogin (Right l) =
     (token l)
 
 login
-  :: Context -> IO (Response L.ByteString)
-login c = getResponse =<< lift (loginRequest c)
+  :: Context -> Text -> Text -> IO (Response L.ByteString)
+login c u p = getResponse c =<< loginRequest c u p
 
-type LoginExceptionCodes = [(String,String)]
+type LoginExceptionCodes = [(Text,Text)]
 
 loginExceptionCodes :: LoginExceptionCodes
 loginExceptionCodes =

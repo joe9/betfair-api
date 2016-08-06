@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,6 +9,7 @@ module Network.Betfair.Types.PlaceInstructionReport
   (PlaceInstructionReport(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH                                    (Options (omitNothingFields),
                                                          defaultOptions,
                                                          deriveJSON)
@@ -15,13 +18,13 @@ import Network.Betfair.Types.InstructionReportErrorCode (InstructionReportErrorC
 import Network.Betfair.Types.InstructionReportStatus    (InstructionReportStatus)
 import Network.Betfair.Types.PlaceInstruction           (PlaceInstruction)
 
--- type DateString = String
+-- type DateString = Text
 data PlaceInstructionReport =
   PlaceInstructionReport {status :: InstructionReportStatus
                          ,errorCode :: Maybe InstructionReportErrorCode
                          ,instruction :: PlaceInstruction
-                         ,betId :: Maybe String
-                         ,placedDate :: Maybe String -- DateString
+                         ,betId :: Maybe Text
+                         ,placedDate :: Maybe Text -- DateString
                          ,averagePriceMatched :: Maybe Double
                          ,sizeMatched :: Maybe Double}
   deriving (Eq,Show)

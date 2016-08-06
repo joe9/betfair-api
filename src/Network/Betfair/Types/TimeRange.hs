@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,11 +9,12 @@ module Network.Betfair.Types.TimeRange
   (TimeRange(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
 import Data.Default.TH (deriveDefault)
 
-type DateString = String
+type DateString = Text
 
 data TimeRange =
   TimeRange {from :: DateString

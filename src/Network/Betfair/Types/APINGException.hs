@@ -1,5 +1,6 @@
-{-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
@@ -7,14 +8,18 @@ module Network.Betfair.Types.APINGException
   (APINGException(..))
   where
 
-import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
-                        deriveJSON)
-import Data.Default.TH (deriveDefault)
+import BasicPrelude hiding ( show)
+import qualified BasicPrelude as Prelude
+import Data.Aeson.TH           (Options (omitNothingFields),
+                                defaultOptions, deriveJSON)
+import Data.Default.TH         (deriveDefault)
+import Data.String.Conversions
+import qualified GHC.Show as Show
 
 data APINGException =
-  APINGException {errorDetails :: String
-                 ,errorCode    :: String
-                 ,requestUUID  :: String}
+  APINGException {errorDetails :: Text
+                 ,errorCode    :: Text
+                 ,requestUUID  :: Text}
   deriving (Eq,Read)
 
 deriveDefault ''APINGException
@@ -23,19 +28,19 @@ $(deriveJSON defaultOptions {omitNothingFields = True}
              ''APINGException)
 
 instance Show APINGException where
-  show = showAPINGException
+  show = cs . showAPINGException
 
-showAPINGException :: APINGException -> String
+showAPINGException :: APINGException -> Text
 showAPINGException a =
-  "APINGException: { errorDetails :" ++
-  errorDetails a ++
-  ", errorCode: " ++
-  errorCode a ++
-  ", errorCodeDescription: " ++
-  show (lookup (errorCode a) aPINGExceptionCodes) ++
-  ", requestUUID: " ++ requestUUID a ++ "}"
+  "APINGException: { errorDetails :" <> errorDetails a <> ", errorCode: " <>
+  errorCode a <>
+  ", errorCodeDescription: " <>
+  (cs . Prelude.show) (lookup (errorCode a) aPINGExceptionCodes) <>
+  ", requestUUID: " <>
+  requestUUID a <>
+  "}"
 
-aPINGExceptionCodes :: [(String,String)]
+aPINGExceptionCodes :: [(Text,Text)]
 aPINGExceptionCodes =
   [("TOO_MUCH_DATA"
    ,"The operation requested too much data, exceeding the Market Data Request Limits.")

@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,16 +9,17 @@ module Network.Betfair.Types.RunnerCatalog
   (RunnerCatalog(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
 import Data.Default.TH (deriveDefault)
 
 data RunnerCatalog =
   RunnerCatalog {selectionId  :: Integer
-                ,runnerName   :: String
+                ,runnerName   :: Text
                 ,handicap     :: Double
                 ,sortPriority :: Int
-                ,metadata     :: Maybe [String] -- [Runner_METADATA]
+                ,metadata     :: Maybe [Text] -- [Runner_METADATA]
                 }
   deriving (Eq,Show)
 

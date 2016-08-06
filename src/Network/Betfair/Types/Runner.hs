@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,6 +9,7 @@ module Network.Betfair.Types.Runner
   (Runner(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH                        (Options (omitNothingFields),
                                              defaultOptions,
                                              deriveJSON)
@@ -17,7 +20,7 @@ import Network.Betfair.Types.Order          (Order)
 import Network.Betfair.Types.RunnerStatus   (RunnerStatus)
 import Network.Betfair.Types.StartingPrices (StartingPrices)
 
-type DateString = String
+type DateString = Text
 
 data Runner =
   Runner {selectionId      :: Integer

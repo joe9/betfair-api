@@ -1,3 +1,4 @@
+{-# LANGUAGE NoImplicitPrelude #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell   #-}
@@ -7,21 +8,20 @@ module Network.Betfair.Requests.KeepAlive
   ,KeepAlive(..))
   where
 
-import Control.Monad.RWS
+import BasicPrelude
 import Data.Aeson
 import Data.Aeson.TH
+import Network.HTTP.Conduit
+
+import Network.Betfair.Requests.Context
 import Network.Betfair.Requests.GetResponse
 import Network.Betfair.Requests.Headers
-import Network.Betfair.Requests.WriterLog     (Log)
-import Network.Betfair.Types.AppKey
 import Network.Betfair.Types.BettingException
 import Network.Betfair.Types.Token            (Token)
-import Network.HTTP.Conduit
-import Prelude                                hiding (error)
 
 data KeepAlive =
   KeepAlive {token   :: Token
-            ,product :: String
+            ,product :: Text
             ,status  :: Status
             ,error   :: Error}
   deriving (Eq,Read,Show)
@@ -46,17 +46,15 @@ $(deriveJSON defaultOptions {omitNothingFields = True}
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Error)
 
-keepAliveRequest
-  :: IO Request
-keepAliveRequest =
-  (\(a,t) ->
-     (lift .
-      fmap (\req ->
-              req {requestHeaders = headers a (Just t)
-                  ,method = "POST"}) .
-      parseUrlThrow) "https://identitysso.betfair.com/api/keepAlive") =<<
-  ask
+keepAliveRequest :: Context -> IO Request
+keepAliveRequest c =
+  (fmap (\req ->
+           req {requestHeaders =
+                  headers (cAppKey c)
+                          (Just (cToken c))
+               ,method = "POST"}) .
+   parseUrlThrow) "https://identitysso.betfair.com/api/keepAlive"
 
 keepAlive
-  :: IO (Either (Either String BettingException) KeepAlive)
-keepAlive = getDecodedResponse =<< keepAliveRequest
+  :: Context -> IO (Either (Either Text BettingException) KeepAlive)
+keepAlive c = getDecodedResponse c =<< keepAliveRequest c

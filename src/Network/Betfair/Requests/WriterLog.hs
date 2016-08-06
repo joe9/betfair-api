@@ -1,25 +1,28 @@
+{-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall #-}
 
 module Network.Betfair.Requests.WriterLog
   (Log
-  ,log
+  ,toLog
   ,groomedLog
   ,stdOutAndLog)
   where
 
-import Control.Monad.RWS (Monad (return, (>>)), MonadTrans (lift),
-                          MonadWriter (tell), RWST)
-import Prelude           (IO, Show, String, putStrLn, ($), (++), (.))
-import Text.Groom        (groom)
+import BasicPrelude
+import Data.String.Conversions
+import Data.Text
+import Network.Betfair.Requests.Context
+import Text.Groom                       (groom)
 
-type Log = String
+type Log = Text
 
-log :: String -> IO ()
-log = tell . (++ "\n")
+toLog :: Context -> Text -> IO ()
+toLog c = (cLogger c) . (flip (<>) (singleton '\n'))
 
 groomedLog :: Show a
-           => a -> IO a
-groomedLog s = (log . groom $ s) >> return s
+           => Context -> a -> IO a
+groomedLog c s = (toLog c . cs . groom) s >> return s
 
-stdOutAndLog :: String -> IO ()
-stdOutAndLog s = log s >> (lift $ putStrLn s)
+stdOutAndLog :: Context -> Text -> IO ()
+stdOutAndLog c s = toLog c s >> putStrLn s

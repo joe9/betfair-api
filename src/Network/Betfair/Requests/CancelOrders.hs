@@ -1,39 +1,35 @@
-{-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Requests.CancelOrders
   (cancelOrder
   ,cancelOrderWithParams
-  ,cancelOrdersResponseBodyString
   ,JsonParameters(..)
   ,JsonRequest(..))
   where
 
-import           Control.Monad.RWS                           (RWST)
-import qualified Data.Aeson                                  as A (encode)
-import           Data.Aeson.TH                               (Options (omitNothingFields),
-                                                              defaultOptions,
-                                                              deriveJSON)
-import           Data.Default                                (Default (..))
-import           Data.Default.TH                             (deriveDefault)
-import           Network.Betfair.Requests.APIRequest         (apiRequest)
-import           Network.Betfair.Requests.GetResponse        (getDecodedResponse,
-                                                              getResponseBodyString)
-import           Network.Betfair.Requests.WriterLog          (Log, groomedLog)
-import           Network.Betfair.Types.AppKey                (AppKey)
-import           Network.Betfair.Types.BettingException
-import           Network.Betfair.Types.CancelExecutionReport (CancelExecutionReport)
-import           Network.Betfair.Types.CancelInstruction     (CancelInstruction)
-import           Network.Betfair.Types.ResponseCancelOrders  (Response (result))
-import           Network.Betfair.Types.Token                 (Token)
-import           Network.HTTP.Conduit                        (Manager)
+import           BasicPrelude
+import qualified Data.Aeson    as A (encode)
+import           Data.Aeson.TH (Options (omitNothingFields),
+                                defaultOptions, deriveJSON)
+import           Data.Default  (Default (..))
+
+import Network.Betfair.Requests.APIRequest         (apiRequest)
+import Network.Betfair.Requests.Context
+import Network.Betfair.Requests.GetResponse        (getDecodedResponse)
+import Network.Betfair.Requests.WriterLog          (groomedLog)
+import Network.Betfair.Types.BettingException
+import Network.Betfair.Types.CancelExecutionReport (CancelExecutionReport)
+import Network.Betfair.Types.CancelInstruction     (CancelInstruction)
+import Network.Betfair.Types.ResponseCancelOrders  (Response (result))
 
 data JsonRequest =
-  JsonRequest {jsonrpc :: String
-              ,method  :: String
+  JsonRequest {jsonrpc :: Text
+              ,method  :: Text
               ,params  :: Maybe JsonParameters
               ,id      :: Int}
   deriving (Eq,Show)
@@ -46,12 +42,14 @@ instance Default JsonRequest where
                 1
 
 data JsonParameters =
-  JsonParameters {marketId     :: String
+  JsonParameters {marketId     :: Text
                  ,instructions :: [CancelInstruction]
-                 ,customerRef  :: String}
+                 ,customerRef  :: Text}
   deriving (Eq,Show)
 
-deriveDefault ''JsonParameters
+-- deriveDefault ''JsonParameters
+instance Default JsonParameters where
+  def = JsonParameters "" [] ""
 
 -- instance Default JsonParameters where
 --  def = JsonParameters def def def
@@ -65,44 +63,29 @@ jsonRequest :: JsonParameters -> JsonRequest
 jsonRequest jp = def {params = Just jp}
 
 cancelOrderWithParams
-  :: JsonParameters
-  -> IO (Either (Either String BettingException) CancelExecutionReport)
-cancelOrderWithParams jp =
-  groomedLog =<<
-  fmap (either Left (Right . result)) . getDecodedResponse =<<
-  apiRequest (A.encode $ jsonRequest jp)
+  :: Context
+  -> JsonParameters
+  -> IO (Either (Either Text BettingException) CancelExecutionReport)
+cancelOrderWithParams c jp =
+  groomedLog c =<<
+  fmap (either Left (Right . result)) . getDecodedResponse c =<<
+  apiRequest c
+             (A.encode $ jsonRequest jp)
 
-type CustomerRef = String
+type CustomerRef = Text
 
-type MarketId = String
+type MarketId = Text
 
 cancelOrder
-  :: MarketId
+  :: Context
+  -> MarketId
   -> CancelInstruction
   -> CustomerRef
-  -> IO (Either (Either String BettingException) CancelExecutionReport)
-cancelOrder mktid pin cref =
+  -> IO (Either (Either Text BettingException) CancelExecutionReport)
+cancelOrder c mktid pin cref =
   groomedLog
+    c
     (JsonParameters mktid
                     [pin]
                     cref) >>=
-  cancelOrderWithParams
-
---   >>= (\per -> (putStrLn $ groom per) >> return per)
--- below lines for debugging
--- cancelOrder mktid pin cref _ =
---  (putStrLn $ groom (JsonParameters mktid [pin] cref))
---           >> return def
-cancelOrdersResponseBodyString
-  :: MarketId
-  -> CancelInstruction
-  -> CustomerRef
-  -> IO String
-cancelOrdersResponseBodyString mktid pin cref =
-  apiRequest
-    (A.encode . jr $
-     JsonParameters mktid
-                    [pin]
-                    cref) >>=
-  getResponseBodyString
-  where jr = jsonRequest
+  cancelOrderWithParams c

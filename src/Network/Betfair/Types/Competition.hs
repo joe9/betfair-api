@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
@@ -8,13 +10,14 @@ module Network.Betfair.Types.Competition
   (Competition(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
 import Data.Default.TH (deriveDefault)
 
 data Competition =
-  Competition {id   :: String
-              ,name :: String}
+  Competition {id   :: Text
+              ,name :: Text}
   deriving (Eq,Show)
 
 deriveDefault ''Competition

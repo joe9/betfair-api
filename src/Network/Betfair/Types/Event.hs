@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,17 +9,18 @@ module Network.Betfair.Types.Event
   (Event(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
                       deriveJSON)
 
-type DateString = String
+type DateString = Text
 
 data Event =
-  Event {id          :: String
-        ,name        :: Maybe String
-        ,countryCode :: Maybe String
-        ,timezone    :: Maybe String
-        ,venue       :: Maybe String
+  Event {id          :: Text
+        ,name        :: Maybe Text
+        ,countryCode :: Maybe Text
+        ,timezone    :: Maybe Text
+        ,venue       :: Maybe Text
         ,openDate    :: Maybe DateString}
   deriving (Eq,Show)
 

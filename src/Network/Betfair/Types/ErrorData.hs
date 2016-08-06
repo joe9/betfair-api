@@ -1,3 +1,5 @@
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# OPTIONS_GHC -Wall #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -7,6 +9,7 @@ module Network.Betfair.Types.ErrorData
   (ErrorData(..))
   where
 
+import BasicPrelude
 import Data.Aeson.TH                        (Options (fieldLabelModifier, omitNothingFields),
                                              defaultOptions,
                                              deriveJSON)
@@ -14,7 +17,7 @@ import Data.Default.TH                      (deriveDefault)
 import Network.Betfair.Types.APINGException (APINGException)
 
 data ErrorData =
-  ErrorData {exceptionname  :: String
+  ErrorData {exceptionname  :: Text
             ,aPINGException :: APINGException}
   deriving (Eq,Read,Show)
 
