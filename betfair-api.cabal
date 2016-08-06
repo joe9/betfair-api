@@ -80,8 +80,6 @@ library
                    Network.Betfair.Requests.ListMarketCatalogue
                    Network.Betfair.Requests.Login
                    Network.Betfair.Requests.Logout
-                   Network.Betfair.Requests.ParseKeepAlive
-                   Network.Betfair.Requests.ParseLogout
                    Network.Betfair.Requests.PlaceOrders
                    Network.Betfair.Requests.WriterLog
 
