@@ -4,18 +4,21 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Types.ExecutionReportStatus
-   ( ExecutionReportStatus(..)
-   ) where
+  (ExecutionReportStatus(..))
+  where
 
-import           Data.Aeson.TH   (Options (omitNothingFields),
-                                  defaultOptions, deriveJSON)
-import           Data.Default.TH (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
-data ExecutionReportStatus = SUCCESS
-                           | FAILURE
-                           | PROCESSED_WITH_ERRORS
-                           | TIMEOUT
-                           deriving (Eq, Show)
+data ExecutionReportStatus
+  = SUCCESS
+  | FAILURE
+  | PROCESSED_WITH_ERRORS
+  | TIMEOUT
+  deriving (Eq,Show)
 
 deriveDefault ''ExecutionReportStatus
-$(deriveJSON defaultOptions {omitNothingFields = True} ''ExecutionReportStatus)
+
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''ExecutionReportStatus)

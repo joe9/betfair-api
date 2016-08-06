@@ -2,34 +2,38 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Network.Betfair.Requests.APIRequest
-   ( apiRequest
-   , apiRequestString
-   ) where
+  (apiRequest
+  ,apiRequestString)
+  where
 
-import Control.Monad.RWS         (MonadReader (ask),
-                                  MonadTrans (lift), RWST)
-import Data.ByteString.Lazy      (ByteString)
-import Data.ByteString.Lazy.UTF8 (fromString)
-import Network.HTTP.Conduit      (Request (method, requestBody, requestHeaders),
-                                  RequestBody (RequestBodyLBS),
-                                  parseUrlThrow)
-
+import Control.Monad.RWS                  (MonadReader (ask),
+                                           MonadTrans (lift), RWST)
+import Data.ByteString.Lazy               (ByteString)
+import Data.ByteString.Lazy.UTF8          (fromString)
 import Network.Betfair.Requests.Headers   (headers)
 import Network.Betfair.Requests.WriterLog (Log)
 import Network.Betfair.Types.AppKey       (AppKey)
 import Network.Betfair.Types.Token        (Token)
+import Network.HTTP.Conduit               (Request (method, requestBody, requestHeaders),
+                                           RequestBody (RequestBodyLBS),
+                                           parseUrlThrow)
 
-apiRequest :: ByteString -> RWST (AppKey, Token) Log s IO Request
+apiRequest
+  :: ByteString -> RWST (AppKey,Token) Log s IO Request
 apiRequest jsonBody =
-  (\(a,t) -> lift . fmap (\req -> req { requestHeaders = headers a (Just t)
-                                    -- no need of B.fromString below due
-                                    -- to overloadedStrings extension
-                                    , method = "POST"
-                                    , requestBody =
-                                         RequestBodyLBS jsonBody
-                                    })
-         $ parseUrlThrow "https://api.betfair.com/exchange/betting/json-rpc/v1"
-  ) =<< ask
+  (\(a,t) ->
+     lift .
+     fmap (\req ->
+             req {requestHeaders = headers a (Just t)
+                 ,
+                    -- no need of B.fromString below due
+                    -- to overloadedStrings extension
+                    method =
+                    "POST"
+                 ,requestBody = RequestBodyLBS jsonBody}) $
+     parseUrlThrow "https://api.betfair.com/exchange/betting/json-rpc/v1") =<<
+  ask
 
-apiRequestString :: String -> RWST (AppKey, Token) Log s IO Request
+apiRequestString
+  :: String -> RWST (AppKey,Token) Log s IO Request
 apiRequestString s = apiRequest (fromString s)

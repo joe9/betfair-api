@@ -13,29 +13,34 @@ module Network.Betfair.Requests.ListMarketCatalogue
   ,JsonParameters(..))
   where
 
-import           Control.Monad.RWS    (Monad (return, (>>)), RWST,
-                                       (=<<))
-import qualified Data.Aeson           as A (encode)
-import           Data.Aeson.TH        (Options (omitNothingFields),
-                                       defaultOptions, deriveJSON)
-import           Data.Default         (Default (..))
+import           Control.Monad.RWS                             (Monad (return, (>>)),
+                                                                RWST,
+                                                                (=<<))
+import qualified Data.Aeson                                    as A (encode)
+import           Data.Aeson.TH                                 (Options (omitNothingFields),
+                                                                defaultOptions,
+                                                                deriveJSON)
+import           Data.Default                                  (Default (..))
 import           Data.Either
-import           Network.HTTP.Conduit (Manager)
-import           Prelude              hiding (Monad, filter, return,
-                                       (=<<), (>>))
-
-import Network.Betfair.Requests.APIRequest     (apiRequest)
-import Network.Betfair.Requests.GetResponse    (getResponseBody,
-                                                getResponseBodyString)
-import Network.Betfair.Requests.WriterLog      (Log, groomedLog)
-import Network.Betfair.Types.AppKey            (AppKey)
-import Network.Betfair.Types.MarketBettingType (MarketBettingType)
-import Network.Betfair.Types.MarketCatalogue   (MarketCatalogue)
-import Network.Betfair.Types.ResponseMarketCatalogue   (Response(result))
-import Network.Betfair.Types.MarketFilter      (MarketFilter (marketBettingTypes, marketIds))
-import Network.Betfair.Types.MarketProjection  (MarketProjection (..))
-import Network.Betfair.Types.MarketSort        (MarketSort)
-import Network.Betfair.Types.Token             (Token)
+import           Network.Betfair.Requests.APIRequest           (apiRequest)
+import           Network.Betfair.Requests.GetResponse          (getResponseBody,
+                                                                getResponseBodyString)
+import           Network.Betfair.Requests.WriterLog            (Log, groomedLog)
+import           Network.Betfair.Types.AppKey                  (AppKey)
+import           Network.Betfair.Types.MarketBettingType       (MarketBettingType)
+import           Network.Betfair.Types.MarketCatalogue         (MarketCatalogue)
+import           Network.Betfair.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
+import           Network.Betfair.Types.MarketProjection        (MarketProjection (..))
+import           Network.Betfair.Types.MarketSort              (MarketSort)
+import           Network.Betfair.Types.ResponseMarketCatalogue (Response (result))
+import           Network.Betfair.Types.Token                   (Token)
+import           Network.HTTP.Conduit                          (Manager)
+import           Prelude                                       hiding
+                                                                (Monad,
+                                                                filter,
+                                                                return,
+                                                                (=<<),
+                                                                (>>))
 
 data JsonRequest =
   JsonRequest {jsonrpc :: String
@@ -73,13 +78,14 @@ instance Default JsonParameters where
             ,
              -- , MARKET_DESCRIPTION
              RUNNER_DESCRIPTION])
-         -- , RUNNER_METADATA
+      -- , RUNNER_METADATA
       def
       1000
       def
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonParameters)
+
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonRequest)
 
@@ -87,6 +93,7 @@ jsonRequest :: JsonParameters -> JsonRequest
 jsonRequest jp = def {params = Just jp}
 
 type MarketId = String
+
 marketIdJsonRequest :: MarketId -> JsonParameters
 marketIdJsonRequest mktid = def {filter = def {marketIds = Just [mktid]}}
 

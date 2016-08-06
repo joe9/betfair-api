@@ -10,14 +10,13 @@ module Network.Betfair.Requests.KeepAlive
 import Control.Monad.RWS
 import Data.Aeson
 import Data.Aeson.TH
-import Network.HTTP.Conduit
-import Prelude              hiding (error)
-
 import Network.Betfair.Requests.GetResponse
 import Network.Betfair.Requests.Headers
 import Network.Betfair.Requests.WriterLog   (Log)
 import Network.Betfair.Types.AppKey
 import Network.Betfair.Types.Token          (Token)
+import Network.HTTP.Conduit
+import Prelude                              hiding (error)
 
 data KeepAlive =
   KeepAlive {token   :: Token
@@ -39,8 +38,10 @@ data Error
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''KeepAlive)
+
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Status)
+
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Error)
 

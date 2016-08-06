@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -Wall #-}
-{-# LANGUAGE DeriveDataTypeable #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE DeriveDataTypeable   #-}
+{-# LANGUAGE FlexibleContexts     #-}
+{-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Requests.ListMarketBook
@@ -13,33 +13,32 @@ module Network.Betfair.Requests.ListMarketBook
   ,JsonRequest(..))
   where
 
-import Control.Monad.RWS
-import qualified Data.Aeson as A (encode)
-import Data.Aeson.TH
-       (Options(omitNothingFields), defaultOptions, deriveJSON)
-import Data.Default (Default(..))
-import Network.HTTP.Conduit (Manager)
-
-import Network.Betfair.Requests.APIRequest (apiRequest)
-import Network.Betfair.Requests.GetResponse
-       (getResponseBody, getResponseBodyString)
-import Network.Betfair.Requests.WriterLog (Log, groomedLog)
-import Network.Betfair.Types.AppKey (AppKey)
-import Network.Betfair.Types.MarketBook (MarketBook)
-import Network.Betfair.Types.MatchProjection (MatchProjection)
-import Network.Betfair.Types.OrderProjection (OrderProjection)
-import Network.Betfair.Types.PriceData (PriceData)
-import Network.Betfair.Types.PriceProjection
-       (PriceProjection(priceData))
-import Network.Betfair.Types.Token (Token)
-import Network.Betfair.Types.ResponseMarketBook
-
+import           Control.Monad.RWS
+import qualified Data.Aeson                               as A (encode)
+import           Data.Aeson.TH                            (Options (omitNothingFields),
+                                                           defaultOptions,
+                                                           deriveJSON)
+import           Data.Default                             (Default (..))
+import           Network.Betfair.Requests.APIRequest      (apiRequest)
+import           Network.Betfair.Requests.GetResponse     (getResponseBody,
+                                                           getResponseBodyString)
+import           Network.Betfair.Requests.WriterLog       (Log,
+                                                           groomedLog)
+import           Network.Betfair.Types.AppKey             (AppKey)
+import           Network.Betfair.Types.MarketBook         (MarketBook)
+import           Network.Betfair.Types.MatchProjection    (MatchProjection)
+import           Network.Betfair.Types.OrderProjection    (OrderProjection)
+import           Network.Betfair.Types.PriceData          (PriceData)
+import           Network.Betfair.Types.PriceProjection    (PriceProjection (priceData))
+import           Network.Betfair.Types.ResponseMarketBook
+import           Network.Betfair.Types.Token              (Token)
+import           Network.HTTP.Conduit                     (Manager)
 
 data JsonRequest =
   JsonRequest {jsonrpc :: String
-              ,method :: String
-              ,params :: Maybe JsonParameters
-              ,id :: Int}
+              ,method  :: String
+              ,params  :: Maybe JsonParameters
+              ,id      :: Int}
   deriving (Eq,Show)
 
 instance Default JsonRequest where
@@ -50,12 +49,12 @@ instance Default JsonRequest where
                 1
 
 data JsonParameters =
-  JsonParameters {marketIds :: [String]
+  JsonParameters {marketIds       :: [String]
                  ,priceProjection :: PriceProjection
                  ,orderProjection :: OrderProjection
                  ,matchProjection :: MatchProjection
-                 ,currencyCode :: String
-                 ,locale :: Maybe String}
+                 ,currencyCode    :: String
+                 ,locale          :: Maybe String}
   deriving (Eq,Show)
 
 -- deriveDefault ''JsonParameters
@@ -64,6 +63,7 @@ instance Default JsonParameters where
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonParameters)
+
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonRequest)
 
@@ -75,11 +75,12 @@ listMarketBook
   -> RWST (AppKey,Token) Log Manager IO (Either String [MarketBook])
 listMarketBook jp =
   do groomedLog =<<
-        fmap (either Left (Right . result)) . getResponseBody =<<
-        (\r -> groomedLog (jsonRequest jp) >> return r) =<<
-        apiRequest (A.encode $ jsonRequest jp)
+       fmap (either Left (Right . result)) . getResponseBody =<<
+       (\r -> groomedLog (jsonRequest jp) >> return r) =<<
+       apiRequest (A.encode $ jsonRequest jp)
 
 type MarketId = String
+
 marketBook
   :: MarketId
   -> [PriceData]

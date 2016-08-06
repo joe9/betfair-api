@@ -4,17 +4,19 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Types.CancelInstruction
-   ( CancelInstruction(..)
-   ) where
+  (CancelInstruction(..))
+  where
 
-import           Data.Aeson.TH   (Options (omitNothingFields),
-                                  defaultOptions, deriveJSON)
-import           Data.Default.TH (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
-data CancelInstruction = CancelInstruction
-   { betId         :: String
-   , sizeReduction :: Maybe Double
-   } deriving (Eq, Show)
+data CancelInstruction =
+  CancelInstruction {betId         :: String
+                    ,sizeReduction :: Maybe Double}
+  deriving (Eq,Show)
 
 deriveDefault ''CancelInstruction
-$(deriveJSON defaultOptions {omitNothingFields = True} ''CancelInstruction)
+
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''CancelInstruction)

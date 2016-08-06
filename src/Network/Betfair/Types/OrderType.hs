@@ -4,15 +4,20 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Types.OrderType
-   ( OrderType(..)
-   ) where
+  (OrderType(..))
+  where
 
-import           Data.Aeson.TH   (Options (omitNothingFields),
-                                  defaultOptions, deriveJSON)
-import           Data.Default.TH (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
-data OrderType = LIMIT | LIMIT_ON_CLOSE | MARKET_ON_CLOSE
-   deriving (Eq, Show)
+data OrderType
+  = LIMIT
+  | LIMIT_ON_CLOSE
+  | MARKET_ON_CLOSE
+  deriving (Eq,Show)
 
 deriveDefault ''OrderType
-$(deriveJSON defaultOptions {omitNothingFields = True} ''OrderType)
+
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''OrderType)

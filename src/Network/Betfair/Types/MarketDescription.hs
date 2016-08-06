@@ -4,34 +4,35 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Types.MarketDescription
-   ( MarketDescription(..)
-   ) where
+  (MarketDescription(..))
+  where
 
-import           Data.Aeson.TH                           (Options (omitNothingFields), defaultOptions,
-                                                          deriveJSON)
-
-import           Network.Betfair.Types.MarketBettingType (MarketBettingType)
+import Data.Aeson.TH                           (Options (omitNothingFields),
+                                                defaultOptions,
+                                                deriveJSON)
+import Network.Betfair.Types.MarketBettingType (MarketBettingType)
 
 type DateString = String
 
-data MarketDescription = MarketDescription
-   { persistenceEnabled :: Bool
-   , bspMarket          :: Bool
-   , marketTime         :: DateString
-   , suspendTime        :: DateString
-   , settleTime         :: Maybe DateString
-   , bettingType        :: MarketBettingType
-   , turnInPlayEnabled  :: Bool
-   , marketType         :: String
-   , regulator          :: String
-   , marketBaseRate     :: Double
-   , discountAllowed    :: Bool
-   , wallet             :: Maybe String
-   , rules              :: Maybe String
-   , rulesHasDate       :: Maybe Bool
-   , eachWayDivisor     :: Maybe Double
-   , clarifications     :: Maybe String
-   } deriving (Eq, Show)
+data MarketDescription =
+  MarketDescription {persistenceEnabled :: Bool
+                    ,bspMarket          :: Bool
+                    ,marketTime         :: DateString
+                    ,suspendTime        :: DateString
+                    ,settleTime         :: Maybe DateString
+                    ,bettingType        :: MarketBettingType
+                    ,turnInPlayEnabled  :: Bool
+                    ,marketType         :: String
+                    ,regulator          :: String
+                    ,marketBaseRate     :: Double
+                    ,discountAllowed    :: Bool
+                    ,wallet             :: Maybe String
+                    ,rules              :: Maybe String
+                    ,rulesHasDate       :: Maybe Bool
+                    ,eachWayDivisor     :: Maybe Double
+                    ,clarifications     :: Maybe String}
+  deriving (Eq,Show)
 
 -- deriveDefault ''MarketDescription
-$(deriveJSON defaultOptions {omitNothingFields = True} ''MarketDescription)
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''MarketDescription)

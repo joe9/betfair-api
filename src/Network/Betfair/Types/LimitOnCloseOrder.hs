@@ -4,17 +4,19 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Types.LimitOnCloseOrder
-   ( LimitOnCloseOrder(..)
-   ) where
+  (LimitOnCloseOrder(..))
+  where
 
-import           Data.Aeson.TH   (Options (omitNothingFields),
-                                  defaultOptions, deriveJSON)
-import           Data.Default.TH (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
-data LimitOnCloseOrder = LimitOnCloseOrder
-   { liability :: Double
-   , price     :: Double
-   } deriving (Eq, Show)
+data LimitOnCloseOrder =
+  LimitOnCloseOrder {liability :: Double
+                    ,price     :: Double}
+  deriving (Eq,Show)
 
 deriveDefault ''LimitOnCloseOrder
-$(deriveJSON defaultOptions {omitNothingFields = True} ''LimitOnCloseOrder)
+
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''LimitOnCloseOrder)

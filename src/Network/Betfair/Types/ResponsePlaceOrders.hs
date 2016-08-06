@@ -2,17 +2,19 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Network.Betfair.Types.ResponsePlaceOrders
-   ( Response(..)
-   ) where
+  (Response(..))
+  where
 
-import           Data.Aeson.TH                              (Options (omitNothingFields), defaultOptions, deriveJSON)
+import Data.Aeson.TH                              (Options (omitNothingFields),
+                                                   defaultOptions,
+                                                   deriveJSON)
+import Network.Betfair.Types.PlaceExecutionReport (PlaceExecutionReport)
 
-import           Network.Betfair.Types.PlaceExecutionReport (PlaceExecutionReport)
+data Response =
+  Response {jsonrpc :: String
+           ,result  :: PlaceExecutionReport
+           ,id      :: Int}
+  deriving (Eq,Show)
 
-data Response = Response
-   { jsonrpc :: String
-   , result  :: PlaceExecutionReport
-   , id      :: Int
-   } deriving (Eq, Show)
-
-$(deriveJSON defaultOptions {omitNothingFields = True} ''Response)
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''Response)

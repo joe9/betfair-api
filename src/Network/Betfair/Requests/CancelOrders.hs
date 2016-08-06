@@ -12,22 +12,23 @@ module Network.Betfair.Requests.CancelOrders
   ,JsonRequest(..))
   where
 
-import           Control.Monad.RWS    (RWST)
-import qualified Data.Aeson           as A (encode)
-import           Data.Aeson.TH        (Options (omitNothingFields),
-                                       defaultOptions, deriveJSON)
-import           Data.Default         (Default (..))
-import           Data.Default.TH      (deriveDefault)
-import           Network.HTTP.Conduit (Manager)
-
-import Network.Betfair.Requests.APIRequest         (apiRequest)
-import Network.Betfair.Requests.GetResponse        (getResponseBody, getResponseBodyString)
-import Network.Betfair.Requests.WriterLog          (Log, groomedLog)
-import Network.Betfair.Types.AppKey                (AppKey)
+import           Control.Monad.RWS                           (RWST)
+import qualified Data.Aeson                                  as A (encode)
+import           Data.Aeson.TH                               (Options (omitNothingFields),
+                                                              defaultOptions,
+                                                              deriveJSON)
+import           Data.Default                                (Default (..))
+import           Data.Default.TH                             (deriveDefault)
+import           Network.Betfair.Requests.APIRequest         (apiRequest)
+import           Network.Betfair.Requests.GetResponse        (getResponseBody,
+                                                              getResponseBodyString)
+import           Network.Betfair.Requests.WriterLog          (Log, groomedLog)
+import           Network.Betfair.Types.AppKey                (AppKey)
+import           Network.Betfair.Types.CancelExecutionReport (CancelExecutionReport)
+import           Network.Betfair.Types.CancelInstruction     (CancelInstruction)
 import           Network.Betfair.Types.ResponseCancelOrders  (Response (result))
-import Network.Betfair.Types.CancelExecutionReport (CancelExecutionReport)
-import Network.Betfair.Types.CancelInstruction     (CancelInstruction)
-import Network.Betfair.Types.Token                 (Token)
+import           Network.Betfair.Types.Token                 (Token)
+import           Network.HTTP.Conduit                        (Manager)
 
 data JsonRequest =
   JsonRequest {jsonrpc :: String
@@ -50,11 +51,12 @@ data JsonParameters =
   deriving (Eq,Show)
 
 deriveDefault ''JsonParameters
+
 -- instance Default JsonParameters where
 --  def = JsonParameters def def def
-
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonParameters)
+
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonRequest)
 
@@ -65,10 +67,14 @@ cancelOrderWithParams
   :: JsonParameters
   -> RWST (AppKey,Token) Log Manager IO (Either String CancelExecutionReport)
 cancelOrderWithParams jp =
-  groomedLog =<< fmap (either Left (Right . result)) . getResponseBody =<< apiRequest (A.encode $ jsonRequest jp)
+  groomedLog =<<
+  fmap (either Left (Right . result)) . getResponseBody =<<
+  apiRequest (A.encode $ jsonRequest jp)
 
 type CustomerRef = String
+
 type MarketId = String
+
 cancelOrder
   :: MarketId
   -> CancelInstruction
@@ -80,12 +86,12 @@ cancelOrder mktid pin cref =
                     [pin]
                     cref) >>=
   cancelOrderWithParams
+
 --   >>= (\per -> (putStrLn $ groom per) >> return per)
 -- below lines for debugging
 -- cancelOrder mktid pin cref _ =
 --  (putStrLn $ groom (JsonParameters mktid [pin] cref))
 --           >> return def
-
 cancelOrdersResponseBodyString
   :: MarketId
   -> CancelInstruction

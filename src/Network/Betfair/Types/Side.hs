@@ -4,15 +4,19 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Types.Side
-   ( Side(..)
-   ) where
+  (Side(..))
+  where
 
-import           Data.Aeson.TH   (Options (omitNothingFields),
-                                  defaultOptions, deriveJSON)
-import           Data.Default.TH (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
-data Side = BACK | LAY
-   deriving (Eq, Show)
+data Side
+  = BACK
+  | LAY
+  deriving (Eq,Show)
 
 deriveDefault ''Side
-$(deriveJSON defaultOptions {omitNothingFields = True} ''Side)
+
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''Side)

@@ -3,15 +3,20 @@
 {-# LANGUAGE TemplateHaskell    #-}
 
 module Network.Betfair.Types.PersistenceType
-   ( PersistenceType(..)
-   ) where
+  (PersistenceType(..))
+  where
 
-import           Data.Aeson.TH   (Options (omitNothingFields),
-                                  defaultOptions, deriveJSON)
-import           Data.Default.TH (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
-data PersistenceType = LAPSE | PERSIST | MARKET_ON_CLOSE
-   deriving (Eq, Show)
+data PersistenceType
+  = LAPSE
+  | PERSIST
+  | MARKET_ON_CLOSE
+  deriving (Eq,Show)
 
 deriveDefault ''PersistenceType
-$(deriveJSON defaultOptions {omitNothingFields = True} ''PersistenceType)
+
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''PersistenceType)

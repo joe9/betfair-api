@@ -10,16 +10,18 @@ module Network.Betfair.Requests.GetResponse
 import           Control.Exception.Safe
 import           Control.Monad.RWS
 import           Data.Aeson
-import qualified Data.ByteString.Lazy      as L (ByteString)
-import qualified Data.ByteString.Lazy.UTF8 as LUTF8 (toString)
-import           Network.HTTP.Conduit      (HttpException (..),
-                                            HttpExceptionContent (..),
-                                            Manager, Request,
-                                            Response (responseBody),
-                                            Response (), httpLbs)
-
-import Network.Betfair.Requests.WriterLog     (Log, groomedLog)
-import Network.Betfair.Types.BettingException (BettingException (..))
+import qualified Data.ByteString.Lazy                   as L (ByteString)
+import qualified Data.ByteString.Lazy.UTF8              as LUTF8 (toString)
+import           Network.Betfair.Requests.WriterLog     (Log,
+                                                         groomedLog)
+import           Network.Betfair.Types.BettingException (BettingException (..))
+import           Network.HTTP.Conduit                   (HttpException (..),
+                                                         HttpExceptionContent (..),
+                                                         Manager,
+                                                         Request,
+                                                         Response (responseBody),
+                                                         Response (),
+                                                         httpLbs)
 
 tryRequestAgain
   :: Request

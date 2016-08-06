@@ -8,20 +8,20 @@ module Network.Betfair.Requests.Login
   ,JsonRequest(..))
   where
 
-import           Control.Monad.RWS    (MonadTrans (lift), RWST)
+import           Control.Monad.RWS                    (MonadTrans (lift),
+                                                       RWST)
 import           Data.Aeson
 import           Data.Aeson.TH
-import qualified Data.ByteString.Lazy as L (ByteString)
+import qualified Data.ByteString.Lazy                 as L (ByteString)
 import           Data.Either.Utils
-import           Network.HTTP.Conduit
-import           Prelude              hiding (error)
-
 import           Network.Betfair.Requests.Config
 import qualified Network.Betfair.Requests.Config      as C
 import           Network.Betfair.Requests.GetResponse
 import           Network.Betfair.Requests.Headers     (headers)
 import           Network.Betfair.Requests.WriterLog   (Log)
 import           Network.Betfair.Types.Token          (Token)
+import           Network.HTTP.Conduit
+import           Prelude                              hiding (error)
 
 data JsonRequest =
   JsonRequest {username :: String
@@ -45,8 +45,10 @@ data Status
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Status)
+
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Login)
+
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonRequest)
 
@@ -63,8 +65,7 @@ loginRequest c =
 
 sessionToken
   :: Config -> RWST r Log Manager IO (Either String Token)
-sessionToken c =
-  fmap parseLogin . getResponseBody =<< lift (loginRequest c)
+sessionToken c = fmap parseLogin . getResponseBody =<< lift (loginRequest c)
 
 parseLogin
   :: Either String Login -> Either String Token

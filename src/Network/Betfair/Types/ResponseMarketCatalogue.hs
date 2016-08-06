@@ -3,18 +3,19 @@
 {-# LANGUAGE TemplateHaskell    #-}
 
 module Network.Betfair.Types.ResponseMarketCatalogue
-   ( Response(..)
-   ) where
+  (Response(..))
+  where
 
-import           Data.Aeson.TH                         (Options (omitNothingFields), defaultOptions,
-                                                        deriveJSON)
+import Data.Aeson.TH                         (Options (omitNothingFields),
+                                              defaultOptions,
+                                              deriveJSON)
+import Network.Betfair.Types.MarketCatalogue (MarketCatalogue)
 
-import           Network.Betfair.Types.MarketCatalogue (MarketCatalogue)
+data Response =
+  Response {jsonrpc :: String
+           ,result  :: [MarketCatalogue]
+           ,id      :: Int}
+  deriving (Eq,Show)
 
-data Response = Response
-   { jsonrpc :: String
-   , result  :: [MarketCatalogue]
-   , id      :: Int
-   } deriving (Eq, Show)
-
-$(deriveJSON defaultOptions {omitNothingFields = True} ''Response)
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''Response)

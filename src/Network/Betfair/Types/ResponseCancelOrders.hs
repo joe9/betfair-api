@@ -2,17 +2,19 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Network.Betfair.Types.ResponseCancelOrders
-   ( Response(..)
-   ) where
+  (Response(..))
+  where
 
-import           Data.Aeson.TH                               (Options (omitNothingFields), defaultOptions, deriveJSON)
+import Data.Aeson.TH                               (Options (omitNothingFields),
+                                                    defaultOptions,
+                                                    deriveJSON)
+import Network.Betfair.Types.CancelExecutionReport (CancelExecutionReport)
 
-import           Network.Betfair.Types.CancelExecutionReport (CancelExecutionReport)
+data Response =
+  Response {jsonrpc :: String
+           ,result  :: CancelExecutionReport
+           ,id      :: Int}
+  deriving (Eq,Show)
 
-data Response = Response
-   { jsonrpc :: String
-   , result  :: CancelExecutionReport
-   , id      :: Int
-   } deriving (Eq, Show)
-
-$(deriveJSON defaultOptions {omitNothingFields = True} ''Response)
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''Response)

@@ -4,15 +4,19 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Types.OrderStatus
-   ( OrderStatus(..)
-   ) where
+  (OrderStatus(..))
+  where
 
-import           Data.Aeson.TH   (Options (omitNothingFields),
-                                  defaultOptions, deriveJSON)
-import           Data.Default.TH (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
-data OrderStatus = EXECUTION_COMPLETE | EXECUTABLE
-   deriving (Eq, Show)
+data OrderStatus
+  = EXECUTION_COMPLETE
+  | EXECUTABLE
+  deriving (Eq,Show)
 
 deriveDefault ''OrderStatus
-$(deriveJSON defaultOptions {omitNothingFields = True} ''OrderStatus)
+
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''OrderStatus)

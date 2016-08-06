@@ -4,16 +4,18 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Network.Betfair.Types.MarketOnCloseOrder
-   ( MarketOnCloseOrder(..)
-   ) where
+  (MarketOnCloseOrder(..))
+  where
 
-import           Data.Aeson.TH   (Options (omitNothingFields),
-                                  defaultOptions, deriveJSON)
-import           Data.Default.TH (deriveDefault)
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
 
-data MarketOnCloseOrder = MarketOnCloseOrder
-   { liability :: Double
-   } deriving (Eq, Show)
+data MarketOnCloseOrder =
+  MarketOnCloseOrder {liability :: Double}
+  deriving (Eq,Show)
 
 deriveDefault ''MarketOnCloseOrder
-$(deriveJSON defaultOptions {omitNothingFields = True} ''MarketOnCloseOrder)
+
+$(deriveJSON defaultOptions {omitNothingFields = True}
+             ''MarketOnCloseOrder)
