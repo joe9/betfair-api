@@ -8,21 +8,21 @@ module Network.Betfair.Requests.Login
   ,JsonRequest(..))
   where
 
-import           Control.Monad.RWS                    (MonadTrans (lift),
-                                                       RWST)
+import           Control.Monad.RWS                      (MonadTrans (lift),
+                                                         RWST)
 import           Data.Aeson
 import           Data.Aeson.TH
-import qualified Data.ByteString.Lazy                 as L (ByteString)
+import qualified Data.ByteString.Lazy                   as L (ByteString)
 import           Data.Either.Utils
 import           Network.Betfair.Requests.Config
-import qualified Network.Betfair.Requests.Config      as C
+import qualified Network.Betfair.Requests.Config        as C
 import           Network.Betfair.Requests.GetResponse
-import           Network.Betfair.Requests.Headers     (headers)
-import           Network.Betfair.Requests.WriterLog   (Log)
-import           Network.Betfair.Types.Token          (Token)
-import Network.Betfair.Types.BettingException hiding (error)
+import           Network.Betfair.Requests.Headers       (headers)
+import           Network.Betfair.Requests.WriterLog     (Log)
+import           Network.Betfair.Types.BettingException hiding (error)
+import           Network.Betfair.Types.Token            (Token)
 import           Network.HTTP.Conduit
-import           Prelude                              hiding (error)
+import           Prelude                                hiding (error)
 
 data JsonRequest =
   JsonRequest {username :: String
@@ -65,11 +65,13 @@ loginRequest c =
   parseUrlThrow "https://identitysso.betfair.com/api/login"
 
 sessionToken
-  :: Config -> RWST r Log Manager IO (Either (Either String BettingException) Token)
+  :: Config
+  -> RWST r Log Manager IO (Either (Either String BettingException) Token)
 sessionToken c = fmap parseLogin . getResponseBody =<< lift (loginRequest c)
 
 parseLogin
-  :: Either (Either String BettingException) Login -> Either (Either String BettingException) Token
+  :: Either (Either String BettingException) Login
+  -> Either (Either String BettingException) Token
 parseLogin (Left e) = Left e
 parseLogin (Right l) =
   maybeToEither

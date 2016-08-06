@@ -12,12 +12,12 @@ import Data.Aeson
 import Data.Aeson.TH
 import Network.Betfair.Requests.GetResponse
 import Network.Betfair.Requests.Headers
-import Network.Betfair.Requests.WriterLog   (Log)
+import Network.Betfair.Requests.WriterLog     (Log)
 import Network.Betfair.Types.AppKey
-import Network.Betfair.Types.Token          (Token)
 import Network.Betfair.Types.BettingException
+import Network.Betfair.Types.Token            (Token)
 import Network.HTTP.Conduit
-import Prelude                              hiding (error)
+import Prelude                                hiding (error)
 
 data Logout =
   Logout {token   :: Token

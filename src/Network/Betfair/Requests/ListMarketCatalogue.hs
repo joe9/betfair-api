@@ -27,6 +27,7 @@ import           Network.Betfair.Requests.GetResponse          (getResponseBody,
                                                                 getResponseBodyString)
 import           Network.Betfair.Requests.WriterLog            (Log, groomedLog)
 import           Network.Betfair.Types.AppKey                  (AppKey)
+import           Network.Betfair.Types.BettingException
 import           Network.Betfair.Types.MarketBettingType       (MarketBettingType)
 import           Network.Betfair.Types.MarketCatalogue         (MarketCatalogue)
 import           Network.Betfair.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
@@ -34,7 +35,6 @@ import           Network.Betfair.Types.MarketProjection        (MarketProjection
 import           Network.Betfair.Types.MarketSort              (MarketSort)
 import           Network.Betfair.Types.ResponseMarketCatalogue (Response (result))
 import           Network.Betfair.Types.Token                   (Token)
-import Network.Betfair.Types.BettingException
 import           Network.HTTP.Conduit                          (Manager)
 import           Prelude                                       hiding
                                                                 (Monad,

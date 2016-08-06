@@ -15,7 +15,7 @@ data APINGException =
   APINGException {errorDetails :: String
                  ,errorCode    :: String
                  ,requestUUID  :: String}
-  deriving ((Eq))
+  deriving (((Eq)))
 
 deriveDefault ''APINGException
 

@@ -25,13 +25,13 @@ import           Network.Betfair.Requests.GetResponse     (getResponseBody,
 import           Network.Betfair.Requests.WriterLog       (Log,
                                                            groomedLog)
 import           Network.Betfair.Types.AppKey             (AppKey)
+import           Network.Betfair.Types.BettingException
 import           Network.Betfair.Types.MarketBook         (MarketBook)
 import           Network.Betfair.Types.MatchProjection    (MatchProjection)
 import           Network.Betfair.Types.OrderProjection    (OrderProjection)
 import           Network.Betfair.Types.PriceData          (PriceData)
 import           Network.Betfair.Types.PriceProjection    (PriceProjection (priceData))
 import           Network.Betfair.Types.ResponseMarketBook
-import Network.Betfair.Types.BettingException
 import           Network.Betfair.Types.Token              (Token)
 import           Network.HTTP.Conduit                     (Manager)
 

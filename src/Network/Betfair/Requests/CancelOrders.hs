@@ -24,11 +24,11 @@ import           Network.Betfair.Requests.GetResponse        (getResponseBody,
                                                               getResponseBodyString)
 import           Network.Betfair.Requests.WriterLog          (Log, groomedLog)
 import           Network.Betfair.Types.AppKey                (AppKey)
+import           Network.Betfair.Types.BettingException
 import           Network.Betfair.Types.CancelExecutionReport (CancelExecutionReport)
 import           Network.Betfair.Types.CancelInstruction     (CancelInstruction)
 import           Network.Betfair.Types.ResponseCancelOrders  (Response (result))
 import           Network.Betfair.Types.Token                 (Token)
-import Network.Betfair.Types.BettingException
 import           Network.HTTP.Conduit                        (Manager)
 
 data JsonRequest =

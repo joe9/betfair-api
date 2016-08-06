@@ -16,7 +16,7 @@ data Error =
   Error {code      :: Integer
         ,message   :: String
         ,errorData :: Maybe ErrorData}
-  deriving ((Eq))
+  deriving (((Eq)))
 
 deriveDefault ''Error
 
