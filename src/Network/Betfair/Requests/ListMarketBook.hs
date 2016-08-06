@@ -13,7 +13,7 @@ module Network.Betfair.Requests.ListMarketBook
   ,JsonRequest(..))
   where
 
-import Control.Monad.RWS (RWST)
+import Control.Monad.RWS
 import qualified Data.Aeson as A (encode)
 import Data.Aeson.TH
        (Options(omitNothingFields), defaultOptions, deriveJSON)
@@ -32,6 +32,8 @@ import Network.Betfair.Types.PriceData (PriceData)
 import Network.Betfair.Types.PriceProjection
        (PriceProjection(priceData))
 import Network.Betfair.Types.Token (Token)
+import Network.Betfair.Types.ResponseMarketBook
+
 
 data JsonRequest =
   JsonRequest {jsonrpc :: String
@@ -73,9 +75,9 @@ listMarketBook
   -> RWST (AppKey,Token) Log Manager IO (Either String [MarketBook])
 listMarketBook jp =
   do groomedLog =<<
-  getResponseBody =<<
-  (\r -> groomedLog (jsonRequest jp) >> return r) =<<
-  apiRequest (A.encode $ jsonRequest jp)
+        fmap (either Left (Right . result)) . getResponseBody =<<
+        (\r -> groomedLog (jsonRequest jp) >> return r) =<<
+        apiRequest (A.encode $ jsonRequest jp)
 
 type MarketId = String
 marketBook

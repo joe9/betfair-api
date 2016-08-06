@@ -12,7 +12,7 @@ module Network.Betfair.Requests.PlaceOrders
    , JsonRequest(..)
    ) where
 
-import           Control.Monad.RWS                          (RWST)
+import           Control.Monad.RWS
 import qualified Data.Aeson                                 as A (encode)
 import           Data.Aeson.TH                              (Options (omitNothingFields), defaultOptions, deriveJSON)
 import           Data.Default                               (Default (..))
@@ -24,6 +24,7 @@ import           Network.Betfair.Requests.GetResponse       (getResponseBody, ge
 import           Network.Betfair.Requests.WriterLog         (Log, groomedLog)
 import           Network.Betfair.Types.AppKey               (AppKey)
 import           Network.Betfair.Types.PlaceExecutionReport (PlaceExecutionReport)
+import           Network.Betfair.Types.ResponsePlaceOrders (Response(result))
 import           Network.Betfair.Types.PlaceInstruction     (PlaceInstruction)
 import           Network.Betfair.Types.Token                (Token)
 
@@ -60,9 +61,9 @@ jsonRequest jp = def {params = Just jp}
 placeOrderWithParams :: JsonParameters
                      -> RWST (AppKey,Token) Log Manager IO (Either String PlaceExecutionReport)
 placeOrderWithParams jp =
- apiRequest (A.encode $ jsonRequest jp)
-    >>= getResponseBody
-    >>= groomedLog
+    groomedLog
+    =<< fmap (either Left (Right . result)) . getResponseBody =<<
+    apiRequest (A.encode $ jsonRequest jp)
 
 type CustomerRef = String
 type MarketId = String

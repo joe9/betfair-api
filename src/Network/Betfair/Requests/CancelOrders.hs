@@ -24,6 +24,7 @@ import Network.Betfair.Requests.APIRequest         (apiRequest)
 import Network.Betfair.Requests.GetResponse        (getResponseBody, getResponseBodyString)
 import Network.Betfair.Requests.WriterLog          (Log, groomedLog)
 import Network.Betfair.Types.AppKey                (AppKey)
+import           Network.Betfair.Types.ResponseCancelOrders  (Response (result))
 import Network.Betfair.Types.CancelExecutionReport (CancelExecutionReport)
 import Network.Betfair.Types.CancelInstruction     (CancelInstruction)
 import Network.Betfair.Types.Token                 (Token)
@@ -64,7 +65,7 @@ cancelOrderWithParams
   :: JsonParameters
   -> RWST (AppKey,Token) Log Manager IO (Either String CancelExecutionReport)
 cancelOrderWithParams jp =
-  apiRequest (A.encode $ jsonRequest jp) >>= getResponseBody >>= groomedLog
+  groomedLog =<< fmap (either Left (Right . result)) . getResponseBody =<< apiRequest (A.encode $ jsonRequest jp)
 
 type CustomerRef = String
 type MarketId = String

@@ -31,6 +31,7 @@ import Network.Betfair.Requests.WriterLog      (Log, groomedLog)
 import Network.Betfair.Types.AppKey            (AppKey)
 import Network.Betfair.Types.MarketBettingType (MarketBettingType)
 import Network.Betfair.Types.MarketCatalogue   (MarketCatalogue)
+import Network.Betfair.Types.ResponseMarketCatalogue   (Response(result))
 import Network.Betfair.Types.MarketFilter      (MarketFilter (marketBettingTypes, marketIds))
 import Network.Betfair.Types.MarketProjection  (MarketProjection (..))
 import Network.Betfair.Types.MarketSort        (MarketSort)
@@ -99,7 +100,7 @@ listMarketCatalogue
   -> RWST (AppKey,Token) Log Manager IO (Either String [MarketCatalogue])
 listMarketCatalogue jp =
   groomedLog =<<
-  getResponseBody =<<
+  fmap (either Left (Right . result)) . getResponseBody =<<
   (\r -> groomedLog (jsonRequest jp) >> return r) =<<
   apiRequest (A.encode $ jsonRequest jp)
 
