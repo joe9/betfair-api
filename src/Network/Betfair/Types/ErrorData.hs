@@ -16,7 +16,7 @@ import Network.Betfair.Types.APINGException (APINGException)
 data ErrorData =
   ErrorData {exceptionname  :: String
             ,aPINGException :: APINGException}
-  deriving (Eq,Show)
+  deriving (Eq,Read,Show)
 
 deriveDefault ''ErrorData
 
