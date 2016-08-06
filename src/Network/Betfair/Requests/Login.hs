@@ -20,6 +20,7 @@ import           Network.Betfair.Requests.GetResponse
 import           Network.Betfair.Requests.Headers     (headers)
 import           Network.Betfair.Requests.WriterLog   (Log)
 import           Network.Betfair.Types.Token          (Token)
+import Network.Betfair.Types.BettingException hiding (error)
 import           Network.HTTP.Conduit
 import           Prelude                              hiding (error)
 
@@ -64,15 +65,15 @@ loginRequest c =
   parseUrlThrow "https://identitysso.betfair.com/api/login"
 
 sessionToken
-  :: Config -> RWST r Log Manager IO (Either String Token)
+  :: Config -> RWST r Log Manager IO (Either (Either String BettingException) Token)
 sessionToken c = fmap parseLogin . getResponseBody =<< lift (loginRequest c)
 
 parseLogin
-  :: Either String Login -> Either String Token
+  :: Either (Either String BettingException) Login -> Either (Either String BettingException) Token
 parseLogin (Left e) = Left e
 parseLogin (Right l) =
   maybeToEither
-    (show l {errorDescription = (lookup (error l) loginExceptionCodes)})
+    (Left (show l {errorDescription = (lookup (error l) loginExceptionCodes)}))
     (token l)
 
 login

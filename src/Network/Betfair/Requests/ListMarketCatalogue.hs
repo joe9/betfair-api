@@ -34,6 +34,7 @@ import           Network.Betfair.Types.MarketProjection        (MarketProjection
 import           Network.Betfair.Types.MarketSort              (MarketSort)
 import           Network.Betfair.Types.ResponseMarketCatalogue (Response (result))
 import           Network.Betfair.Types.Token                   (Token)
+import Network.Betfair.Types.BettingException
 import           Network.HTTP.Conduit                          (Manager)
 import           Prelude                                       hiding
                                                                 (Monad,
@@ -99,12 +100,12 @@ marketIdJsonRequest mktid = def {filter = def {marketIds = Just [mktid]}}
 
 marketCatalogue
   :: MarketId
-  -> RWST (AppKey,Token) Log Manager IO (Either String [MarketCatalogue])
+  -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) [MarketCatalogue])
 marketCatalogue mktid = listMarketCatalogue (marketIdJsonRequest mktid)
 
 listMarketCatalogue
   :: JsonParameters
-  -> RWST (AppKey,Token) Log Manager IO (Either String [MarketCatalogue])
+  -> RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) [MarketCatalogue])
 listMarketCatalogue jp =
   groomedLog =<<
   fmap (either Left (Right . result)) . getResponseBody =<<

@@ -70,20 +70,19 @@ getResponseBodyString req =
 
 getResponseBody
   :: FromJSON a
-  => Request -> RWST r Log Manager IO (Either String a)
+  => Request
+  -> RWST r Log Manager IO (Either (Either String BettingException) a)
 getResponseBody b =
   fmap (eitherDecodeAlsoCheckForBettingException . responseBody)
        (getResponse b)
 
 eitherDecodeAlsoCheckForBettingException
   :: FromJSON a
-  => L.ByteString -> Either String a
+  => L.ByteString -> Either (Either String BettingException) a
 eitherDecodeAlsoCheckForBettingException b =
   case eitherDecode b of
     Left e ->
       case eitherDecode b :: Either String BettingException of
-        Left eb ->
-          Left (e ++
-                "\n, error when tried to parse as BettingException: " ++ eb)
-        Right v -> Left (show v)
+        Left _  -> Left (Left e)
+        Right v -> Left (Right v)
     Right a -> Right a

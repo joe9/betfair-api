@@ -15,6 +15,7 @@ import Network.Betfair.Requests.Headers
 import Network.Betfair.Requests.WriterLog   (Log)
 import Network.Betfair.Types.AppKey
 import Network.Betfair.Types.Token          (Token)
+import Network.Betfair.Types.BettingException
 import Network.HTTP.Conduit
 import Prelude                              hiding (error)
 
@@ -57,5 +58,5 @@ logoutRequest =
   ask
 
 logout
-  :: RWST (AppKey,Token) Log Manager IO (Either String Logout)
+  :: RWST (AppKey,Token) Log Manager IO (Either (Either String BettingException) Logout)
 logout = getResponseBody =<< logoutRequest
