@@ -3,7 +3,7 @@
 
 module Network.Betfair.Requests.Context
   (Context(..)
-  ,defaultContext)
+  ,initializeContext)
   where
 
 import BasicPrelude
@@ -17,14 +17,14 @@ data Context =
           ,cToken   :: Token
           ,cLogger  :: Text -> IO ()}
 
-defaultContext
+initializeContext
   :: Manager -> Maybe (Text -> IO ()) -> Context
-defaultContext mgr Nothing =
+initializeContext mgr Nothing =
   Context {cAppKey = ""
           ,cToken = ""
           ,cManager = mgr
           ,cLogger = print}
-defaultContext mgr (Just f) =
+initializeContext mgr (Just f) =
   Context {cAppKey = ""
           ,cToken = ""
           ,cManager = mgr
