@@ -73,6 +73,7 @@ library
                    Network.Betfair.Types.Token
                    Network.Betfair.Requests.APIRequest
                    Network.Betfair.Requests.CancelOrders
+                   Network.Betfair.Requests.Context
                    Network.Betfair.Requests.GetResponse
                    Network.Betfair.Requests.Headers
                    Network.Betfair.Requests.ListMarketBook
