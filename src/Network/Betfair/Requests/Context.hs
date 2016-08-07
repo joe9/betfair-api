@@ -18,14 +18,14 @@ data Context =
           ,cLogger  :: Text -> IO ()}
 
 initializeContext
-  :: Manager -> Maybe (Text -> IO ()) -> Context
-initializeContext mgr Nothing =
-  Context {cAppKey = ""
+  :: Manager -> AppKey -> Maybe (Text -> IO ()) -> Context
+initializeContext mgr a Nothing =
+  Context {cAppKey = a
           ,cToken = ""
           ,cManager = mgr
           ,cLogger = print}
-initializeContext mgr (Just f) =
-  Context {cAppKey = ""
+initializeContext mgr a (Just f) =
+  Context {cAppKey = a
           ,cToken = ""
           ,cManager = mgr
           ,cLogger = f}
