@@ -15,7 +15,7 @@ import Network.HTTP.Conduit
 import Network.Betfair.Requests.Context
 import Network.Betfair.Requests.GetResponse
 import Network.Betfair.Requests.Headers
-import Network.Betfair.Types.BettingException
+import Network.Betfair.Requests.ResponseException
 import Network.Betfair.Types.Token            (Token)
 
 data Logout =
@@ -53,5 +53,5 @@ logoutRequest c =
    parseUrlThrow) "https://identitysso.betfair.com/api/logout"
 
 logout
-  :: Context -> IO (Either (Either Text BettingException) Logout)
+  :: Context -> IO (Either ResponseException Logout)
 logout c = getDecodedResponse c =<< logoutRequest c

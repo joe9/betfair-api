@@ -7,7 +7,7 @@ module Network.Betfair.Requests.GetResponse
   ,getResponseBodyText)
   where
 
-import BasicPrelude hiding (try)
+import BasicPrelude hiding (try, throwIO)
 import Data.Aeson
 import qualified Data.ByteString.Lazy as L (ByteString)
 import Data.String.Conversions
@@ -18,7 +18,8 @@ import Network.HTTP.Conduit
 
 import Network.Betfair.Requests.Context
 import Network.Betfair.Requests.WriterLog
-import Network.Betfair.Types.BettingException (BettingException (..))
+import qualified Network.Betfair.Types.BettingException as BE
+import Network.Betfair.Requests.ResponseException
 
 tryRequestAgain :: Context -> Request
                 -> HttpException
@@ -63,18 +64,18 @@ getResponseBodyText c req =
 
 getDecodedResponse
   :: FromJSON a
-  => Context -> Request -> IO (Either (Either Text BettingException) a)
+  => Context -> Request -> IO (Either ResponseException a)
 getDecodedResponse c b =
   fmap (eitherDecodeAlsoCheckForBettingException . responseBody)
        (getResponse c b)
 
 eitherDecodeAlsoCheckForBettingException
   :: FromJSON a
-  => L.ByteString -> Either (Either Text BettingException) a
+  => L.ByteString -> Either ResponseException a
 eitherDecodeAlsoCheckForBettingException b =
   case eitherDecode b of
     Left e ->
-      case eitherDecode b :: Either String BettingException of
-        Left _  -> (Left . Left . show) e
-        Right v -> Left (Right v)
+      case eitherDecode b :: Either String BE.BettingException of
+        Left _  -> (Left . ParserError . cs) e
+        Right v -> (Left . BettingException) v
     Right a -> Right a

@@ -23,7 +23,7 @@ import Network.Betfair.Requests.APIRequest           (apiRequest)
 import Network.Betfair.Requests.Context
 import Network.Betfair.Requests.GetResponse          (getDecodedResponse)
 import Network.Betfair.Requests.WriterLog            (groomedLog)
-import Network.Betfair.Types.BettingException
+import Network.Betfair.Requests.ResponseException
 import Network.Betfair.Types.MarketBettingType       (MarketBettingType)
 import Network.Betfair.Types.MarketCatalogue         (MarketCatalogue)
 import Network.Betfair.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
@@ -89,7 +89,7 @@ marketIdJsonRequest mktid = def {filter = def {marketIds = Just [mktid]}}
 marketCatalogue
   :: Context
   -> MarketId
-  -> IO (Either (Either Text BettingException) [MarketCatalogue])
+  -> IO (Either ResponseException [MarketCatalogue])
 marketCatalogue c mktid =
   listMarketCatalogue c
                       (marketIdJsonRequest mktid)
@@ -97,7 +97,7 @@ marketCatalogue c mktid =
 listMarketCatalogue
   :: Context
   -> JsonParameters
-  -> IO (Either (Either Text BettingException) [MarketCatalogue])
+  -> IO (Either ResponseException [MarketCatalogue])
 listMarketCatalogue c jp =
   groomedLog c =<<
   fmap (either Left (Right . result)) . getDecodedResponse c =<<

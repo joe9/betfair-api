@@ -23,7 +23,7 @@ import           Network.Betfair.Requests.APIRequest        (apiRequest)
 import           Network.Betfair.Requests.GetResponse       (getDecodedResponse)
 import           Network.Betfair.Requests.WriterLog         (groomedLog)
 import           Network.Betfair.Requests.Context
-import           Network.Betfair.Types.BettingException
+import Network.Betfair.Requests.ResponseException
 import           Network.Betfair.Types.PlaceExecutionReport (PlaceExecutionReport)
 import           Network.Betfair.Types.PlaceInstruction     (PlaceInstruction)
 import           Network.Betfair.Types.ResponsePlaceOrders  (Response (result))
@@ -65,7 +65,7 @@ jsonRequest jp = def {params = Just jp}
 
 placeOrderWithParams
   :: Context -> JsonParameters
-  -> IO (Either (Either Text BettingException) PlaceExecutionReport)
+  -> IO (Either ResponseException PlaceExecutionReport)
 placeOrderWithParams c jp =
   groomedLog c =<<
   fmap (either Left (Right . result)) . getDecodedResponse c =<<
@@ -79,7 +79,7 @@ placeOrder
   :: Context -> MarketId
   -> PlaceInstruction
   -> CustomerRef
-  -> IO (Either (Either Text BettingException) PlaceExecutionReport)
+  -> IO (Either ResponseException PlaceExecutionReport)
 placeOrder c mktid pin cref =
   groomedLog c
     (JsonParameters mktid

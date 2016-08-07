@@ -23,7 +23,7 @@ import Network.Betfair.Requests.APIRequest      (apiRequest)
 import Network.Betfair.Requests.Context
 import Network.Betfair.Requests.GetResponse     (getDecodedResponse)
 import Network.Betfair.Requests.WriterLog
-import Network.Betfair.Types.BettingException
+import Network.Betfair.Requests.ResponseException
 import Network.Betfair.Types.MarketBook         (MarketBook)
 import Network.Betfair.Types.MatchProjection    (MatchProjection)
 import Network.Betfair.Types.OrderProjection    (OrderProjection)
@@ -70,7 +70,7 @@ jsonRequest jp = def {params = Just jp}
 listMarketBook
   :: Context
   -> JsonParameters
-  -> IO (Either (Either Text BettingException) [MarketBook])
+  -> IO (Either ResponseException [MarketBook])
 listMarketBook c jp =
   do groomedLog c =<<
        fmap (either Left (Right . result)) . getDecodedResponse c =<<
@@ -87,7 +87,7 @@ marketBook
   :: Context
   -> MarketId
   -> [PriceData]
-  -> IO (Either (Either Text BettingException) [MarketBook])
+  -> IO (Either ResponseException [MarketBook])
 marketBook c mktid pd =
   listMarketBook
     c
@@ -98,7 +98,7 @@ marketBooks
   :: Context
   -> [MarketId]
   -> [PriceData]
-  -> IO (Either (Either Text BettingException) [MarketBook])
+  -> IO (Either ResponseException [MarketBook])
 marketBooks c mktids pd =
   listMarketBook
     c

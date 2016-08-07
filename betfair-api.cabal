@@ -76,13 +76,14 @@ library
                    Network.Betfair.Requests.Context
                    Network.Betfair.Requests.GetResponse
                    Network.Betfair.Requests.Headers
+                   Network.Betfair.Requests.KeepAlive
                    Network.Betfair.Requests.ListMarketBook
                    Network.Betfair.Requests.ListMarketCatalogue
                    Network.Betfair.Requests.Login
                    Network.Betfair.Requests.Logout
                    Network.Betfair.Requests.PlaceOrders
+                   Network.Betfair.Requests.ResponseException
                    Network.Betfair.Requests.WriterLog
-                   Network.Betfair.Requests.KeepAlive
   default-extensions:  NoImplicitPrelude
   other-extensions:    DeriveDataTypeable
                      , FlexibleContexts

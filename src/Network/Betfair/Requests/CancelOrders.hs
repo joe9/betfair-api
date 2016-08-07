@@ -22,7 +22,7 @@ import Network.Betfair.Requests.APIRequest         (apiRequest)
 import Network.Betfair.Requests.Context
 import Network.Betfair.Requests.GetResponse        (getDecodedResponse)
 import Network.Betfair.Requests.WriterLog          (groomedLog)
-import Network.Betfair.Types.BettingException
+import Network.Betfair.Requests.ResponseException
 import Network.Betfair.Types.CancelExecutionReport (CancelExecutionReport)
 import Network.Betfair.Types.CancelInstruction     (CancelInstruction)
 import Network.Betfair.Types.ResponseCancelOrders  (Response (result))
@@ -65,7 +65,7 @@ jsonRequest jp = def {params = Just jp}
 cancelOrderWithParams
   :: Context
   -> JsonParameters
-  -> IO (Either (Either Text BettingException) CancelExecutionReport)
+  -> IO (Either ResponseException CancelExecutionReport)
 cancelOrderWithParams c jp =
   groomedLog c =<<
   fmap (either Left (Right . result)) . getDecodedResponse c =<<
@@ -81,7 +81,7 @@ cancelOrder
   -> MarketId
   -> CancelInstruction
   -> CustomerRef
-  -> IO (Either (Either Text BettingException) CancelExecutionReport)
+  -> IO (Either ResponseException CancelExecutionReport)
 cancelOrder c mktid pin cref =
   groomedLog
     c
