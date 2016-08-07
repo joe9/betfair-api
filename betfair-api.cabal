@@ -73,7 +73,6 @@ library
                    Network.Betfair.Types.Token
                    Network.Betfair.Requests.APIRequest
                    Network.Betfair.Requests.CancelOrders
-                   Network.Betfair.Requests.Config
                    Network.Betfair.Requests.GetResponse
                    Network.Betfair.Requests.Headers
                    Network.Betfair.Requests.ListMarketBook
@@ -90,28 +89,17 @@ library
                      , UndecidableInstances
                      , OverloadedStrings
   build-depends:       base
-                     , mtl
-                     , json
                      , data-default
-                     , time
-                     , iso8601-time
                      , aeson
                      , bytestring
-                     , safe
-                     , utf8-string
                      , http-conduit
-                     , case-insensitive
                      , http-types
-                     , connection
                      , template-default
                      , groom
-                     , old-locale
                      , MissingH
-                     , safe-exceptions
                      , basic-prelude
                      , string-conversions
                      , text
-                     , either
   ghc-options:         -Wall
   hs-source-dirs:      src
   default-language:    Haskell2010
