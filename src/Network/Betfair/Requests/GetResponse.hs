@@ -7,10 +7,11 @@ module Network.Betfair.Requests.GetResponse
   ,getResponseBodyText)
   where
 
-import BasicPrelude
+import BasicPrelude hiding (try)
 import Data.Aeson
 import qualified Data.ByteString.Lazy as L (ByteString)
 import Data.String.Conversions
+import Control.Exception.Safe
 import Network.HTTP.Conduit
        (HttpException(..), HttpExceptionContent(..), Request,
         Response(responseBody), Response(), httpLbs)
