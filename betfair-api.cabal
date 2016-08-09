@@ -1,5 +1,5 @@
 name:                betfair-api
-version:             0.1.1.0
+version:             0.2.1.0
 synopsis:            betfair api-ng bindings
 description:         betfair api-ng bindings
 license:             MIT
