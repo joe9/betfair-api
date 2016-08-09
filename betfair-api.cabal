@@ -37,6 +37,7 @@ library
                    Network.Betfair.Types.InstructionReportStatus
                    Network.Betfair.Types.LimitOnCloseOrder
                    Network.Betfair.Types.LimitOrder
+                   Network.Betfair.Types.Login
                    Network.Betfair.Types.MarketBettingType
                    Network.Betfair.Types.MarketBook
                    Network.Betfair.Types.MarketCatalogue
@@ -95,6 +96,7 @@ library
                      , aeson
                      , bytestring
                      , http-conduit
+                     , http-client >= 0.5.0
                      , http-types
                      , template-default
                      , groom
