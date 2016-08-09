@@ -12,8 +12,9 @@ module Network.Betfair.Requests.WriterLog
 import BasicPrelude
 import Data.String.Conversions
 import Data.Text
-import Network.Betfair.Requests.Context
 import Text.Groom                       (groom)
+
+import Network.Betfair.Requests.Context
 
 type Log = Text
 
