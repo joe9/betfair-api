@@ -13,7 +13,7 @@ import           Data.Aeson.TH
 import Network.Betfair.Types.Token            (Token)
 
 data Login =
-  Login {token            :: Maybe Token
+  Login {token            :: Token
         ,product          :: Text
         ,status           :: Status
         ,error            :: Text

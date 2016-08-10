@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall  #-}
 
 module Network.Betfair.Requests.WriterLog
   (Log
@@ -11,15 +11,15 @@ module Network.Betfair.Requests.WriterLog
 
 import BasicPrelude
 import Data.String.Conversions
-import Data.Text
-import Text.Groom                       (groom)
-
+-- import Data.Text
+import Text.Groom (groom)
+--
 import Network.Betfair.Requests.Context
 
 type Log = Text
 
 toLog :: Context -> Text -> IO ()
-toLog c = (cLogger c) . (flip (<>) (singleton '\n'))
+toLog c = cLogger c
 
 groomedLog :: Show a
            => Context -> a -> IO a

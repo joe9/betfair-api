@@ -4,53 +4,54 @@
 
 module Network.Betfair.Requests.Login
   (sessionToken
-  ,login
-  ,JsonRequest(..))
+  ,login)
   where
 
-import           BasicPrelude         hiding (error)
-import           Data.Aeson
-import           Data.Aeson.TH
-import qualified Data.ByteString.Lazy as L (ByteString)
-import           Data.Either.Utils
+import           BasicPrelude            hiding (error, null)
+import qualified Data.ByteString.Lazy    as L (ByteString)
+import           Data.String.Conversions
+import           Data.Text
 import           Network.HTTP.Conduit
-
+--
 import Network.Betfair.Requests.Context
 import Network.Betfair.Requests.GetResponse
 import Network.Betfair.Requests.Headers           (headers)
 import Network.Betfair.Requests.ResponseException
+import Network.Betfair.Types.AppKey               (AppKey)
 import Network.Betfair.Types.Login
 import Network.Betfair.Types.Token                (Token)
 
-data JsonRequest =
-  JsonRequest {username :: Text
-              ,password :: Text}
-  deriving (Eq,Show)
+-- http://stackoverflow.com/questions/3232074/what-is-the-best-way-to-convert-string-to-bytestring
+encodeBody
+  :: AppKey -> Text -> Text -> Request -> Request
+encodeBody appKey username password req =
+  urlEncodedBody [("username",cs username),("password",cs password)]
+                 req {requestHeaders = headers appKey Nothing}
 
-$(deriveJSON defaultOptions {omitNothingFields = True}
-             ''JsonRequest)
-
+-- Note that loginRequest uses a url encoded body unlike other
+--   requests (which are json objects)
 loginRequest
   :: Context -> Text -> Text -> IO Request
-loginRequest c u p =
-  fmap (\req ->
-          req {requestHeaders = headers (cAppKey c) Nothing
-              ,method = "POST"
-              ,requestBody = RequestBodyLBS (encode (JsonRequest u p))}) $
-  parseUrlThrow "https://identitysso.betfair.com/api/login"
+loginRequest context username password =
+  fmap (encodeBody (cAppKey context)
+                   username
+                   password)
+       (parseUrlThrow "https://identitysso.betfair.com/api/login")
 
 sessionToken
   :: Context -> Text -> Text -> IO (Either ResponseException Token)
-sessionToken c u p =
-  fmap parseLogin . getDecodedResponse c =<< loginRequest c u p
+sessionToken context username password =
+  fmap parseLogin . getDecodedResponse context =<<
+  loginRequest context username password
 
 parseLogin
   :: Either ResponseException Login -> Either ResponseException Token
 parseLogin (Left e) = Left e
-parseLogin (Right l) =
-  maybeToEither
-    (LoginError (l {errorDescription = (lookup (error l) loginExceptionCodes)}))
-    (token l)
+parseLogin (Right l)
+  | null (token l) =
+    Left (LoginError
+            (l {errorDescription = (lookup (error l) loginExceptionCodes)}))
+  | otherwise = Right (token l)
 
 login
   :: Context -> Text -> Text -> IO (Response L.ByteString)
