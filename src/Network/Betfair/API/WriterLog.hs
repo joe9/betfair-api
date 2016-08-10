@@ -2,7 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall  #-}
 
-module Network.Betfair.Requests.WriterLog
+module Network.Betfair.API.WriterLog
   (Log
   ,toLog
   ,groomedLog
@@ -14,7 +14,7 @@ import Data.String.Conversions
 -- import Data.Text
 import Text.Groom (groom)
 --
-import Network.Betfair.Requests.Context
+import Network.Betfair.API.Context
 
 type Log = Text
 

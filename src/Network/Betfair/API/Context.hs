@@ -1,7 +1,7 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Network.Betfair.Requests.Context
+module Network.Betfair.API.Context
   (Context(..)
   ,initializeContext)
   where

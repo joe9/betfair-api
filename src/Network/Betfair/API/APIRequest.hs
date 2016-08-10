@@ -1,7 +1,7 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Network.Betfair.Requests.APIRequest
+module Network.Betfair.API.APIRequest
   (apiRequest
   ,apiRequestString)
   where
@@ -14,8 +14,8 @@ import           Network.HTTP.Conduit             (Request (method, requestBody,
                                                    parseUrlThrow)
 
 
-import           Network.Betfair.Requests.Context
-import           Network.Betfair.Requests.Headers (headers)
+import           Network.Betfair.API.Context
+import           Network.Betfair.API.Headers (headers)
 
 apiRequest
   :: Context -> L.ByteString -> IO Request

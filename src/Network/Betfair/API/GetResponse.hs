@@ -1,7 +1,7 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Network.Betfair.Requests.GetResponse
+module Network.Betfair.API.GetResponse
   (getResponse
   ,getDecodedResponse
   ,getResponseBodyText)
@@ -16,10 +16,10 @@ import Network.HTTP.Conduit
        (HttpException(..), HttpExceptionContent(..), Request,
         Response(responseBody), Response(), httpLbs)
 
-import Network.Betfair.Requests.Context
-import Network.Betfair.Requests.WriterLog
+import Network.Betfair.API.Context
+import Network.Betfair.API.WriterLog
 import qualified Network.Betfair.Types.BettingException as BE
-import Network.Betfair.Requests.ResponseException
+import Network.Betfair.API.ResponseException
 
 tryRequestAgain :: Context -> Request
                 -> HttpException
@@ -29,7 +29,7 @@ tryRequestAgain c req e i
   | i > 9 = throwIO e
   | otherwise =
         groomedLog c
-            ("Network.Betfair.Requests.GetResponse.hs: HttpException - "
+            ("Network.Betfair.API.GetResponse.hs: HttpException - "
              <> show (e :: HttpException)
              <> " for " <> (show i) <> " attempts, Trying again") >>
               tryForResponse c req (i + 1)

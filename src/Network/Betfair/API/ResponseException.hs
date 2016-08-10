@@ -4,7 +4,7 @@
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
-module Network.Betfair.Requests.ResponseException
+module Network.Betfair.API.ResponseException
   (ResponseException(..))
   where
 

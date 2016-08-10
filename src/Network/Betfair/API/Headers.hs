@@ -1,7 +1,7 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Network.Betfair.Requests.Headers
+module Network.Betfair.API.Headers
   (headers)
   where
 
