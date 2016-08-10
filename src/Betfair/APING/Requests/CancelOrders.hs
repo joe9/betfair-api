@@ -18,11 +18,11 @@ import           Data.Aeson.TH (Options (omitNothingFields),
                                 defaultOptions, deriveJSON)
 import           Data.Default  (Default (..))
 
-import Betfair.APING.Requests.APIRequest         (apiRequest)
-import Betfair.APING.Requests.Context
-import Betfair.APING.Requests.GetResponse        (getDecodedResponse)
-import Betfair.APING.Requests.WriterLog          (groomedLog)
-import Betfair.APING.Requests.ResponseException
+import Betfair.APING.API.APIRequest         (apiRequest)
+import Betfair.APING.API.Context
+import Betfair.APING.API.GetResponse        (getDecodedResponse)
+import Betfair.APING.API.WriterLog          (groomedLog)
+import Betfair.APING.API.ResponseException
 import Betfair.APING.Types.CancelExecutionReport (CancelExecutionReport)
 import Betfair.APING.Types.CancelInstruction     (CancelInstruction)
 import Betfair.APING.Types.ResponseCancelOrders  (Response (result))

@@ -13,10 +13,10 @@ import           Data.String.Conversions
 import           Data.Text
 import           Network.HTTP.Conduit
 --
-import Betfair.APING.Requests.Context
-import Betfair.APING.Requests.GetResponse
-import Betfair.APING.Requests.Headers           (headers)
-import Betfair.APING.Requests.ResponseException
+import Betfair.APING.API.Context
+import Betfair.APING.API.GetResponse
+import Betfair.APING.API.Headers           (headers)
+import Betfair.APING.API.ResponseException
 import Betfair.APING.Types.AppKey               (AppKey)
 import Betfair.APING.Types.Login
 import Betfair.APING.Types.Token                (Token)

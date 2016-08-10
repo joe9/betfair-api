@@ -19,11 +19,11 @@ import           Data.Aeson.TH (Options (omitNothingFields),
                                 defaultOptions, deriveJSON)
 import           Data.Default  (Default (..))
 
-import Betfair.APING.Requests.APIRequest      (apiRequest)
-import Betfair.APING.Requests.Context
-import Betfair.APING.Requests.GetResponse     (getDecodedResponse)
-import Betfair.APING.Requests.WriterLog
-import Betfair.APING.Requests.ResponseException
+import Betfair.APING.API.APIRequest      (apiRequest)
+import Betfair.APING.API.Context
+import Betfair.APING.API.GetResponse     (getDecodedResponse)
+import Betfair.APING.API.WriterLog
+import Betfair.APING.API.ResponseException
 import Betfair.APING.Types.MarketBook         (MarketBook)
 import Betfair.APING.Types.MatchProjection    (MatchProjection)
 import Betfair.APING.Types.OrderProjection    (OrderProjection)

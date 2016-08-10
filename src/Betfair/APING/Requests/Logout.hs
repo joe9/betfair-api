@@ -12,10 +12,10 @@ import Data.Aeson
 import Data.Aeson.TH
 import Network.HTTP.Conduit
 
-import Betfair.APING.Requests.Context
-import Betfair.APING.Requests.GetResponse
-import Betfair.APING.Requests.Headers
-import Betfair.APING.Requests.ResponseException
+import Betfair.APING.API.Context
+import Betfair.APING.API.GetResponse
+import Betfair.APING.API.Headers
+import Betfair.APING.API.ResponseException
 import Betfair.APING.Types.Token            (Token)
 
 data Logout =
