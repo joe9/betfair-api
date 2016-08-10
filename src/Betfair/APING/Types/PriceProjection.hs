@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -11,18 +11,18 @@ module Betfair.APING.Types.PriceProjection
   where
 
 import BasicPrelude
-import Data.Aeson.TH                               (Options (omitNothingFields),
-                                                    defaultOptions,
-                                                    deriveJSON)
-import Data.Default                                (Default (..))
 import Betfair.APING.Types.ExBestOffersOverrides (ExBestOffersOverrides)
 import Betfair.APING.Types.PriceData             (PriceData (EX_ALL_OFFERS, EX_TRADED))
+import Data.Aeson.TH                             (Options (omitNothingFields),
+                                                  defaultOptions,
+                                                  deriveJSON)
+import Data.Default                              (Default (..))
 
 data PriceProjection =
-  PriceProjection {priceData             :: [PriceData]
+  PriceProjection {priceData :: [PriceData]
                   ,exBestOffersOverrides :: ExBestOffersOverrides
-                  ,virtualise            :: Bool
-                  ,rollOverStakes        :: Bool}
+                  ,virtualise :: Bool
+                  ,rollOverStakes :: Bool}
   deriving (Eq,Show)
 
 instance Default PriceProjection where

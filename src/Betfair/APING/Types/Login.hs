@@ -3,20 +3,21 @@
 {-# LANGUAGE TemplateHaskell   #-}
 
 module Betfair.APING.Types.Login
-  (Login(..),LoginExceptionCodes, loginExceptionCodes)
+  (Login(..)
+  ,LoginExceptionCodes
+  ,loginExceptionCodes)
   where
 
-import           BasicPrelude         hiding (error)
-import           Data.Aeson
-import           Data.Aeson.TH
-
-import Betfair.APING.Types.Token            (Token)
+import BasicPrelude              hiding (error)
+import Betfair.APING.Types.Token (Token)
+import Data.Aeson
+import Data.Aeson.TH
 
 data Login =
-  Login {token            :: Token
-        ,product          :: Text
-        ,status           :: Status
-        ,error            :: Text
+  Login {token :: Token
+        ,product :: Text
+        ,status :: Status
+        ,error :: Text
         ,errorDescription :: Maybe Text}
   deriving (Eq,Show)
 

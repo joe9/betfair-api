@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -10,13 +10,13 @@ module Betfair.APING.Types.PlaceInstructionReport
   where
 
 import BasicPrelude
-import Data.Aeson.TH                                    (Options (omitNothingFields),
-                                                         defaultOptions,
-                                                         deriveJSON)
-import Data.Default.TH                                  (deriveDefault)
 import Betfair.APING.Types.InstructionReportErrorCode (InstructionReportErrorCode)
 import Betfair.APING.Types.InstructionReportStatus    (InstructionReportStatus)
 import Betfair.APING.Types.PlaceInstruction           (PlaceInstruction)
+import Data.Aeson.TH                                  (Options (omitNothingFields),
+                                                       defaultOptions,
+                                                       deriveJSON)
+import Data.Default.TH                                (deriveDefault)
 
 -- type DateString = Text
 data PlaceInstructionReport =

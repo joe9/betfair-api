@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -10,13 +10,13 @@ module Betfair.APING.Types.PlaceExecutionReport
   where
 
 import BasicPrelude
-import Data.Aeson.TH                                  (Options (omitNothingFields),
-                                                       defaultOptions,
-                                                       deriveJSON)
-import Data.Default.TH                                (deriveDefault)
 import Betfair.APING.Types.ExecutionReportErrorCode (ExecutionReportErrorCode)
 import Betfair.APING.Types.ExecutionReportStatus    (ExecutionReportStatus)
 import Betfair.APING.Types.PlaceInstructionReport   (PlaceInstructionReport)
+import Data.Aeson.TH                                (Options (omitNothingFields),
+                                                     defaultOptions,
+                                                     deriveJSON)
+import Data.Default.TH                              (deriveDefault)
 
 data PlaceExecutionReport =
   PlaceExecutionReport {customerRef :: Maybe Text

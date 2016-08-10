@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -16,7 +16,7 @@ import Data.Default.TH (deriveDefault)
 
 data LimitOnCloseOrder =
   LimitOnCloseOrder {liability :: Double
-                    ,price     :: Double}
+                    ,price :: Double}
   deriving (Eq,Show)
 
 deriveDefault ''LimitOnCloseOrder

@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE TemplateHaskell   #-}
 
 module Betfair.APING.Types.ResponseMarketBook
@@ -8,14 +8,14 @@ module Betfair.APING.Types.ResponseMarketBook
   where
 
 import BasicPrelude
-import Data.Aeson.TH                    (Options (omitNothingFields),
-                                         defaultOptions, deriveJSON)
 import Betfair.APING.Types.MarketBook (MarketBook)
+import Data.Aeson.TH                  (Options (omitNothingFields),
+                                       defaultOptions, deriveJSON)
 
 data Response =
   Response {jsonrpc :: Text
-           ,result  :: [MarketBook]
-           ,id      :: Int}
+           ,result :: [MarketBook]
+           ,id :: Int}
   deriving (Eq,Show)
 
 $(deriveJSON defaultOptions {omitNothingFields = True}

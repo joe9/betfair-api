@@ -7,15 +7,13 @@ module Betfair.APING.API.APIRequest
   where
 
 import           BasicPrelude
-import qualified Data.ByteString.Lazy             as L
-import           Data.String.Conversions
-import           Network.HTTP.Conduit             (Request (method, requestBody, requestHeaders),
-                                                   RequestBody (RequestBodyLBS),
-                                                   parseUrlThrow)
-
-
 import           Betfair.APING.API.Context
 import           Betfair.APING.API.Headers (headers)
+import qualified Data.ByteString.Lazy      as L
+import           Data.String.Conversions
+import           Network.HTTP.Conduit      (Request (method, requestBody, requestHeaders),
+                                            RequestBody (RequestBodyLBS),
+                                            parseUrlThrow)
 
 apiRequest
   :: Context -> L.ByteString -> IO Request

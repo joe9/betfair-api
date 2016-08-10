@@ -13,25 +13,25 @@ module Betfair.APING.Requests.CancelOrders
   where
 
 import           BasicPrelude
-import qualified Data.Aeson    as A (encode)
-import           Data.Aeson.TH (Options (omitNothingFields),
-                                defaultOptions, deriveJSON)
-import           Data.Default  (Default (..))
-
-import Betfair.APING.API.APIRequest         (apiRequest)
-import Betfair.APING.API.Context
-import Betfair.APING.API.GetResponse        (getDecodedResponse)
-import Betfair.APING.API.WriterLog          (groomedLog)
-import Betfair.APING.API.ResponseException
-import Betfair.APING.Types.CancelExecutionReport (CancelExecutionReport)
-import Betfair.APING.Types.CancelInstruction     (CancelInstruction)
-import Betfair.APING.Types.ResponseCancelOrders  (Response (result))
+import           Betfair.APING.API.APIRequest              (apiRequest)
+import           Betfair.APING.API.Context
+import           Betfair.APING.API.GetResponse             (getDecodedResponse)
+import           Betfair.APING.API.ResponseException
+import           Betfair.APING.API.WriterLog               (groomedLog)
+import           Betfair.APING.Types.CancelExecutionReport (CancelExecutionReport)
+import           Betfair.APING.Types.CancelInstruction     (CancelInstruction)
+import           Betfair.APING.Types.ResponseCancelOrders  (Response (result))
+import qualified Data.Aeson                                as A (encode)
+import           Data.Aeson.TH                             (Options (omitNothingFields),
+                                                            defaultOptions,
+                                                            deriveJSON)
+import           Data.Default                              (Default (..))
 
 data JsonRequest =
   JsonRequest {jsonrpc :: Text
-              ,method  :: Text
-              ,params  :: Maybe JsonParameters
-              ,id      :: Int}
+              ,method :: Text
+              ,params :: Maybe JsonParameters
+              ,id :: Int}
   deriving (Eq,Show)
 
 instance Default JsonRequest where
@@ -42,9 +42,9 @@ instance Default JsonRequest where
                 1
 
 data JsonParameters =
-  JsonParameters {marketId     :: Text
+  JsonParameters {marketId :: Text
                  ,instructions :: [CancelInstruction]
-                 ,customerRef  :: Text}
+                 ,customerRef :: Text}
   deriving (Eq,Show)
 
 -- deriveDefault ''JsonParameters

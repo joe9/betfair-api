@@ -6,10 +6,10 @@ module Betfair.APING.API.Headers
   where
 
 import BasicPrelude
-import Data.String.Conversions
 import Betfair.APING.Types.AppKey (AppKey)
 import Betfair.APING.Types.Token  (Token)
-import Network.HTTP.Types.Header    (RequestHeaders)
+import Data.String.Conversions
+import Network.HTTP.Types.Header  (RequestHeaders)
 
 headers
   :: AppKey -> Maybe Token -> RequestHeaders

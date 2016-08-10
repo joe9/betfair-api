@@ -13,29 +13,30 @@ module Betfair.APING.Requests.ListMarketCatalogue
   ,JsonParameters(..))
   where
 
-import           BasicPrelude  hiding (filter)
-import qualified Data.Aeson    as A (encode)
-import           Data.Aeson.TH (Options (omitNothingFields),
-                                defaultOptions, deriveJSON)
-import           Data.Default  (Default (..))
-
-import Betfair.APING.API.APIRequest           (apiRequest)
-import Betfair.APING.API.Context
-import Betfair.APING.API.GetResponse          (getDecodedResponse)
-import Betfair.APING.API.WriterLog            (groomedLog)
-import Betfair.APING.API.ResponseException
-import Betfair.APING.Types.MarketBettingType       (MarketBettingType)
-import Betfair.APING.Types.MarketCatalogue         (MarketCatalogue)
-import Betfair.APING.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
-import Betfair.APING.Types.MarketProjection        (MarketProjection (..))
-import Betfair.APING.Types.MarketSort              (MarketSort)
-import Betfair.APING.Types.ResponseMarketCatalogue (Response (result))
+import           BasicPrelude                                hiding
+                                                              (filter)
+import           Betfair.APING.API.APIRequest                (apiRequest)
+import           Betfair.APING.API.Context
+import           Betfair.APING.API.GetResponse               (getDecodedResponse)
+import           Betfair.APING.API.ResponseException
+import           Betfair.APING.API.WriterLog                 (groomedLog)
+import           Betfair.APING.Types.MarketBettingType       (MarketBettingType)
+import           Betfair.APING.Types.MarketCatalogue         (MarketCatalogue)
+import           Betfair.APING.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
+import           Betfair.APING.Types.MarketProjection        (MarketProjection (..))
+import           Betfair.APING.Types.MarketSort              (MarketSort)
+import           Betfair.APING.Types.ResponseMarketCatalogue (Response (result))
+import qualified Data.Aeson                                  as A (encode)
+import           Data.Aeson.TH                               (Options (omitNothingFields),
+                                                              defaultOptions,
+                                                              deriveJSON)
+import           Data.Default                                (Default (..))
 
 data JsonRequest =
   JsonRequest {jsonrpc :: Text
-              ,method  :: Text
-              ,params  :: Maybe JsonParameters
-              ,id      :: Int}
+              ,method :: Text
+              ,params :: Maybe JsonParameters
+              ,id :: Int}
   deriving (Eq,Show)
 
 instance Default JsonRequest where
@@ -46,11 +47,11 @@ instance Default JsonRequest where
                 1
 
 data JsonParameters =
-  JsonParameters {filter           :: MarketFilter
+  JsonParameters {filter :: MarketFilter
                  ,marketProjection :: Maybe [MarketProjection]
-                 ,sort             :: MarketSort
-                 ,maxResults       :: Int
-                 ,locale           :: Maybe Text}
+                 ,sort :: MarketSort
+                 ,maxResults :: Int
+                 ,locale :: Maybe Text}
   deriving (Eq,Show)
 
 -- deriveDefault ''JsonParameters
@@ -87,9 +88,7 @@ marketIdJsonRequest :: MarketId -> JsonParameters
 marketIdJsonRequest mktid = def {filter = def {marketIds = Just [mktid]}}
 
 marketCatalogue
-  :: Context
-  -> MarketId
-  -> IO (Either ResponseException [MarketCatalogue])
+  :: Context -> MarketId -> IO (Either ResponseException [MarketCatalogue])
 marketCatalogue c mktid =
   listMarketCatalogue c
                       (marketIdJsonRequest mktid)

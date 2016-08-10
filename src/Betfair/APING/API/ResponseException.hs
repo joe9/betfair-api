@@ -9,7 +9,6 @@ module Betfair.APING.API.ResponseException
   where
 
 import BasicPrelude
-
 import Betfair.APING.Types.BettingException
 import Betfair.APING.Types.Login
 

@@ -6,7 +6,7 @@ module Betfair.APING
    -- API
    -- Context
    Context(..)
-  , initializeContext
+  ,initializeContext
   ,
    -- GetResponse
    getDecodedResponse

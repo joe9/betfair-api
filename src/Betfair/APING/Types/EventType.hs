@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -14,7 +14,7 @@ import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
                       deriveJSON)
 
 data EventType =
-  EventType {id   :: Text
+  EventType {id :: Text
             ,name :: Maybe Text}
   deriving (Eq,Show)
 

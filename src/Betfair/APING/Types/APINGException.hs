@@ -8,18 +8,18 @@ module Betfair.APING.Types.APINGException
   (APINGException(..))
   where
 
-import BasicPrelude hiding ( show)
-import qualified BasicPrelude as Prelude
-import Data.Aeson.TH           (Options (omitNothingFields),
-                                defaultOptions, deriveJSON)
-import Data.Default.TH         (deriveDefault)
-import Data.String.Conversions
-import qualified GHC.Show as Show
+import           BasicPrelude            hiding (show)
+import qualified BasicPrelude            as Prelude
+import           Data.Aeson.TH           (Options (omitNothingFields),
+                                          defaultOptions, deriveJSON)
+import           Data.Default.TH         (deriveDefault)
+import           Data.String.Conversions
+import qualified GHC.Show                as Show
 
 data APINGException =
   APINGException {errorDetails :: Text
-                 ,errorCode    :: Text
-                 ,requestUUID  :: Text}
+                 ,errorCode :: Text
+                 ,requestUUID :: Text}
   deriving (Eq,Read)
 
 deriveDefault ''APINGException

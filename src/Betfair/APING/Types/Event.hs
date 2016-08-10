@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -16,12 +16,12 @@ import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
 type DateString = Text
 
 data Event =
-  Event {id          :: Text
-        ,name        :: Maybe Text
+  Event {id :: Text
+        ,name :: Maybe Text
         ,countryCode :: Maybe Text
-        ,timezone    :: Maybe Text
-        ,venue       :: Maybe Text
-        ,openDate    :: Maybe DateString}
+        ,timezone :: Maybe Text
+        ,venue :: Maybe Text
+        ,openDate :: Maybe DateString}
   deriving (Eq,Show)
 
 -- deriveDefault ''Event

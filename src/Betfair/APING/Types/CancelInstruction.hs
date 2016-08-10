@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -15,7 +15,7 @@ import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
 import Data.Default.TH (deriveDefault)
 
 data CancelInstruction =
-  CancelInstruction {betId         :: Text
+  CancelInstruction {betId :: Text
                     ,sizeReduction :: Maybe Double}
   deriving (Eq,Show)
 

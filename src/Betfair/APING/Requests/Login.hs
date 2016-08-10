@@ -17,9 +17,9 @@ import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse
 import Betfair.APING.API.Headers           (headers)
 import Betfair.APING.API.ResponseException
-import Betfair.APING.Types.AppKey               (AppKey)
+import Betfair.APING.Types.AppKey          (AppKey)
 import Betfair.APING.Types.Login
-import Betfair.APING.Types.Token                (Token)
+import Betfair.APING.Types.Token           (Token)
 
 -- http://stackoverflow.com/questions/3232074/what-is-the-best-way-to-convert-string-to-bytestring
 encodeBody

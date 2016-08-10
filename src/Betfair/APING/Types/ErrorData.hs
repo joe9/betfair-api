@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -10,14 +10,13 @@ module Betfair.APING.Types.ErrorData
   where
 
 import BasicPrelude
-import Data.Aeson.TH                        (Options (fieldLabelModifier, omitNothingFields),
-                                             defaultOptions,
-                                             deriveJSON)
-import Data.Default.TH                      (deriveDefault)
 import Betfair.APING.Types.APINGException (APINGException)
+import Data.Aeson.TH                      (Options (fieldLabelModifier, omitNothingFields),
+                                           defaultOptions, deriveJSON)
+import Data.Default.TH                    (deriveDefault)
 
 data ErrorData =
-  ErrorData {exceptionname  :: Text
+  ErrorData {exceptionname :: Text
             ,aPINGException :: APINGException}
   deriving (Eq,Read,Show)
 
@@ -28,6 +27,6 @@ $(deriveJSON
     defaultOptions {omitNothingFields = True
                    ,fieldLabelModifier =
                       let f "aPINGException" = "APINGException"
-                          f other            = other
+                          f other = other
                       in f}
     ''ErrorData)

@@ -7,32 +7,41 @@ module Betfair.APING.API.GetResponse
   ,getResponseBodyText)
   where
 
-import BasicPrelude hiding (try, throwIO)
-import Data.Aeson
-import qualified Data.ByteString.Lazy as L (ByteString)
-import Data.String.Conversions
-import Control.Exception.Safe
-import Network.HTTP.Conduit
-       (HttpException(..), HttpExceptionContent(..), Request,
-        Response(responseBody), Response(), httpLbs)
-
-import Betfair.APING.API.Context
-import Betfair.APING.API.WriterLog
+import           BasicPrelude                         hiding (throwIO,
+                                                       try)
+import           Betfair.APING.API.Context
+import           Betfair.APING.API.ResponseException
+import           Betfair.APING.API.WriterLog
 import qualified Betfair.APING.Types.BettingException as BE
-import Betfair.APING.API.ResponseException
+import           Control.Exception.Safe
+import           Data.Aeson
+import qualified Data.ByteString.Lazy                 as L (ByteString)
+import           Data.String.Conversions
+import           Network.HTTP.Conduit                 (HttpException (..),
+                                                       HttpExceptionContent (..),
+                                                       Request,
+                                                       Response (responseBody),
+                                                       Response (),
+                                                       httpLbs)
 
-tryRequestAgain :: Context -> Request
+tryRequestAgain :: Context
+                -> Request
                 -> HttpException
                 -> Int
                 -> IO (Response L.ByteString)
 tryRequestAgain c req e i
   | i > 9 = throwIO e
   | otherwise =
-        groomedLog c
-            ("Betfair.APING.API.GetResponse.hs: HttpException - "
-             <> show (e :: HttpException)
-             <> " for " <> (show i) <> " attempts, Trying again") >>
-              tryForResponse c req (i + 1)
+    groomedLog
+      c
+      ("Betfair.APING.API.GetResponse.hs: HttpException - " <>
+       show (e :: HttpException) <>
+       " for " <>
+       (show i) <>
+       " attempts, Trying again") >>
+    tryForResponse c
+                   req
+                   (i + 1)
 
 -- https://haskell-lang.org/tutorial/exception-safety
 -- https://haskell-lang.org/library/safe-exceptions
@@ -55,9 +64,11 @@ tryForResponse c req i =
 
 getResponse
   :: Context -> Request -> IO (Response L.ByteString)
-getResponse c req = groomedLog c =<< flip (tryForResponse c) 0 =<< groomedLog c req
+getResponse c req =
+  groomedLog c =<< flip (tryForResponse c) 0 =<< groomedLog c req
 
-getResponseBodyText :: Context -> Request -> IO Text
+getResponseBodyText
+  :: Context -> Request -> IO Text
 getResponseBodyText c req =
   fmap (cs . responseBody)
        (getResponse c req)
@@ -76,6 +87,6 @@ eitherDecodeAlsoCheckForBettingException b =
   case eitherDecode b of
     Left e ->
       case eitherDecode b :: Either String BE.BettingException of
-        Left _  -> (Left . ParserError . cs) e
+        Left _ -> (Left . ParserError . cs) e
         Right v -> (Left . BettingException) v
     Right a -> Right a

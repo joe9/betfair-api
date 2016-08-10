@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -10,18 +10,18 @@ module Betfair.APING.Types.Match
   where
 
 import BasicPrelude
-import Data.Aeson.TH              (Options (omitNothingFields),
-                                   defaultOptions, deriveJSON)
 import Betfair.APING.Types.Side (Side)
+import Data.Aeson.TH            (Options (omitNothingFields),
+                                 defaultOptions, deriveJSON)
 
 type DateString = Text
 
 data Match =
-  Match {betId     :: Maybe Text
-        ,matchId   :: Maybe Text
-        ,side      :: Side
-        ,price     :: Double
-        ,size      :: Double
+  Match {betId :: Maybe Text
+        ,matchId :: Maybe Text
+        ,side :: Side
+        ,price :: Double
+        ,size :: Double
         ,matchDate :: Maybe DateString}
   deriving (Eq,Show)
 

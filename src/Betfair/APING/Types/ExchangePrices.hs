@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -10,15 +10,15 @@ module Betfair.APING.Types.ExchangePrices
   where
 
 import BasicPrelude
-import Data.Aeson.TH                   (Options (omitNothingFields),
-                                        defaultOptions, deriveJSON)
-import Data.Default.TH                 (deriveDefault)
 import Betfair.APING.Types.PriceSize (PriceSize)
+import Data.Aeson.TH                 (Options (omitNothingFields),
+                                      defaultOptions, deriveJSON)
+import Data.Default.TH               (deriveDefault)
 
 data ExchangePrices =
   ExchangePrices {availableToBack :: Maybe [PriceSize]
-                 ,availableToLay  :: Maybe [PriceSize]
-                 ,tradedVolume    :: Maybe [PriceSize]}
+                 ,availableToLay :: Maybe [PriceSize]
+                 ,tradedVolume :: Maybe [PriceSize]}
   deriving (Eq,Show)
 
 deriveDefault ''ExchangePrices

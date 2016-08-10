@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -9,19 +9,19 @@ module Betfair.APING.Types.Error
   (Error)
   where
 
-import BasicPrelude hiding (show)
-import qualified BasicPrelude as Prelude
-import Data.Aeson.TH                   (Options (fieldLabelModifier, omitNothingFields),
-                                        defaultOptions, deriveJSON)
-import Data.Default.TH                 (deriveDefault)
-import Data.String.Conversions
-
-import Betfair.APING.Types.ErrorData (ErrorData)
-import GHC.Show
+import           BasicPrelude                  hiding (show)
+import qualified BasicPrelude                  as Prelude
+import           Betfair.APING.Types.ErrorData (ErrorData)
+import           Data.Aeson.TH                 (Options (fieldLabelModifier, omitNothingFields),
+                                                defaultOptions,
+                                                deriveJSON)
+import           Data.Default.TH               (deriveDefault)
+import           Data.String.Conversions
+import           GHC.Show
 
 data Error =
-  Error {code      :: Integer
-        ,message   :: Text
+  Error {code :: Integer
+        ,message :: Text
         ,errorData :: Maybe ErrorData}
   deriving (Eq,Read)
 
@@ -32,7 +32,7 @@ $(deriveJSON
     defaultOptions {omitNothingFields = True
                    ,fieldLabelModifier =
                       let f "errorData" = "data"
-                          f other       = other
+                          f other = other
                       in f}
     ''Error)
 
@@ -41,11 +41,13 @@ instance Show Error where
 
 showError :: Error -> Text
 showError a =
-  "Error: { code :" <>
-  Prelude.show (code a) <>
-  ", description: " <>
+  "Error: { code :" <> Prelude.show (code a) <> ", description: " <>
   Prelude.show (lookup (code a) errorCodes) <>
-  ", message: " <> message a <> ", data: " <> Prelude.show (errorData a) <> "}"
+  ", message: " <>
+  message a <>
+  ", data: " <>
+  Prelude.show (errorData a) <>
+  "}"
 
 errorCodes :: [(Integer,String)]
 errorCodes =

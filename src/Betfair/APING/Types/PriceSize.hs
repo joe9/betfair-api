@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -16,7 +16,7 @@ import Data.Default.TH (deriveDefault)
 
 data PriceSize =
   PriceSize {price :: Double
-            ,size  :: Double}
+            ,size :: Double}
   deriving (Eq,Show,Read,Ord)
 
 deriveDefault ''PriceSize

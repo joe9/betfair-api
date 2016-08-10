@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE TemplateHaskell   #-}
 
 module Betfair.APING.Types.ResponsePlaceOrders
@@ -8,15 +8,15 @@ module Betfair.APING.Types.ResponsePlaceOrders
   where
 
 import BasicPrelude
-import Data.Aeson.TH                              (Options (omitNothingFields),
-                                                   defaultOptions,
-                                                   deriveJSON)
 import Betfair.APING.Types.PlaceExecutionReport (PlaceExecutionReport)
+import Data.Aeson.TH                            (Options (omitNothingFields),
+                                                 defaultOptions,
+                                                 deriveJSON)
 
 data Response =
   Response {jsonrpc :: Text
-           ,result  :: PlaceExecutionReport
-           ,id      :: Int}
+           ,result :: PlaceExecutionReport
+           ,id :: Int}
   deriving (Eq,Show)
 
 $(deriveJSON defaultOptions {omitNothingFields = True}

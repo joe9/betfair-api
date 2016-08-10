@@ -1,5 +1,5 @@
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell   #-}
 
@@ -9,21 +9,20 @@ module Betfair.APING.Requests.KeepAlive
   where
 
 import BasicPrelude
-import Data.Aeson
-import Data.Aeson.TH
-import Network.HTTP.Conduit
-
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse
 import Betfair.APING.API.Headers
 import Betfair.APING.API.ResponseException
-import Betfair.APING.Types.Token            (Token)
+import Betfair.APING.Types.Token           (Token)
+import Data.Aeson
+import Data.Aeson.TH
+import Network.HTTP.Conduit
 
 data KeepAlive =
-  KeepAlive {token   :: Token
+  KeepAlive {token :: Token
             ,product :: Text
-            ,status  :: Status
-            ,error   :: Error}
+            ,status :: Status
+            ,error :: Error}
   deriving (Eq,Read,Show)
 
 data Status

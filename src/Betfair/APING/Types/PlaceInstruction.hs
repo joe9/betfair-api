@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -10,23 +10,23 @@ module Betfair.APING.Types.PlaceInstruction
   where
 
 import BasicPrelude
-import Data.Aeson.TH                            (Options (omitNothingFields),
-                                                 defaultOptions,
-                                                 deriveJSON)
-import Data.Default.TH                          (deriveDefault)
 import Betfair.APING.Types.LimitOnCloseOrder  (LimitOnCloseOrder)
 import Betfair.APING.Types.LimitOrder         (LimitOrder)
 import Betfair.APING.Types.MarketOnCloseOrder (MarketOnCloseOrder)
 import Betfair.APING.Types.OrderType          (OrderType)
 import Betfair.APING.Types.Side               (Side)
+import Data.Aeson.TH                          (Options (omitNothingFields),
+                                               defaultOptions,
+                                               deriveJSON)
+import Data.Default.TH                        (deriveDefault)
 
 data PlaceInstruction =
-  PlaceInstruction {orderType          :: OrderType
-                   ,selectionId        :: Integer
-                   ,handicap           :: Maybe Double
-                   ,side               :: Side
-                   ,limitOrder         :: Maybe LimitOrder
-                   ,limitOnCloseOrder  :: Maybe LimitOnCloseOrder
+  PlaceInstruction {orderType :: OrderType
+                   ,selectionId :: Integer
+                   ,handicap :: Maybe Double
+                   ,side :: Side
+                   ,limitOrder :: Maybe LimitOrder
+                   ,limitOnCloseOrder :: Maybe LimitOnCloseOrder
                    ,marketOnCloseOrder :: Maybe MarketOnCloseOrder}
   deriving (Eq,Show)
 

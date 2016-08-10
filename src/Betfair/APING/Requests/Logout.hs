@@ -8,21 +8,20 @@ module Betfair.APING.Requests.Logout
   where
 
 import BasicPrelude
-import Data.Aeson
-import Data.Aeson.TH
-import Network.HTTP.Conduit
-
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse
 import Betfair.APING.API.Headers
 import Betfair.APING.API.ResponseException
-import Betfair.APING.Types.Token            (Token)
+import Betfair.APING.Types.Token           (Token)
+import Data.Aeson
+import Data.Aeson.TH
+import Network.HTTP.Conduit
 
 data Logout =
-  Logout {token   :: Token
+  Logout {token :: Token
          ,product :: Text
-         ,status  :: Status
-         ,error   :: Maybe Error}
+         ,status :: Status
+         ,error :: Maybe Error}
   deriving (Eq,Read,Show)
 
 data Status
@@ -38,8 +37,10 @@ data Error
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Logout)
+
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Status)
+
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Error)
 

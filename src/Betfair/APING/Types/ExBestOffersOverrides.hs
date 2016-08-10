@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall #-}
+{-# OPTIONS_GHC -Wall    #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -11,17 +11,17 @@ module Betfair.APING.Types.ExBestOffersOverrides
   where
 
 import BasicPrelude
-import Data.Aeson.TH                     (Options (omitNothingFields),
-                                          defaultOptions, deriveJSON)
-import Data.Default.TH                   (deriveDefault)
 import Betfair.APING.Types.RollupModel (RollupModel)
+import Data.Aeson.TH                   (Options (omitNothingFields),
+                                        defaultOptions, deriveJSON)
+import Data.Default.TH                 (deriveDefault)
 
 data ExBestOffersOverrides =
-  ExBestOffersOverrides {bestPricesDepth          :: Maybe Int
-                        ,rollupModel              :: RollupModel
-                        ,rollupLimit              :: Maybe Int
+  ExBestOffersOverrides {bestPricesDepth :: Maybe Int
+                        ,rollupModel :: RollupModel
+                        ,rollupLimit :: Maybe Int
                         ,rollupLiabilityThreshold :: Maybe Double
-                        ,rollupLiabilityFactor    :: Maybe Int}
+                        ,rollupLiabilityFactor :: Maybe Int}
   deriving (Eq,Show)
 
 deriveDefault ''ExBestOffersOverrides
