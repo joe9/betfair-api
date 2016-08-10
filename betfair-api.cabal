@@ -18,7 +18,7 @@ source-repository head
     location:        https://github.com/joe9/betfair-api.git
 
 library
-  exposed-modules:
+  exposed-modules: Betfair.APING
                    Betfair.APING.Requests.Logout
                    Betfair.APING.Requests.ListMarketBook
                    Betfair.APING.Requests.ListMarketCatalogue
