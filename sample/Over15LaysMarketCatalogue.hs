@@ -25,7 +25,7 @@ import           Network.Betfair.Types.TimeRange              (TimeRange (TimeRa
 import           Network.Betfair.Types.Token                  (Token)
 
 import           Network.Betfair.Requests.ListMarketCatalogue (JsonParameters (marketProjection, filter), listMarketCatalogue)
-import           Network.Betfair.Requests.WriterLog           (Log)
+import           Network.Betfair.Requests.Log           (Log)
 
 
 type MarketTypeCode = String

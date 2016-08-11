@@ -20,7 +20,7 @@ import Safe                 (fromJustNote, headNote)
 import Masked.Prelude hiding (log)
 
 import Network.Betfair.Requests.ListMarketBook (marketBook)
-import Network.Betfair.Requests.WriterLog      (Log, log)
+import Network.Betfair.Requests.Log      (Log, log)
 import Network.Betfair.Types.AppKey            (AppKey)
 import Network.Betfair.Types.MarketBook        (MarketBook (runners))
 import Network.Betfair.Types.PriceData         (PriceData (EX_ALL_OFFERS, EX_TRADED))

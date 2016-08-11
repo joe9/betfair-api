@@ -25,7 +25,7 @@ import Masked.Prelude   (Double, Eq ((/=), (==)), IO, Int, Integer,
 
 import           Network.Betfair.Requests.CancelOrders       (cancelOrder)
 import           Network.Betfair.Requests.PlaceOrders        (placeOrder)
-import           Network.Betfair.Requests.WriterLog          (Log, groomedLog, stdOutAndLog)
+import           Network.Betfair.Requests.Log          (Log, groomedLog, stdOutAndLog)
 import           Network.Betfair.Types.AppKey                (AppKey)
 import           Network.Betfair.Types.CancelExecutionReport (CancelExecutionReport (CancelExecutionReport))
 import qualified Network.Betfair.Types.CancelExecutionReport as CER (CancelExecutionReport (status))

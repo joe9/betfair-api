@@ -17,7 +17,7 @@ import           Betfair.APING.API.APIRequest              (apiRequest)
 import           Betfair.APING.API.Context
 import           Betfair.APING.API.GetResponse             (getDecodedResponse)
 import           Betfair.APING.API.ResponseException
-import           Betfair.APING.API.WriterLog               (groomedLog)
+import           Betfair.APING.API.Log               (groomedLog)
 import           Betfair.APING.Types.CancelExecutionReport (CancelExecutionReport)
 import           Betfair.APING.Types.CancelInstruction     (CancelInstruction)
 import           Betfair.APING.Types.ResponseCancelOrders  (Response (result))

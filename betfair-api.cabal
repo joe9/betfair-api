@@ -27,7 +27,7 @@ library
                    Betfair.APING.Requests.Login
                    Betfair.APING.Requests.KeepAlive
                    Betfair.APING.API.GetResponse
-                   Betfair.APING.API.WriterLog
+                   Betfair.APING.API.Log
                    Betfair.APING.API.ResponseException
                    Betfair.APING.API.Context
                    Betfair.APING.API.Headers

@@ -2,7 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -Wall      #-}
 
-module Betfair.APING.API.WriterLog
+module Betfair.APING.API.Log
   (Log
   ,toLog
   ,groomedLog

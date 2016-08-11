@@ -18,7 +18,7 @@ import           Betfair.APING.API.APIRequest           (apiRequest)
 import           Betfair.APING.API.Context
 import           Betfair.APING.API.GetResponse          (getDecodedResponse)
 import           Betfair.APING.API.ResponseException
-import           Betfair.APING.API.WriterLog
+import           Betfair.APING.API.Log
 import           Betfair.APING.Types.MarketBook         (MarketBook)
 import           Betfair.APING.Types.MatchProjection    (MatchProjection)
 import           Betfair.APING.Types.OrderProjection    (OrderProjection)

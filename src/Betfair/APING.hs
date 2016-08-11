@@ -103,7 +103,7 @@ import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse
 -- import Betfair.APING.API.Headers
 import Betfair.APING.API.ResponseException
--- import Betfair.APING.API.WriterLog
+-- import Betfair.APING.API.Log
 import Betfair.APING.Requests.CancelOrders
 import Betfair.APING.Requests.KeepAlive
 import Betfair.APING.Requests.ListMarketBook
