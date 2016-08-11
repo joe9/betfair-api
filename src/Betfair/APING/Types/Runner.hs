@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -22,17 +22,17 @@ import Data.Default.TH                    (deriveDefault)
 type DateString = Text
 
 data Runner =
-  Runner {selectionId :: Integer
-         ,handicap :: Double
-         ,status :: RunnerStatus
+  Runner {selectionId      :: Integer
+         ,handicap         :: Double
+         ,status           :: RunnerStatus
          ,adjustmentFactor :: Maybe Double
-         ,lastPriceTraded :: Maybe Double
-         ,totalMatched :: Maybe Double
-         ,removalDate :: Maybe DateString
-         ,sp :: Maybe StartingPrices
-         ,ex :: Maybe ExchangePrices
-         ,orders :: Maybe [Order]
-         ,matches :: Maybe [Match]}
+         ,lastPriceTraded  :: Maybe Double
+         ,totalMatched     :: Maybe Double
+         ,removalDate      :: Maybe DateString
+         ,sp               :: Maybe StartingPrices
+         ,ex               :: Maybe ExchangePrices
+         ,orders           :: Maybe [Order]
+         ,matches          :: Maybe [Match]}
   deriving (Eq,Show)
 
 deriveDefault ''Runner

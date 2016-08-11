@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude  #-}
 {-# LANGUAGE OverloadedStrings  #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE TemplateHaskell    #-}
 
@@ -16,8 +16,8 @@ import Data.Aeson.TH                       (Options (omitNothingFields),
 
 data Response =
   Response {jsonrpc :: Text
-           ,result :: [MarketCatalogue]
-           ,id :: Int}
+           ,result  :: [MarketCatalogue]
+           ,id      :: Int}
   deriving (Eq,Show)
 
 $(deriveJSON defaultOptions {omitNothingFields = True}

@@ -34,9 +34,9 @@ import           Data.Default                                (Default (..))
 
 data JsonRequest =
   JsonRequest {jsonrpc :: Text
-              ,method :: Text
-              ,params :: Maybe JsonParameters
-              ,id :: Int}
+              ,method  :: Text
+              ,params  :: Maybe JsonParameters
+              ,id      :: Int}
   deriving (Eq,Show)
 
 instance Default JsonRequest where
@@ -47,11 +47,11 @@ instance Default JsonRequest where
                 1
 
 data JsonParameters =
-  JsonParameters {filter :: MarketFilter
+  JsonParameters {filter           :: MarketFilter
                  ,marketProjection :: Maybe [MarketProjection]
-                 ,sort :: MarketSort
-                 ,maxResults :: Int
-                 ,locale :: Maybe Text}
+                 ,sort             :: MarketSort
+                 ,maxResults       :: Int
+                 ,locale           :: Maybe Text}
   deriving (Eq,Show)
 
 -- deriveDefault ''JsonParameters

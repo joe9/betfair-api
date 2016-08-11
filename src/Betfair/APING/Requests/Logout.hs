@@ -18,10 +18,10 @@ import Data.Aeson.TH
 import Network.HTTP.Conduit
 
 data Logout =
-  Logout {token :: Token
+  Logout {token   :: Token
          ,product :: Text
-         ,status :: Status
-         ,error :: Maybe Error}
+         ,status  :: Status
+         ,error   :: Maybe Error}
   deriving (Eq,Read,Show)
 
 data Status

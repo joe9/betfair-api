@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -21,12 +21,12 @@ import Data.Aeson.TH                          (Options (omitNothingFields),
 import Data.Default.TH                        (deriveDefault)
 
 data PlaceInstruction =
-  PlaceInstruction {orderType :: OrderType
-                   ,selectionId :: Integer
-                   ,handicap :: Maybe Double
-                   ,side :: Side
-                   ,limitOrder :: Maybe LimitOrder
-                   ,limitOnCloseOrder :: Maybe LimitOnCloseOrder
+  PlaceInstruction {orderType          :: OrderType
+                   ,selectionId        :: Integer
+                   ,handicap           :: Maybe Double
+                   ,side               :: Side
+                   ,limitOrder         :: Maybe LimitOrder
+                   ,limitOnCloseOrder  :: Maybe LimitOnCloseOrder
                    ,marketOnCloseOrder :: Maybe MarketOnCloseOrder}
   deriving (Eq,Show)
 

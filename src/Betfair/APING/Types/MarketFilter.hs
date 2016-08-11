@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -20,21 +20,21 @@ import Data.Aeson.TH                         (Options (omitNothingFields),
 import Data.Default.TH                       (deriveDefault)
 
 data MarketFilter =
-  MarketFilter {textQuery :: Maybe Text
-               ,exchangeIds :: Maybe [Text]
-               ,eventTypeIds :: Maybe [Text]
-               ,eventIds :: Maybe [Text]
-               ,competitionIds :: Maybe [Text]
-               ,marketIds :: Maybe [Text]
-               ,venues :: Maybe [Text]
-               ,bspOnly :: Maybe Bool
-               ,turnInPlayEnabled :: Maybe Bool
-               ,inPlayOnly :: Maybe Bool
+  MarketFilter {textQuery          :: Maybe Text
+               ,exchangeIds        :: Maybe [Text]
+               ,eventTypeIds       :: Maybe [Text]
+               ,eventIds           :: Maybe [Text]
+               ,competitionIds     :: Maybe [Text]
+               ,marketIds          :: Maybe [Text]
+               ,venues             :: Maybe [Text]
+               ,bspOnly            :: Maybe Bool
+               ,turnInPlayEnabled  :: Maybe Bool
+               ,inPlayOnly         :: Maybe Bool
                ,marketBettingTypes :: [MarketBettingType]
-               ,marketCountries :: Maybe [Text]
-               ,marketTypeCodes :: Maybe [Text]
-               ,marketStartTime :: Maybe TimeRange
-               ,withOrders :: Maybe [OrderStatus]}
+               ,marketCountries    :: Maybe [Text]
+               ,marketTypeCodes    :: Maybe [Text]
+               ,marketStartTime    :: Maybe TimeRange
+               ,withOrders         :: Maybe [OrderStatus]}
   deriving (Eq,Show)
 
 -- this is what deriveDefault does anyway

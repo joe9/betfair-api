@@ -14,10 +14,10 @@ import Data.Aeson
 import Data.Aeson.TH
 
 data Login =
-  Login {token :: Token
-        ,product :: Text
-        ,status :: Status
-        ,error :: Text
+  Login {token            :: Token
+        ,product          :: Text
+        ,status           :: Status
+        ,error            :: Text
         ,errorDescription :: Maybe Text}
   deriving (Eq,Show)
 

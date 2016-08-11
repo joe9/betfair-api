@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -19,10 +19,10 @@ import Data.Aeson.TH                             (Options (omitNothingFields),
 import Data.Default                              (Default (..))
 
 data PriceProjection =
-  PriceProjection {priceData :: [PriceData]
+  PriceProjection {priceData             :: [PriceData]
                   ,exBestOffersOverrides :: ExBestOffersOverrides
-                  ,virtualise :: Bool
-                  ,rollOverStakes :: Bool}
+                  ,virtualise            :: Bool
+                  ,rollOverStakes        :: Bool}
   deriving (Eq,Show)
 
 instance Default PriceProjection where

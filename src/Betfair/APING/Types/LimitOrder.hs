@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -17,8 +17,8 @@ import Data.Aeson.TH                       (Options (omitNothingFields),
 import Data.Default.TH                     (deriveDefault)
 
 data LimitOrder =
-  LimitOrder {size :: Double
-             ,price :: Double
+  LimitOrder {size            :: Double
+             ,price           :: Double
              ,persistenceType :: PersistenceType}
   deriving (Eq,Show)
 

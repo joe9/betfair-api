@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE TemplateHaskell   #-}
 
 module Betfair.APING.Types.MarketCatalogue
@@ -20,15 +20,15 @@ import Data.Aeson.TH                         (Options (omitNothingFields),
 type DateString = Text
 
 data MarketCatalogue =
-  MarketCatalogue {marketId :: Text
-                  ,marketName :: Text
+  MarketCatalogue {marketId        :: Text
+                  ,marketName      :: Text
                   ,marketStartTime :: Maybe DateString
-                  ,description :: Maybe MarketDescription
-                  ,totalMatched :: Maybe Double
-                  ,runners :: Maybe [RunnerCatalog]
-                  ,eventType :: Maybe EventType
-                  ,competition :: Maybe Competition
-                  ,event :: Maybe Event}
+                  ,description     :: Maybe MarketDescription
+                  ,totalMatched    :: Maybe Double
+                  ,runners         :: Maybe [RunnerCatalog]
+                  ,eventType       :: Maybe EventType
+                  ,competition     :: Maybe Competition
+                  ,event           :: Maybe Event}
   deriving (Eq,Show)
 
 $(deriveJSON defaultOptions {omitNothingFields = True}

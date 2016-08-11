@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -18,7 +18,7 @@ type DateString = Text
 
 data TimeRange =
   TimeRange {from :: DateString
-            ,to :: DateString}
+            ,to   :: DateString}
   deriving (Eq,Show)
 
 -- instance Default TimeRange where def = TimeRange "" ""

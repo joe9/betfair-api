@@ -18,8 +18,8 @@ import qualified GHC.Show                as Show
 
 data APINGException =
   APINGException {errorDetails :: Text
-                 ,errorCode :: Text
-                 ,requestUUID :: Text}
+                 ,errorCode    :: Text
+                 ,requestUUID  :: Text}
   deriving (Eq,Read)
 
 deriveDefault ''APINGException

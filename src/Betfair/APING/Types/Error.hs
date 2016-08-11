@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -20,8 +20,8 @@ import           Data.String.Conversions
 import           GHC.Show
 
 data Error =
-  Error {code :: Integer
-        ,message :: Text
+  Error {code      :: Integer
+        ,message   :: Text
         ,errorData :: Maybe ErrorData}
   deriving (Eq,Read)
 
@@ -32,7 +32,7 @@ $(deriveJSON
     defaultOptions {omitNothingFields = True
                    ,fieldLabelModifier =
                       let f "errorData" = "data"
-                          f other = other
+                          f other       = other
                       in f}
     ''Error)
 

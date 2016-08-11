@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -17,8 +17,8 @@ import Data.Default.TH               (deriveDefault)
 
 data ExchangePrices =
   ExchangePrices {availableToBack :: Maybe [PriceSize]
-                 ,availableToLay :: Maybe [PriceSize]
-                 ,tradedVolume :: Maybe [PriceSize]}
+                 ,availableToLay  :: Maybe [PriceSize]
+                 ,tradedVolume    :: Maybe [PriceSize]}
   deriving (Eq,Show)
 
 deriveDefault ''ExchangePrices

@@ -1,5 +1,5 @@
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell   #-}
 
@@ -19,10 +19,10 @@ import Data.Aeson.TH
 import Network.HTTP.Conduit
 
 data KeepAlive =
-  KeepAlive {token :: Token
+  KeepAlive {token   :: Token
             ,product :: Text
-            ,status :: Status
-            ,error :: Error}
+            ,status  :: Status
+            ,error   :: Error}
   deriving (Eq,Read,Show)
 
 data Status

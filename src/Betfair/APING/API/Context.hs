@@ -12,10 +12,10 @@ import Betfair.APING.Types.Token  (Token)
 import Network.HTTP.Conduit
 
 data Context =
-  Context {cAppKey :: AppKey
+  Context {cAppKey  :: AppKey
           ,cManager :: Manager
-          ,cToken :: Token
-          ,cLogger :: Text -> IO ()}
+          ,cToken   :: Token
+          ,cLogger  :: Text -> IO ()}
 
 initializeContext
   :: Manager -> AppKey -> Maybe (Text -> IO ()) -> Context

@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -15,11 +15,11 @@ import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
 import Data.Default.TH (deriveDefault)
 
 data RunnerCatalog =
-  RunnerCatalog {selectionId :: Integer
-                ,runnerName :: Text
-                ,handicap :: Double
+  RunnerCatalog {selectionId  :: Integer
+                ,runnerName   :: Text
+                ,handicap     :: Double
                 ,sortPriority :: Int
-                ,metadata :: Maybe [Text] -- [Runner_METADATA]
+                ,metadata     :: Maybe [Text] -- [Runner_METADATA]
                 }
   deriving (Eq,Show)
 

@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -17,11 +17,11 @@ import Data.Aeson.TH            (Options (omitNothingFields),
 type DateString = Text
 
 data Match =
-  Match {betId :: Maybe Text
-        ,matchId :: Maybe Text
-        ,side :: Side
-        ,price :: Double
-        ,size :: Double
+  Match {betId     :: Maybe Text
+        ,matchId   :: Maybe Text
+        ,side      :: Side
+        ,price     :: Double
+        ,size      :: Double
         ,matchDate :: Maybe DateString}
   deriving (Eq,Show)
 

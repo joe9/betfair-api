@@ -87,6 +87,6 @@ eitherDecodeAlsoCheckForBettingException b =
   case eitherDecode b of
     Left e ->
       case eitherDecode b :: Either String BE.BettingException of
-        Left _ -> (Left . ParserError . cs) e
+        Left _  -> (Left . ParserError . cs) e
         Right v -> (Left . BettingException) v
     Right a -> Right a

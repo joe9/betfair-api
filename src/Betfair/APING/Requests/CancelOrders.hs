@@ -29,9 +29,9 @@ import           Data.Default                              (Default (..))
 
 data JsonRequest =
   JsonRequest {jsonrpc :: Text
-              ,method :: Text
-              ,params :: Maybe JsonParameters
-              ,id :: Int}
+              ,method  :: Text
+              ,params  :: Maybe JsonParameters
+              ,id      :: Int}
   deriving (Eq,Show)
 
 instance Default JsonRequest where
@@ -42,9 +42,9 @@ instance Default JsonRequest where
                 1
 
 data JsonParameters =
-  JsonParameters {marketId :: Text
+  JsonParameters {marketId     :: Text
                  ,instructions :: [CancelInstruction]
-                 ,customerRef :: Text}
+                 ,customerRef  :: Text}
   deriving (Eq,Show)
 
 -- deriveDefault ''JsonParameters

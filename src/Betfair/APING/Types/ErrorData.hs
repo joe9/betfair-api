@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -16,7 +16,7 @@ import Data.Aeson.TH                      (Options (fieldLabelModifier, omitNoth
 import Data.Default.TH                    (deriveDefault)
 
 data ErrorData =
-  ErrorData {exceptionname :: Text
+  ErrorData {exceptionname  :: Text
             ,aPINGException :: APINGException}
   deriving (Eq,Read,Show)
 
@@ -27,6 +27,6 @@ $(deriveJSON
     defaultOptions {omitNothingFields = True
                    ,fieldLabelModifier =
                       let f "aPINGException" = "APINGException"
-                          f other = other
+                          f other            = other
                       in f}
     ''ErrorData)

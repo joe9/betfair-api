@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
@@ -17,8 +17,8 @@ import Data.Default.TH           (deriveDefault)
 
 data BettingException =
   BettingException {jsonrpc :: Text
-                   ,error :: Error
-                   ,id :: Int}
+                   ,error   :: Error
+                   ,id      :: Int}
   deriving (Eq,Show)
 
 deriveDefault ''BettingException

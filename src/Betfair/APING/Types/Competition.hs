@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -16,7 +16,7 @@ import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
 import Data.Default.TH (deriveDefault)
 
 data Competition =
-  Competition {id :: Text
+  Competition {id   :: Text
               ,name :: Text}
   deriving (Eq,Show)
 

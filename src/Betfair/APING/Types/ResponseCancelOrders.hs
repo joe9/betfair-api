@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# OPTIONS_GHC -Wall    #-}
+{-# OPTIONS_GHC -Wall     #-}
 {-# LANGUAGE TemplateHaskell   #-}
 
 module Betfair.APING.Types.ResponseCancelOrders
@@ -15,8 +15,8 @@ import Data.Aeson.TH                             (Options (omitNothingFields),
 
 data Response =
   Response {jsonrpc :: Text
-           ,result :: CancelExecutionReport
-           ,id :: Int}
+           ,result  :: CancelExecutionReport
+           ,id      :: Int}
   deriving (Eq,Show)
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
