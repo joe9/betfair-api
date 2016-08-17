@@ -9,6 +9,7 @@ module Betfair.APING.API.ResponseException
   where
 
 import BasicPrelude
+--
 import Betfair.APING.Types.BettingException
 import Betfair.APING.Types.Login
 
@@ -16,4 +17,6 @@ data ResponseException
   = BettingException BettingException
   | ParserError Text
   | LoginError Login
-  deriving (Eq,Show)
+  deriving (Eq,Show,Typeable)
+
+instance Exception ResponseException

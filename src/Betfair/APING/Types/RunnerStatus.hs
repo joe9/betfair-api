@@ -20,7 +20,7 @@ data RunnerStatus
   | REMOVED_VACANT
   | REMOVED
   | HIDDEN
-  deriving (Eq,Show,Read)
+  deriving (Eq,Show,Read,Enum)
 
 deriveDefault ''RunnerStatus
 
