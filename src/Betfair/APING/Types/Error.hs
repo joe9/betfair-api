@@ -6,7 +6,7 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Betfair.APING.Types.Error
-  (Error)
+  (Error(..))
   where
 
 import           BasicPrelude                  hiding (show)
