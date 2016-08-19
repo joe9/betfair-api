@@ -71,7 +71,7 @@ listMarketBook
   :: Context -> JsonParameters -> IO (Either ResponseException [MarketBook])
 listMarketBook c jp =
   groomedLog c =<<
-  fmap result . getDecodedResponse c =<<
+  fmap (either Left (Right . result)) . getDecodedResponse c =<<
   (\r ->
      groomedLog c
                 (jsonRequest jp) >>
