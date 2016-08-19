@@ -37,7 +37,7 @@ tryRequestAgain c req e i
       ("Betfair.APING.API.GetResponse.hs: HttpException - " <>
        show (e :: HttpException) <>
        " for " <>
-       (show i) <>
+       show i <>
        " attempts, Trying again") >>
     tryForResponse c
                    req

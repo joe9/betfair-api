@@ -68,7 +68,7 @@ placeOrderWithParams
   -> IO (Either ResponseException PlaceExecutionReport)
 placeOrderWithParams c jp =
   groomedLog c =<<
-  fmap (either Left (Right . result)) . getDecodedResponse c =<<
+  fmap (fmap result) . getDecodedResponse c =<<
   apiRequest c
              (A.encode $ jsonRequest jp)
 

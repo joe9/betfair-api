@@ -70,14 +70,14 @@ jsonRequest jp = def {params = Just jp}
 listMarketBook
   :: Context -> JsonParameters -> IO (Either ResponseException [MarketBook])
 listMarketBook c jp =
-  do groomedLog c =<<
-       fmap (either Left (Right . result)) . getDecodedResponse c =<<
-       (\r ->
-          groomedLog c
-                     (jsonRequest jp) >>
-          return r) =<<
-       apiRequest c
-                  (A.encode $ jsonRequest jp)
+  groomedLog c =<<
+  fmap result . getDecodedResponse c =<<
+  (\r ->
+     groomedLog c
+                (jsonRequest jp) >>
+     return r) =<<
+  apiRequest c
+             (A.encode $ jsonRequest jp)
 
 type MarketId = Text
 

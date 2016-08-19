@@ -68,7 +68,7 @@ cancelOrderWithParams
   -> IO (Either ResponseException CancelExecutionReport)
 cancelOrderWithParams c jp =
   groomedLog c =<<
-  fmap (either Left (Right . result)) . getDecodedResponse c =<<
+  fmap (fmap result) . getDecodedResponse c =<<
   apiRequest c
              (A.encode $ jsonRequest jp)
 

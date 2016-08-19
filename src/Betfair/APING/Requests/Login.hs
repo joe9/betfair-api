@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell   #-}
+
 
 module Betfair.APING.Requests.Login
   (sessionToken
@@ -50,7 +50,7 @@ parseLogin (Left e) = Left e
 parseLogin (Right l)
   | null (token l) =
     Left (LoginError
-            (l {errorDescription = (lookup (error l) loginExceptionCodes)}))
+            (l {errorDescription = lookup (error l) loginExceptionCodes}))
   | otherwise = Right (token l)
 
 login

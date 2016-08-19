@@ -99,7 +99,7 @@ listMarketCatalogue
   -> IO (Either ResponseException [MarketCatalogue])
 listMarketCatalogue c jp =
   groomedLog c =<<
-  fmap (either Left (Right . result)) . getDecodedResponse c =<<
+  fmap (fmap result) . getDecodedResponse c =<<
   (\r ->
      groomedLog c
                 (jsonRequest jp) >>
