@@ -67,7 +67,7 @@ jsonRequest :: JsonParameters -> JsonRequest
 jsonRequest jp = def {params = Just jp}
 
 listMarketBook
-  :: Context -> JsonParameters -> IO ([MarketBook])
+  :: Context -> JsonParameters -> IO [MarketBook]
 listMarketBook c jp =
   groomedLog c =<<
   getDecodedResponse c =<<
@@ -84,7 +84,7 @@ marketBook
   :: Context
   -> MarketId
   -> [PriceData]
-  -> IO ([MarketBook])
+  -> IO [MarketBook]
 marketBook c mktid pd =
   listMarketBook
     c
@@ -95,7 +95,7 @@ marketBooks
   :: Context
   -> [MarketId]
   -> [PriceData]
-  -> IO ([MarketBook])
+  -> IO [MarketBook]
 marketBooks c mktids pd =
   listMarketBook
     c

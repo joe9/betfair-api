@@ -87,7 +87,7 @@ marketIdJsonRequest :: MarketId -> JsonParameters
 marketIdJsonRequest mktid = def {filter = def {marketIds = Just [mktid]}}
 
 marketCatalogue
-  :: Context -> MarketId -> IO ([MarketCatalogue])
+  :: Context -> MarketId -> IO [MarketCatalogue]
 marketCatalogue c mktid =
   listMarketCatalogue c
                       (marketIdJsonRequest mktid)
@@ -95,7 +95,7 @@ marketCatalogue c mktid =
 listMarketCatalogue
   :: Context
   -> JsonParameters
-  -> IO ([MarketCatalogue])
+  -> IO [MarketCatalogue]
 listMarketCatalogue c jp =
   groomedLog c =<<
   getDecodedResponse c =<<

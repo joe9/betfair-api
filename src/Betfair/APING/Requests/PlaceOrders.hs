@@ -61,7 +61,7 @@ jsonRequest :: JsonParameters -> JsonRequest
 jsonRequest jp = def {params = Just jp}
 
 placeOrderWithParams
-  :: Context -> JsonParameters -> IO (PlaceExecutionReport)
+  :: Context -> JsonParameters -> IO PlaceExecutionReport
 placeOrderWithParams c jp =
   groomedLog c =<<
   getDecodedResponse c =<<
@@ -76,7 +76,7 @@ placeOrder :: Context
            -> MarketId
            -> PlaceInstruction
            -> CustomerRef
-           -> IO (PlaceExecutionReport)
+           -> IO PlaceExecutionReport
 placeOrder c mktid pin cref =
   groomedLog
     c
