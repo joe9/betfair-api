@@ -8,6 +8,7 @@ module Betfair.APING.Requests.Logout
   where
 
 import BasicPrelude
+import Control.Exception.Safe
 import Data.Aeson
 import Data.Aeson.TH
 --
@@ -35,6 +36,8 @@ data Error
   | NO_SESSION
   deriving (Eq,Read,Show)
 
+instance Exception Logout
+
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Logout)
 
@@ -54,4 +57,9 @@ logoutRequest c =
    parseUrlThrow) "https://identitysso.betfair.com/api/logout"
 
 logout :: Context -> IO Logout
-logout c = getDecodedResponse c =<< logoutRequest c
+logout c = checkStatus =<< getDecodedResponse c =<< logoutRequest c
+
+checkStatus :: Logout -> IO Logout
+checkStatus k
+  | status k == FAIL = throwM k
+  | otherwise = return k

@@ -17,7 +17,7 @@ import           Betfair.APING.API.APIRequest             (apiRequest)
 import           Betfair.APING.API.Context
 import           Betfair.APING.API.GetResponse            (getDecodedResponse)
 import           Betfair.APING.API.Log                    (groomedLog)
-import           Betfair.APING.API.ResponseException
+import           Control.Exception.Safe
 import           Betfair.APING.Types.PlaceExecutionReport (PlaceExecutionReport)
 import           Betfair.APING.Types.PlaceInstruction     (PlaceInstruction)
 import           Betfair.APING.Types.ResponsePlaceOrders  (Response (result))

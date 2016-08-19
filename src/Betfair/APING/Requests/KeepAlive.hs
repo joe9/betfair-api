@@ -8,21 +8,24 @@ module Betfair.APING.Requests.KeepAlive
   where
 
 import BasicPrelude
-import Betfair.APING.API.Context
-import Betfair.APING.API.GetResponse
-import Betfair.APING.API.Headers
-import Betfair.APING.API.ResponseException
-import Betfair.APING.Types.Token           (Token)
+import Control.Exception.Safe
 import Data.Aeson
 import Data.Aeson.TH
 import Network.HTTP.Conduit
+--
+import Betfair.APING.API.Context
+import Betfair.APING.API.GetResponse
+import Betfair.APING.API.Headers
+import Betfair.APING.Types.Token     (Token)
 
 data KeepAlive =
   KeepAlive {token   :: Token
             ,product :: Text
             ,status  :: Status
             ,error   :: Error}
-  deriving (Eq,Read,Show)
+  deriving (Eq,Read,Show,Typeable)
+
+instance Exception KeepAlive
 
 data Status
   = SUCCESS
@@ -53,6 +56,13 @@ keepAliveRequest c =
                ,method = "POST"}) .
    parseUrlThrow) "https://identitysso.betfair.com/api/keepAlive"
 
-keepAlive
-  :: Context -> IO (Either ResponseException KeepAlive)
-keepAlive c = getDecodedResponse c =<< keepAliveRequest c
+-- KeepAlive - Just send a KeepAlive and forget about it. If there is
+-- a problem with the KeepAlive, then it is a bigger issue and
+-- should raise an exception, so the whole connection can be reset
+keepAlive :: Context -> IO KeepAlive
+keepAlive c = checkStatus =<< getDecodedResponse c =<< keepAliveRequest c
+
+checkStatus :: KeepAlive -> IO KeepAlive
+checkStatus k
+  | status k == FAIL = throwM k
+  | otherwise = return k

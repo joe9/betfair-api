@@ -1,4 +1,3 @@
-{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE TemplateHaskell      #-}
@@ -9,10 +8,11 @@ module Betfair.APING.Types.BettingException
   where
 
 import BasicPrelude
+import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
+                        deriveJSON)
+import Data.Default.TH (deriveDefault)
+--
 import Betfair.APING.Types.Error (Error)
-import Data.Aeson.TH             (Options (omitNothingFields),
-                                  defaultOptions, deriveJSON)
-import Data.Default.TH           (deriveDefault)
 
 data BettingException =
   BettingException {jsonrpc :: Text

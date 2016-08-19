@@ -14,22 +14,23 @@ module Betfair.APING.Requests.ListMarketBook
   where
 
 import           BasicPrelude
+import           Control.Exception.Safe
+import qualified Data.Aeson                             as A (encode)
+import           Data.Aeson.TH                          (Options (omitNothingFields),
+                                                         defaultOptions,
+                                                         deriveJSON)
+import           Data.Default                           (Default (..))
+--
 import           Betfair.APING.API.APIRequest           (apiRequest)
 import           Betfair.APING.API.Context
 import           Betfair.APING.API.GetResponse          (getDecodedResponse)
 import           Betfair.APING.API.Log
-import           Betfair.APING.API.ResponseException
 import           Betfair.APING.Types.MarketBook         (MarketBook)
 import           Betfair.APING.Types.MatchProjection    (MatchProjection)
 import           Betfair.APING.Types.OrderProjection    (OrderProjection)
 import           Betfair.APING.Types.PriceData          (PriceData)
 import           Betfair.APING.Types.PriceProjection    (PriceProjection (priceData))
 import           Betfair.APING.Types.ResponseMarketBook
-import qualified Data.Aeson                             as A (encode)
-import           Data.Aeson.TH                          (Options (omitNothingFields),
-                                                         defaultOptions,
-                                                         deriveJSON)
-import           Data.Default                           (Default (..))
 
 data JsonRequest =
   JsonRequest {jsonrpc :: Text

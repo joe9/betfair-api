@@ -102,7 +102,7 @@ module Betfair.APING
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse
 -- import Betfair.APING.API.Headers
-import Betfair.APING.API.ResponseException
+import Control.Exception.Safe
 -- import Betfair.APING.API.Log
 import Betfair.APING.Requests.CancelOrders
 import Betfair.APING.Requests.KeepAlive

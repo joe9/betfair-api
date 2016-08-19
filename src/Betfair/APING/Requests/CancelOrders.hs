@@ -13,19 +13,18 @@ module Betfair.APING.Requests.CancelOrders
   where
 
 import           BasicPrelude
-import           Betfair.APING.API.APIRequest              (apiRequest)
-import           Betfair.APING.API.Context
-import           Betfair.APING.API.GetResponse             (getDecodedResponse)
-import           Betfair.APING.API.Log                     (groomedLog)
-import           Betfair.APING.API.ResponseException
-import           Betfair.APING.Types.CancelExecutionReport (CancelExecutionReport)
-import           Betfair.APING.Types.CancelInstruction     (CancelInstruction)
-import           Betfair.APING.Types.ResponseCancelOrders  (Response (result))
-import qualified Data.Aeson                                as A (encode)
-import           Data.Aeson.TH                             (Options (omitNothingFields),
-                                                            defaultOptions,
-                                                            deriveJSON)
-import           Data.Default                              (Default (..))
+import qualified Data.Aeson    as A (encode)
+import           Data.Aeson.TH (Options (omitNothingFields),
+                                defaultOptions, deriveJSON)
+import           Data.Default  (Default (..))
+--
+import Betfair.APING.API.APIRequest              (apiRequest)
+import Betfair.APING.API.Context
+import Betfair.APING.API.GetResponse             (getDecodedResponse)
+import Betfair.APING.API.Log                     (groomedLog)
+import Betfair.APING.Types.CancelExecutionReport (CancelExecutionReport)
+import Betfair.APING.Types.CancelInstruction     (CancelInstruction)
+import Betfair.APING.Types.ResponseCancelOrders  (Response (result))
 
 data JsonRequest =
   JsonRequest {jsonrpc :: Text
@@ -63,12 +62,10 @@ jsonRequest :: JsonParameters -> JsonRequest
 jsonRequest jp = def {params = Just jp}
 
 cancelOrderWithParams
-  :: Context
-  -> JsonParameters
-  -> IO (Either ResponseException CancelExecutionReport)
+  :: Context -> JsonParameters -> IO CancelExecutionReport
 cancelOrderWithParams c jp =
   groomedLog c =<<
-  fmap (fmap result) . getDecodedResponse c =<<
+  fmap result . getDecodedResponse c =<<
   apiRequest c
              (A.encode $ jsonRequest jp)
 
@@ -76,12 +73,11 @@ type CustomerRef = Text
 
 type MarketId = Text
 
-cancelOrder
-  :: Context
-  -> MarketId
-  -> CancelInstruction
-  -> CustomerRef
-  -> IO (Either ResponseException CancelExecutionReport)
+cancelOrder :: Context
+            -> MarketId
+            -> CancelInstruction
+            -> CustomerRef
+            -> IO CancelExecutionReport
 cancelOrder c mktid pin cref =
   groomedLog
     c
