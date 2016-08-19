@@ -10,8 +10,8 @@ module Betfair.APING.API.GetResponse
 import           BasicPrelude                         hiding (throwIO,
                                                        try)
 import           Betfair.APING.API.Context
-import           Betfair.APING.API.ResponseException
 import           Betfair.APING.API.Log
+import           Betfair.APING.API.ResponseException
 import qualified Betfair.APING.Types.BettingException as BE
 import           Control.Exception.Safe
 import           Data.Aeson

@@ -18,8 +18,8 @@ import           BasicPrelude                                hiding
 import           Betfair.APING.API.APIRequest                (apiRequest)
 import           Betfair.APING.API.Context
 import           Betfair.APING.API.GetResponse               (getDecodedResponse)
+import           Betfair.APING.API.Log                       (groomedLog)
 import           Betfair.APING.API.ResponseException
-import           Betfair.APING.API.Log                 (groomedLog)
 import           Betfair.APING.Types.MarketBettingType       (MarketBettingType)
 import           Betfair.APING.Types.MarketCatalogue         (MarketCatalogue)
 import           Betfair.APING.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
