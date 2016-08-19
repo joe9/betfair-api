@@ -1,6 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# OPTIONS_GHC -Wall        #-}
+{-# OPTIONS_GHC -Wall         #-}
 
 module Betfair.APING.API.Log
   (Log
