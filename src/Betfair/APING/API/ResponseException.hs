@@ -1,7 +1,6 @@
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-
 {-# LANGUAGE UndecidableInstances #-}
 
 module Betfair.APING.API.ResponseException

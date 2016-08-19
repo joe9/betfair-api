@@ -1,7 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-
 module Betfair.APING.Requests.Login
   (sessionToken
   ,login)
