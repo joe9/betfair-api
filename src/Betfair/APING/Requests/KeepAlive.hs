@@ -4,10 +4,12 @@
 
 module Betfair.APING.Requests.KeepAlive
   (keepAlive
-  ,KeepAlive(..))
+  ,KeepAlive(..)
+  ,keepAliveOnceEvery10Minutes)
   where
 
 import BasicPrelude
+import Control.Concurrent
 import Control.Exception.Safe
 import Data.Aeson
 import Data.Aeson.TH
@@ -22,7 +24,10 @@ data KeepAlive =
   KeepAlive {token   :: Token
             ,product :: Text
             ,status  :: Status
-            ,error   :: Error}
+            -- not converting this to type Error as I get a "" on success
+            -- ,error   :: Error
+            ,error   :: Text
+            }
   deriving (Eq,Read,Show,Typeable)
 
 instance Exception KeepAlive
@@ -66,3 +71,10 @@ checkStatus :: KeepAlive -> IO KeepAlive
 checkStatus k
   | status k == FAIL = throwM k
   | otherwise = return k
+
+-- call this in a separate thread. It is a never ending loop
+keepAliveOnceEvery10Minutes
+  :: Context -> IO KeepAlive
+keepAliveOnceEvery10Minutes context =
+  keepAlive context *> threadDelay (10 * 60 * 1000 * 1000) *>
+  keepAliveOnceEvery10Minutes context

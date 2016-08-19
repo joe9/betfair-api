@@ -29,6 +29,8 @@ import           Betfair.APING.Types.MatchProjection    (MatchProjection)
 import           Betfair.APING.Types.OrderProjection    (OrderProjection)
 import           Betfair.APING.Types.PriceData          (PriceData)
 import           Betfair.APING.Types.PriceProjection    (PriceProjection (priceData))
+import           Betfair.APING.Types.ResponseMarketBook (Response (result))
+
 
 data JsonRequest =
   JsonRequest {jsonrpc :: Text
@@ -70,7 +72,7 @@ listMarketBook
   :: Context -> JsonParameters -> IO [MarketBook]
 listMarketBook c jp =
   groomedLog c =<<
-  getDecodedResponse c =<<
+  fmap result . getDecodedResponse c =<<
   (\r ->
      groomedLog c
                 (jsonRequest jp) >>

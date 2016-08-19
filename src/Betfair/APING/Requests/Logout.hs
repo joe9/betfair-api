@@ -22,7 +22,9 @@ data Logout =
   Logout {token   :: Token
          ,product :: Text
          ,status  :: Status
-         ,error   :: Maybe Error}
+         -- not converting this to type Error as I get a "" on success
+         -- ,error   :: Error
+         ,error   :: Text}
   deriving (Eq,Read,Show)
 
 data Status

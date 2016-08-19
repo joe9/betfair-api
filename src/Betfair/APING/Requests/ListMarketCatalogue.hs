@@ -30,6 +30,8 @@ import           Betfair.APING.Types.MarketCatalogue         (MarketCatalogue)
 import           Betfair.APING.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
 import           Betfair.APING.Types.MarketProjection        (MarketProjection (..))
 import           Betfair.APING.Types.MarketSort              (MarketSort)
+import           Betfair.APING.Types.ResponseMarketCatalogue (Response (result))
+
 
 data JsonRequest =
   JsonRequest {jsonrpc :: Text
@@ -98,7 +100,7 @@ listMarketCatalogue
   -> IO [MarketCatalogue]
 listMarketCatalogue c jp =
   groomedLog c =<<
-  getDecodedResponse c =<<
+  fmap result . getDecodedResponse c =<<
   (\r ->
      groomedLog c
                 (jsonRequest jp) >>

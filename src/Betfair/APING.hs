@@ -24,6 +24,7 @@ module Betfair.APING
   ,
    -- KeepAlive
    keepAlive
+  ,keepAliveOnceEvery10Minutes
   ,
    -- ListMarketBook
    listMarketBook
