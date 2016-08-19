@@ -8,13 +8,13 @@ module Betfair.APING.Requests.Logout
   where
 
 import BasicPrelude
+import Data.Aeson
+import Data.Aeson.TH
+--
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse
 import Betfair.APING.API.Headers
-import Betfair.APING.API.ResponseException
-import Betfair.APING.Types.Token           (Token)
-import Data.Aeson
-import Data.Aeson.TH
+import Betfair.APING.Types.Token     (Token)
 import Network.HTTP.Conduit
 
 data Logout =
@@ -53,6 +53,5 @@ logoutRequest c =
                ,method = "POST"}) .
    parseUrlThrow) "https://identitysso.betfair.com/api/logout"
 
-logout
-  :: Context -> IO (Either ResponseException Logout)
+logout :: Context -> IO Logout
 logout c = getDecodedResponse c =<< logoutRequest c

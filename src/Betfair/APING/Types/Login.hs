@@ -4,14 +4,17 @@
 
 module Betfair.APING.Types.Login
   (Login(..)
+  ,LoginError(..)
+  ,toLoginError
   ,LoginExceptionCodes
   ,loginExceptionCodes)
   where
 
-import BasicPrelude              hiding (error)
-import Betfair.APING.Types.Token (Token)
+import BasicPrelude  hiding (error)
 import Data.Aeson
 import Data.Aeson.TH
+--
+import Betfair.APING.Types.Token (Token)
 
 data Login =
   Login {token            :: Token
@@ -19,20 +22,30 @@ data Login =
         ,status           :: Status
         ,error            :: Text
         ,errorDescription :: Maybe Text}
-  deriving (Eq,Show)
+  deriving (Eq,Read,Show)
 
 data Status
   = SUCCESS
   | LIMITED_ACCESS
   | LOGIN_RESTRICTED
   | FAIL
-  deriving (Eq,Show,Read)
+  deriving (Eq,Read,Show)
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Status)
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Login)
+
+data LoginError =
+  LoginError Login
+  deriving (Eq,Read,Show)
+
+instance Exception LoginError
+
+toLoginError :: Login -> LoginError
+toLoginError l =
+  LoginError (l {errorDescription = lookup (error l) loginExceptionCodes})
 
 type LoginExceptionCodes = [(Text,Text)]
 

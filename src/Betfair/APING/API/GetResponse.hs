@@ -11,8 +11,7 @@ import           BasicPrelude                         hiding (throwIO,
                                                        try)
 import           Betfair.APING.API.Context
 import           Betfair.APING.API.Log
-import           Betfair.APING.API.ResponseException
-import qualified Betfair.APING.Types.BettingException as BE
+import           Betfair.APING.Types.BettingException
 import           Control.Exception.Safe
 import           Data.Aeson
 import qualified Data.ByteString.Lazy                 as L (ByteString)
@@ -23,6 +22,12 @@ import           Network.HTTP.Conduit                 (HttpException (..),
                                                        Response (responseBody),
                                                        Response (),
                                                        httpLbs)
+
+data ParserError =
+  ParserError Text
+  deriving (Eq,Read,Show,Typeable)
+
+instance Exception ParserError
 
 tryRequestAgain :: Context
                 -> Request
@@ -59,7 +64,7 @@ tryForResponse c req i =
        Left e@(HttpExceptionRequest _ ResponseTimeout) ->
          tryRequestAgain c req e i
        -- let the caller deal with any other synchronous exception
-       Left e -> throwIO e
+       Left e -> throwM e
        Right response -> return response
 
 getResponse
@@ -73,20 +78,22 @@ getResponseBodyText c req =
   fmap (cs . responseBody)
        (getResponse c req)
 
-getDecodedResponse
-  :: FromJSON a
-  => Context -> Request -> IO (Either ResponseException a)
-getDecodedResponse c b =
-  fmap (eitherDecodeAlsoCheckForBettingException . responseBody)
-       (getResponse c b)
+getDecodedResponse :: FromJSON a
+                   => Context -> Request -> IO a
+getDecodedResponse c r =
+  fmap responseBody (getResponse c r) >>=
+  (\b -> (either (throwExceptions b) pure . decodeResponse) b)
 
-eitherDecodeAlsoCheckForBettingException
+bettingException
+  :: L.ByteString -> Either ParserError BettingException
+bettingException = either (Left . ParserError . cs) pure . eitherDecode
+
+decodeResponse
   :: FromJSON a
-  => L.ByteString -> Either ResponseException a
-eitherDecodeAlsoCheckForBettingException b =
-  case eitherDecode b of
-    Left e ->
-      case eitherDecode b :: Either String BE.BettingException of
-        Left _  -> (Left . ParserError . cs) e
-        Right v -> (Left . BettingException) v
-    Right a -> Right a
+  => L.ByteString -> Either ParserError a
+decodeResponse = either (Left . ParserError . cs) pure . eitherDecode
+
+throwExceptions
+  :: (MonadThrow m)
+  => L.ByteString -> ParserError -> m a
+throwExceptions b e = (either (\_ -> throwM e) throwM . bettingException) b

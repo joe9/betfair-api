@@ -1,6 +1,6 @@
+{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
@@ -18,9 +18,11 @@ data BettingException =
   BettingException {jsonrpc :: Text
                    ,error   :: Error
                    ,id      :: Int}
-  deriving (Eq,Show)
+  deriving (Eq,Read,Show,Typeable)
 
 deriveDefault ''BettingException
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''BettingException)
+
+instance Exception BettingException

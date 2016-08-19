@@ -15,7 +15,6 @@ import Betfair.APING.Types.Login
 data ResponseException
   = BettingException BettingException
   | ParserError Text
-  | LoginError Login
-  deriving (Eq,Show,Typeable)
+  deriving (Eq,Read,Show,Typeable)
 
 instance Exception ResponseException
