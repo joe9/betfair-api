@@ -15,22 +15,21 @@ module Betfair.APING.Requests.ListMarketCatalogue
 
 import           BasicPrelude                                hiding
                                                               (filter)
-import           Betfair.APING.API.APIRequest                (apiRequest)
-import           Betfair.APING.API.Context
-import           Betfair.APING.API.GetResponse               (getDecodedResponse)
-import           Betfair.APING.API.Log                       (groomedLog)
-import           Control.Exception.Safe
-import           Betfair.APING.Types.MarketBettingType       (MarketBettingType)
-import           Betfair.APING.Types.MarketCatalogue         (MarketCatalogue)
-import           Betfair.APING.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
-import           Betfair.APING.Types.MarketProjection        (MarketProjection (..))
-import           Betfair.APING.Types.MarketSort              (MarketSort)
-import           Betfair.APING.Types.ResponseMarketCatalogue (Response (result))
 import qualified Data.Aeson                                  as A (encode)
 import           Data.Aeson.TH                               (Options (omitNothingFields),
                                                               defaultOptions,
                                                               deriveJSON)
 import           Data.Default                                (Default (..))
+--
+import           Betfair.APING.API.APIRequest                (apiRequest)
+import           Betfair.APING.API.Context
+import           Betfair.APING.API.GetResponse               (getDecodedResponse)
+import           Betfair.APING.API.Log                       (groomedLog)
+import           Betfair.APING.Types.MarketBettingType       (MarketBettingType)
+import           Betfair.APING.Types.MarketCatalogue         (MarketCatalogue)
+import           Betfair.APING.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
+import           Betfair.APING.Types.MarketProjection        (MarketProjection (..))
+import           Betfair.APING.Types.MarketSort              (MarketSort)
 
 data JsonRequest =
   JsonRequest {jsonrpc :: Text
@@ -88,7 +87,7 @@ marketIdJsonRequest :: MarketId -> JsonParameters
 marketIdJsonRequest mktid = def {filter = def {marketIds = Just [mktid]}}
 
 marketCatalogue
-  :: Context -> MarketId -> IO (Either ResponseException [MarketCatalogue])
+  :: Context -> MarketId -> IO ([MarketCatalogue])
 marketCatalogue c mktid =
   listMarketCatalogue c
                       (marketIdJsonRequest mktid)
@@ -96,10 +95,10 @@ marketCatalogue c mktid =
 listMarketCatalogue
   :: Context
   -> JsonParameters
-  -> IO (Either ResponseException [MarketCatalogue])
+  -> IO ([MarketCatalogue])
 listMarketCatalogue c jp =
   groomedLog c =<<
-  fmap (fmap result) . getDecodedResponse c =<<
+  getDecodedResponse c =<<
   (\r ->
      groomedLog c
                 (jsonRequest jp) >>

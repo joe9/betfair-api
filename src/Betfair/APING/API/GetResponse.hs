@@ -59,7 +59,7 @@ tryRequestAgain c req e i
 tryForResponse
   :: Context -> Request -> Int -> IO (Response L.ByteString)
 tryForResponse c req i =
-  do eresponse <- try $ httpLbs req (cManager c)
+  do eresponse <- try (httpLbs req (cManager c))
      case eresponse of
        Left e@(HttpExceptionRequest _ ResponseTimeout) ->
          tryRequestAgain c req e i

@@ -14,7 +14,6 @@ module Betfair.APING.Requests.ListMarketBook
   where
 
 import           BasicPrelude
-import           Control.Exception.Safe
 import qualified Data.Aeson                             as A (encode)
 import           Data.Aeson.TH                          (Options (omitNothingFields),
                                                          defaultOptions,
@@ -30,7 +29,6 @@ import           Betfair.APING.Types.MatchProjection    (MatchProjection)
 import           Betfair.APING.Types.OrderProjection    (OrderProjection)
 import           Betfair.APING.Types.PriceData          (PriceData)
 import           Betfair.APING.Types.PriceProjection    (PriceProjection (priceData))
-import           Betfair.APING.Types.ResponseMarketBook
 
 data JsonRequest =
   JsonRequest {jsonrpc :: Text
@@ -69,10 +67,10 @@ jsonRequest :: JsonParameters -> JsonRequest
 jsonRequest jp = def {params = Just jp}
 
 listMarketBook
-  :: Context -> JsonParameters -> IO (Either ResponseException [MarketBook])
+  :: Context -> JsonParameters -> IO ([MarketBook])
 listMarketBook c jp =
   groomedLog c =<<
-  fmap (either Left (Right . result)) . getDecodedResponse c =<<
+  getDecodedResponse c =<<
   (\r ->
      groomedLog c
                 (jsonRequest jp) >>
@@ -86,7 +84,7 @@ marketBook
   :: Context
   -> MarketId
   -> [PriceData]
-  -> IO (Either ResponseException [MarketBook])
+  -> IO ([MarketBook])
 marketBook c mktid pd =
   listMarketBook
     c
@@ -97,7 +95,7 @@ marketBooks
   :: Context
   -> [MarketId]
   -> [PriceData]
-  -> IO (Either ResponseException [MarketBook])
+  -> IO ([MarketBook])
 marketBooks c mktids pd =
   listMarketBook
     c

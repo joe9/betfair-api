@@ -11,9 +11,6 @@ module Betfair.APING
    -- GetResponse
    getDecodedResponse
   ,
-   -- ResponseException
-   ResponseException(..)
-  ,
    -- Requests
    -- Login
    sessionToken
@@ -102,7 +99,6 @@ module Betfair.APING
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse
 -- import Betfair.APING.API.Headers
-import Control.Exception.Safe
 -- import Betfair.APING.API.Log
 import Betfair.APING.Requests.CancelOrders
 import Betfair.APING.Requests.KeepAlive

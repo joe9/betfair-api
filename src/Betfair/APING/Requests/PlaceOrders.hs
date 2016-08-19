@@ -13,19 +13,17 @@ module Betfair.APING.Requests.PlaceOrders
   where
 
 import           BasicPrelude
-import           Betfair.APING.API.APIRequest             (apiRequest)
-import           Betfair.APING.API.Context
-import           Betfair.APING.API.GetResponse            (getDecodedResponse)
-import           Betfair.APING.API.Log                    (groomedLog)
-import           Control.Exception.Safe
-import           Betfair.APING.Types.PlaceExecutionReport (PlaceExecutionReport)
-import           Betfair.APING.Types.PlaceInstruction     (PlaceInstruction)
-import           Betfair.APING.Types.ResponsePlaceOrders  (Response (result))
-import qualified Data.Aeson                               as A (encode)
-import           Data.Aeson.TH                            (Options (omitNothingFields),
-                                                           defaultOptions,
-                                                           deriveJSON)
-import           Data.Default                             (Default (..))
+import qualified Data.Aeson             as A (encode)
+import           Data.Aeson.TH          (Options (omitNothingFields),
+                                         defaultOptions, deriveJSON)
+import           Data.Default           (Default (..))
+--
+import Betfair.APING.API.APIRequest             (apiRequest)
+import Betfair.APING.API.Context
+import Betfair.APING.API.GetResponse            (getDecodedResponse)
+import Betfair.APING.API.Log                    (groomedLog)
+import Betfair.APING.Types.PlaceExecutionReport (PlaceExecutionReport)
+import Betfair.APING.Types.PlaceInstruction     (PlaceInstruction)
 
 data JsonRequest =
   JsonRequest {jsonrpc :: Text
@@ -63,12 +61,10 @@ jsonRequest :: JsonParameters -> JsonRequest
 jsonRequest jp = def {params = Just jp}
 
 placeOrderWithParams
-  :: Context
-  -> JsonParameters
-  -> IO (Either ResponseException PlaceExecutionReport)
+  :: Context -> JsonParameters -> IO (PlaceExecutionReport)
 placeOrderWithParams c jp =
   groomedLog c =<<
-  fmap (fmap result) . getDecodedResponse c =<<
+  getDecodedResponse c =<<
   apiRequest c
              (A.encode $ jsonRequest jp)
 
@@ -76,12 +72,11 @@ type CustomerRef = Text
 
 type MarketId = Text
 
-placeOrder
-  :: Context
-  -> MarketId
-  -> PlaceInstruction
-  -> CustomerRef
-  -> IO (Either ResponseException PlaceExecutionReport)
+placeOrder :: Context
+           -> MarketId
+           -> PlaceInstruction
+           -> CustomerRef
+           -> IO (PlaceExecutionReport)
 placeOrder c mktid pin cref =
   groomedLog
     c

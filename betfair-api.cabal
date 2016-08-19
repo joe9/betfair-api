@@ -1,5 +1,5 @@
 name:                betfair-api
-version:             0.2.3.7
+version:             0.2.3.8
 synopsis:            betfair api-ng bindings
 description:         betfair api-ng bindings
 license:             MIT
@@ -28,7 +28,6 @@ library
                    Betfair.APING.Requests.KeepAlive
                    Betfair.APING.API.GetResponse
                    Betfair.APING.API.Log
-                   Betfair.APING.API.ResponseException
                    Betfair.APING.API.Context
                    Betfair.APING.API.Headers
                    Betfair.APING.API.APIRequest
