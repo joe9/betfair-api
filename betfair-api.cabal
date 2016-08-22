@@ -155,24 +155,15 @@ executable Sample
                      , old-locale
                      , betfair-api
                      , filemanip
-                     , atomic-write
                      , unix
                      , strict
-                     , directory
-                     , filepath
-                     , stm
                      , containers
                      , split
                      , network
                      , either
-                     , basic-prelude
-                     , transformers
                      , text
-                     , string-conversions
                      , network-simple
                      , safe-exceptions
-                     , unordered-containers
-                     , fast-logger
                      , async
   ghc-options:         -Wall
   hs-source-dirs:      sample
