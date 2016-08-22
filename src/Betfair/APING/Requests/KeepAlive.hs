@@ -72,6 +72,8 @@ checkStatus k
   | status k == FAIL = throwM k
   | otherwise = return k
 
+-- according to the docs, italian exchange timesout in 15 mins. Hence,
+-- using 10 minute intervals
 -- call this in a separate thread. It is a never ending loop
 keepAliveOnceEvery10Minutes
   :: Context -> IO KeepAlive
