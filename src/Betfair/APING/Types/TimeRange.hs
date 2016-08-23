@@ -16,8 +16,8 @@ import Data.Default.TH (deriveDefault)
 type DateString = Text
 
 data TimeRange =
-  TimeRange {from :: DateString
-            ,to   :: DateString}
+  TimeRange {from :: Maybe DateString
+            ,to   :: Maybe DateString}
   deriving (Eq,Show)
 
 -- instance Default TimeRange where def = TimeRange "" ""

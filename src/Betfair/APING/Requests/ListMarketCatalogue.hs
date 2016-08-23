@@ -61,7 +61,7 @@ data JsonParameters =
 instance Default JsonParameters where
   def =
     JsonParameters
-      (def {marketBettingTypes = [def :: MarketBettingType]})
+      def
       (Just [COMPETITION
             ,EVENT
             ,EVENT_TYPE
