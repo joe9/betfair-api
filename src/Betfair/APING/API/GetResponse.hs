@@ -35,7 +35,7 @@ tryRequestAgain :: Context
                 -> Int
                 -> IO (Response L.ByteString)
 tryRequestAgain c req e i
-  | i > 9 = throwIO e
+  | i > 9 = throwM e
   | otherwise =
     groomedLog
       c
