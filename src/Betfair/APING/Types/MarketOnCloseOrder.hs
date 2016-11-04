@@ -8,16 +8,14 @@ module Betfair.APING.Types.MarketOnCloseOrder
   (MarketOnCloseOrder(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data MarketOnCloseOrder =
   MarketOnCloseOrder {liability :: Double}
   deriving (Eq,Show)
 
-deriveDefault ''MarketOnCloseOrder
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''MarketOnCloseOrder)

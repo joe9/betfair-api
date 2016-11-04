@@ -8,10 +8,9 @@ module Betfair.APING.Types.OrderType
   (OrderType(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data OrderType
   = LIMIT
@@ -19,7 +18,6 @@ data OrderType
   | MARKET_ON_CLOSE
   deriving (Eq,Show)
 
-deriveDefault ''OrderType
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''OrderType)

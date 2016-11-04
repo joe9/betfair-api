@@ -6,11 +6,10 @@ module Betfair.APING.API.APIRequest
   ,apiRequestString)
   where
 
-import           BasicPrelude
+import           Protolude
 import           Betfair.APING.API.Context
 import           Betfair.APING.API.Headers (headers)
 import qualified Data.ByteString.Lazy      as L
-import           Data.String.Conversions
 import           Network.HTTP.Conduit      (Request (method, requestBody, requestHeaders),
                                             RequestBody (RequestBodyLBS),
                                             parseUrlThrow)
@@ -27,6 +26,4 @@ apiRequest c jsonBody =
        (parseUrlThrow "https://api.betfair.com/exchange/betting/json-rpc/v1")
 
 apiRequestString :: Context -> Text -> IO Request
-apiRequestString c s =
-  apiRequest c
-             (cs s)
+apiRequestString c s = apiRequest c (toS s)

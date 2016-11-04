@@ -6,7 +6,7 @@ module Betfair.APING.Types.ResponseMarketBook
   (Response(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.MarketBook (MarketBook)
 import Data.Aeson.TH                  (Options (omitNothingFields),
                                        defaultOptions, deriveJSON)

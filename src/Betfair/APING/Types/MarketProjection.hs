@@ -8,10 +8,9 @@ module Betfair.APING.Types.MarketProjection
   (MarketProjection(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data MarketProjection
   = COMPETITION
@@ -23,7 +22,6 @@ data MarketProjection
   | RUNNER_METADATA
   deriving (Eq,Show)
 
-deriveDefault ''MarketProjection
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''MarketProjection)

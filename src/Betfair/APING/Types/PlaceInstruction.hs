@@ -8,7 +8,7 @@ module Betfair.APING.Types.PlaceInstruction
   (PlaceInstruction(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.LimitOnCloseOrder  (LimitOnCloseOrder)
 import Betfair.APING.Types.LimitOrder         (LimitOrder)
 import Betfair.APING.Types.MarketOnCloseOrder (MarketOnCloseOrder)
@@ -17,7 +17,6 @@ import Betfair.APING.Types.Side               (Side)
 import Data.Aeson.TH                          (Options (omitNothingFields),
                                                defaultOptions,
                                                deriveJSON)
-import Data.Default.TH                        (deriveDefault)
 
 data PlaceInstruction =
   PlaceInstruction {orderType          :: OrderType
@@ -29,7 +28,6 @@ data PlaceInstruction =
                    ,marketOnCloseOrder :: Maybe MarketOnCloseOrder}
   deriving (Eq,Show)
 
-deriveDefault ''PlaceInstruction
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''PlaceInstruction)

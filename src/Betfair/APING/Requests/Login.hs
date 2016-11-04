@@ -6,10 +6,9 @@ module Betfair.APING.Requests.Login
   ,login)
   where
 
-import           BasicPrelude            hiding (error, null)
+import           Protolude            hiding (error, null)
 import           Control.Exception.Safe
 import qualified Data.ByteString.Lazy    as L (ByteString)
-import           Data.String.Conversions
 import           Data.Text
 import           Network.HTTP.Conduit
 --
@@ -24,7 +23,7 @@ import Betfair.APING.Types.Token     (Token)
 encodeBody
   :: AppKey -> Text -> Text -> Request -> Request
 encodeBody appKey username password req =
-  urlEncodedBody [("username",cs username),("password",cs password)]
+  urlEncodedBody [("username",toS username),("password",toS password)]
                  req {requestHeaders = headers appKey Nothing}
 
 -- Note that loginRequest uses a url encoded body unlike other

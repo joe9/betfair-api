@@ -1,36 +1,37 @@
-{-# LANGUAGE NoImplicitPrelude    #-}
-{-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Betfair.APING.Types.PriceProjection
-  (PriceProjection(..))
-  where
+  ( PriceProjection(..)
+  , defaultPriceProjection
+  ) where
 
-import BasicPrelude
-import Betfair.APING.Types.ExBestOffersOverrides (ExBestOffersOverrides)
+import Betfair.APING.Types.ExBestOffersOverrides (ExBestOffersOverrides(..))
+import Betfair.APING.Types.RollupModel (RollupModel(NONE))
 import Betfair.APING.Types.PriceData             (PriceData (EX_ALL_OFFERS, EX_TRADED))
 import Data.Aeson.TH                             (Options (omitNothingFields),
                                                   defaultOptions,
                                                   deriveJSON)
-import Data.Default                              (Default (..))
+import Protolude
 
-data PriceProjection =
-  PriceProjection {priceData             :: [PriceData]
-                  ,exBestOffersOverrides :: ExBestOffersOverrides
-                  ,virtualise            :: Bool
-                  ,rollOverStakes        :: Bool}
-  deriving (Eq,Show)
+data PriceProjection = PriceProjection
+  { priceData             :: [PriceData]
+  , exBestOffersOverrides :: ExBestOffersOverrides
+  , virtualise            :: Bool
+  , rollOverStakes        :: Bool
+  } deriving (Eq, Show)
 
-instance Default PriceProjection where
-  def =
-    PriceProjection [EX_ALL_OFFERS,EX_TRADED]
-                    def
-                    True
-                    False
+defaultPriceProjection :: PriceProjection
+defaultPriceProjection =
+  PriceProjection
+    [EX_ALL_OFFERS, EX_TRADED]
+    (ExBestOffersOverrides Nothing NONE Nothing Nothing Nothing)
+    True
+    False
 
 -- $(deriveJSON id ''Record)
-$(deriveJSON defaultOptions {omitNothingFields = True}
-             ''PriceProjection)
+$(deriveJSON defaultOptions {omitNothingFields = True} ''PriceProjection)

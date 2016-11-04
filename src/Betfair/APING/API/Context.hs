@@ -6,7 +6,7 @@ module Betfair.APING.API.Context
   ,initializeContext)
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.AppKey (AppKey)
 import Betfair.APING.Types.Token  (Token)
 import Network.HTTP.Conduit

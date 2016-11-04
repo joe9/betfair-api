@@ -8,14 +8,13 @@ module Betfair.APING.Types.CancelInstructionReport
   (CancelInstructionReport(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.CancelInstruction          (CancelInstruction)
 import Betfair.APING.Types.InstructionReportErrorCode (InstructionReportErrorCode)
 import Betfair.APING.Types.InstructionReportStatus    (InstructionReportStatus)
 import Data.Aeson.TH                                  (Options (omitNothingFields),
                                                        defaultOptions,
                                                        deriveJSON)
-import Data.Default.TH                                (deriveDefault)
 
 -- type DateString = Text
 data CancelInstructionReport =
@@ -27,7 +26,6 @@ data CancelInstructionReport =
                           }
   deriving (Eq,Show)
 
-deriveDefault ''CancelInstructionReport
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''CancelInstructionReport)

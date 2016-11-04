@@ -8,7 +8,7 @@ module Betfair.APING.Types.Match
   (Match(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.Side (Side)
 import Data.Aeson.TH            (Options (omitNothingFields),
                                  defaultOptions, deriveJSON)
@@ -24,6 +24,5 @@ data Match =
         ,matchDate :: Maybe DateString}
   deriving (Eq,Show)
 
--- deriveDefault ''Match
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Match)

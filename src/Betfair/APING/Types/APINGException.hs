@@ -8,13 +8,11 @@ module Betfair.APING.Types.APINGException
   (APINGException(..))
   where
 
-import           BasicPrelude            hiding (show)
-import qualified BasicPrelude            as Prelude
+import           Protolude
+import           Data.List
 import           Data.Aeson.TH           (Options (omitNothingFields),
                                           defaultOptions, deriveJSON)
-import           Data.Default.TH         (deriveDefault)
-import           Data.String.Conversions
-import qualified GHC.Show                as Show
+import GHC.Show
 
 data APINGException =
   APINGException {errorDetails :: Text
@@ -22,20 +20,19 @@ data APINGException =
                  ,requestUUID  :: Text}
   deriving (Eq,Read)
 
-deriveDefault ''APINGException
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''APINGException)
 
 instance Show APINGException where
-  show = cs . showAPINGException
+  show = toS . showAPINGException
 
 showAPINGException :: APINGException -> Text
 showAPINGException a =
   "APINGException: { errorDetails :" <> errorDetails a <> ", errorCode: " <>
   errorCode a <>
   ", errorCodeDescription: " <>
-  (cs . Prelude.show) (lookup (errorCode a) aPINGExceptionCodes) <>
+  Protolude.show (lookup (errorCode a) aPINGExceptionCodes) <>
   ", requestUUID: " <>
   requestUUID a <>
   "}"

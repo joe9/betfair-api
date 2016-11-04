@@ -8,17 +8,15 @@ module Betfair.APING.Types.LimitOnCloseOrder
   (LimitOnCloseOrder(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data LimitOnCloseOrder =
   LimitOnCloseOrder {liability :: Double
                     ,price     :: Double}
   deriving (Eq,Show)
 
-deriveDefault ''LimitOnCloseOrder
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''LimitOnCloseOrder)

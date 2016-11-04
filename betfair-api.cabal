@@ -92,17 +92,14 @@ library
                      , UndecidableInstances
                      , OverloadedStrings
   build-depends:       base
-                     , data-default
                      , aeson
                      , bytestring
                      , http-conduit
                      , http-client >= 0.5.0
                      , http-types
-                     , template-default
                      , groom
                      , MissingH
-                     , basic-prelude
-                     , string-conversions
+                     , protolude
                      , text
                      , safe-exceptions
   ghc-options:         -Wall
@@ -121,22 +118,18 @@ executable Sample
                      , UndecidableInstances
                      , OverloadedStrings
   build-depends:       base
-                     , data-default
                      , aeson
                      , bytestring
                      , http-conduit
                      , http-client >= 0.5.0
                      , http-types
-                     , template-default
                      , groom
                      , MissingH
-                     , basic-prelude
-                     , string-conversions
+                     , protolude
                      , text
                      , safe-exceptions
                      , mtl
                      , json
-                     , data-default
                      , time
                      , iso8601-time
                      , aeson
@@ -149,7 +142,6 @@ executable Sample
                      , case-insensitive
                      , http-types
                      , connection
-                     , template-default
                      , groom
                      , ansi-terminal
                      , old-locale

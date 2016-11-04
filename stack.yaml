@@ -2,10 +2,5 @@ flags: {}
 extra-package-dbs: []
 packages:
 - '.'
-extra-deps:
-- http-client-0.5.1
-- http-client-tls-0.3.0
-- http-conduit-2.2.0
-- safe-exceptions-0.1.4.0
-- template-default-0.1.2
-resolver: lts-6.11
+extra-deps: []
+resolver: nightly-2016-11-04

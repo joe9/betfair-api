@@ -7,7 +7,7 @@ module Betfair.APING.Types.ResponseMarketCatalogue
   (Response(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.MarketCatalogue (MarketCatalogue)
 import Data.Aeson.TH                       (Options (omitNothingFields),
                                             defaultOptions,

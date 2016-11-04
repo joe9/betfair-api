@@ -8,10 +8,9 @@ module Betfair.APING.Types.ExecutionReportStatus
   (ExecutionReportStatus(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data ExecutionReportStatus
   = SUCCESS
@@ -20,7 +19,6 @@ data ExecutionReportStatus
   | TIMEOUT
   deriving (Eq,Show)
 
-deriveDefault ''ExecutionReportStatus
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''ExecutionReportStatus)

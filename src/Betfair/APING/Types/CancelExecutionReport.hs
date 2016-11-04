@@ -8,14 +8,13 @@ module Betfair.APING.Types.CancelExecutionReport
   (CancelExecutionReport(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.CancelInstructionReport  (CancelInstructionReport)
 import Betfair.APING.Types.ExecutionReportErrorCode (ExecutionReportErrorCode)
 import Betfair.APING.Types.ExecutionReportStatus    (ExecutionReportStatus)
 import Data.Aeson.TH                                (Options (omitNothingFields),
                                                      defaultOptions,
                                                      deriveJSON)
-import Data.Default.TH                              (deriveDefault)
 
 data CancelExecutionReport =
   CancelExecutionReport {customerRef :: Maybe Text
@@ -25,7 +24,6 @@ data CancelExecutionReport =
                         ,instructionReports :: Maybe [CancelInstructionReport]}
   deriving (Eq,Show)
 
-deriveDefault ''CancelExecutionReport
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''CancelExecutionReport)

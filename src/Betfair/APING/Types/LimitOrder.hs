@@ -8,12 +8,11 @@ module Betfair.APING.Types.LimitOrder
   (LimitOrder(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.PersistenceType (PersistenceType)
 import Data.Aeson.TH                       (Options (omitNothingFields),
                                             defaultOptions,
                                             deriveJSON)
-import Data.Default.TH                     (deriveDefault)
 
 data LimitOrder =
   LimitOrder {size            :: Double
@@ -21,7 +20,6 @@ data LimitOrder =
              ,persistenceType :: PersistenceType}
   deriving (Eq,Show)
 
-deriveDefault ''LimitOrder
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''LimitOrder)

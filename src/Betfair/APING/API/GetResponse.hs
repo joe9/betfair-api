@@ -7,21 +7,21 @@ module Betfair.APING.API.GetResponse
   ,getResponseBodyText)
   where
 
-import           BasicPrelude                         hiding (throwIO,
+import           Protolude                         hiding (throwIO,
                                                        try)
-import           Betfair.APING.API.Context
-import           Betfair.APING.API.Log
-import           Betfair.APING.Types.BettingException
 import           Control.Exception.Safe
 import           Data.Aeson
 import qualified Data.ByteString.Lazy                 as L (ByteString)
-import           Data.String.Conversions
 import           Network.HTTP.Conduit                 (HttpException (..),
                                                        HttpExceptionContent (..),
                                                        Request,
                                                        Response (responseBody),
                                                        Response (),
                                                        httpLbs)
+
+import           Betfair.APING.API.Context
+import           Betfair.APING.API.Log
+import           Betfair.APING.Types.BettingException
 
 data ParserError =
   ParserError Text
@@ -43,7 +43,7 @@ tryRequestAgain c req e i
        show (e :: HttpException) <>
        " for " <>
        show i <>
-       " attempts, Trying again") >>
+       " attempts, Trying again" :: Text) >>
     tryForResponse c
                    req
                    (i + 1)
@@ -75,7 +75,7 @@ getResponse c req =
 getResponseBodyText
   :: Context -> Request -> IO Text
 getResponseBodyText c req =
-  fmap (cs . responseBody)
+  fmap (toS . responseBody)
        (getResponse c req)
 
 getDecodedResponse :: FromJSON a
@@ -86,12 +86,12 @@ getDecodedResponse c r =
 
 bettingException
   :: L.ByteString -> Either ParserError BettingException
-bettingException = either (Left . ParserError . cs) pure . eitherDecode
+bettingException = either (Left . ParserError . toS) pure . eitherDecode
 
 decodeResponse
   :: FromJSON a
   => L.ByteString -> Either ParserError a
-decodeResponse = either (Left . ParserError . cs) pure . eitherDecode
+decodeResponse = either (Left . ParserError . toS) pure . eitherDecode
 
 throwExceptions
   :: (MonadThrow m)

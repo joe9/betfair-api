@@ -6,7 +6,7 @@ module Betfair.APING.Types.ResponseCancelOrders
   (Response(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.CancelExecutionReport (CancelExecutionReport)
 import Data.Aeson.TH                             (Options (omitNothingFields),
                                                   defaultOptions,

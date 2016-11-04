@@ -10,7 +10,8 @@ module Betfair.APING.Types.Login
   ,loginExceptionCodes)
   where
 
-import BasicPrelude  hiding (error)
+import Protolude  hiding (error)
+import Data.List
 import Data.Aeson
 import Data.Aeson.TH
 --

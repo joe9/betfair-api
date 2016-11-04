@@ -8,10 +8,9 @@ module Betfair.APING.Types.MarketBettingType
   (MarketBettingType(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data MarketBettingType
   = ODDS
@@ -22,7 +21,6 @@ data MarketBettingType
   | FIXED_ODDS
   deriving (Eq,Show)
 
-deriveDefault ''MarketBettingType
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''MarketBettingType)

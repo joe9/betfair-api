@@ -8,7 +8,7 @@ module Betfair.APING.Types.MarketDescription
   (MarketDescription(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.MarketBettingType (MarketBettingType)
 import Data.Aeson.TH                         (Options (omitNothingFields),
                                               defaultOptions,
@@ -35,6 +35,5 @@ data MarketDescription =
                     ,clarifications     :: Maybe Text}
   deriving (Eq,Show)
 
--- deriveDefault ''MarketDescription
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''MarketDescription)

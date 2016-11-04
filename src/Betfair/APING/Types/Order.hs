@@ -8,7 +8,7 @@ module Betfair.APING.Types.Order
   (Order(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.OrderStatus     (OrderStatus)
 import Betfair.APING.Types.OrderType       (OrderType)
 import Betfair.APING.Types.PersistenceType (PersistenceType)
@@ -16,7 +16,6 @@ import Betfair.APING.Types.Side            (Side)
 import Data.Aeson.TH                       (Options (omitNothingFields),
                                             defaultOptions,
                                             deriveJSON)
-import Data.Default.TH                     (deriveDefault)
 
 type DateString = Text
 
@@ -38,7 +37,6 @@ data Order =
         ,sizeVoided      :: Maybe Double}
   deriving (Eq,Show)
 
-deriveDefault ''Order
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Order)

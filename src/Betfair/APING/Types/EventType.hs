@@ -8,7 +8,7 @@ module Betfair.APING.Types.EventType
   (EventType(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
                       deriveJSON)
 

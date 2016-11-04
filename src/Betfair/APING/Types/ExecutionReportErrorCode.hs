@@ -8,10 +8,9 @@ module Betfair.APING.Types.ExecutionReportErrorCode
   (ExecutionReportErrorCode(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data ExecutionReportErrorCode
   = ERROR_IN_MATCHER
@@ -33,7 +32,6 @@ data ExecutionReportErrorCode
   | REJECTED_BY_REGULATOR
   deriving (Eq,Show)
 
-deriveDefault ''ExecutionReportErrorCode
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''ExecutionReportErrorCode)

@@ -9,11 +9,10 @@ module Betfair.APING.Types.ExBestOffersOverrides
   (ExBestOffersOverrides(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.RollupModel (RollupModel)
 import Data.Aeson.TH                   (Options (omitNothingFields),
                                         defaultOptions, deriveJSON)
-import Data.Default.TH                 (deriveDefault)
 
 data ExBestOffersOverrides =
   ExBestOffersOverrides {bestPricesDepth          :: Maybe Int
@@ -22,8 +21,6 @@ data ExBestOffersOverrides =
                         ,rollupLiabilityThreshold :: Maybe Double
                         ,rollupLiabilityFactor    :: Maybe Int}
   deriving (Eq,Show)
-
-deriveDefault ''ExBestOffersOverrides
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''ExBestOffersOverrides)

@@ -8,17 +8,15 @@ module Betfair.APING.Types.PriceSize
   (PriceSize(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data PriceSize =
   PriceSize {price :: Double
             ,size  :: Double}
   deriving (Eq,Show,Read,Ord)
 
-deriveDefault ''PriceSize
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''PriceSize)

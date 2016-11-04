@@ -8,7 +8,7 @@ module Betfair.APING.Types.Runner
   (Runner(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.ExchangePrices (ExchangePrices)
 import Betfair.APING.Types.Match          (Match)
 import Betfair.APING.Types.Order          (Order)
@@ -16,7 +16,6 @@ import Betfair.APING.Types.RunnerStatus   (RunnerStatus)
 import Betfair.APING.Types.StartingPrices (StartingPrices)
 import Data.Aeson.TH                      (Options (omitNothingFields),
                                            defaultOptions, deriveJSON)
-import Data.Default.TH                    (deriveDefault)
 
 type DateString = Text
 
@@ -34,7 +33,6 @@ data Runner =
          ,matches          :: Maybe [Match]}
   deriving (Eq,Show)
 
-deriveDefault ''Runner
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Runner)

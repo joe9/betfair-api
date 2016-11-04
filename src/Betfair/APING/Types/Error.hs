@@ -8,14 +8,12 @@ module Betfair.APING.Types.Error
   (Error(..))
   where
 
-import           BasicPrelude                  hiding (show)
-import qualified BasicPrelude                  as Prelude
+import           Protolude
+import           Data.List
 import           Betfair.APING.Types.ErrorData (ErrorData)
 import           Data.Aeson.TH                 (Options (fieldLabelModifier, omitNothingFields),
                                                 defaultOptions,
                                                 deriveJSON)
-import           Data.Default.TH               (deriveDefault)
-import           Data.String.Conversions
 import           GHC.Show
 
 data Error =
@@ -24,7 +22,6 @@ data Error =
         ,errorData :: Maybe ErrorData}
   deriving (Eq,Read)
 
-deriveDefault ''Error
 
 -- from http://stackoverflow.com/questions/30696089/how-to-handle-capital-case-in-json
 $(deriveJSON
@@ -36,19 +33,19 @@ $(deriveJSON
     ''Error)
 
 instance Show Error where
-  show = cs . showError
+  show = toS . showError
 
 showError :: Error -> Text
 showError a =
-  "Error: { code :" <> Prelude.show (code a) <> ", description: " <>
-  Prelude.show (lookup (code a) errorCodes) <>
+  "Error: { code :" <> Protolude.show (code a) <> ", description: " <>
+  Protolude.show (lookup (code a) errorCodes) <>
   ", message: " <>
   message a <>
   ", data: " <>
-  Prelude.show (errorData a) <>
+  Protolude.show (errorData a) <>
   "}"
 
-errorCodes :: [(Integer,String)]
+errorCodes :: [(Integer,Text)]
 errorCodes =
   [(-32099,"APING Exception.")
   ,(-32700

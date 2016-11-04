@@ -8,10 +8,9 @@ module Betfair.APING.Types.MarketSort
   (MarketSort(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data MarketSort
   = FIRST_TO_START
@@ -22,7 +21,6 @@ data MarketSort
   | LAST_TO_START
   deriving (Eq,Show)
 
-deriveDefault ''MarketSort
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''MarketSort)

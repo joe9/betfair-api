@@ -7,10 +7,9 @@ module Betfair.APING.Types.RunnerStatus
   (RunnerStatus(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data RunnerStatus
   = ACTIVE
@@ -21,7 +20,6 @@ data RunnerStatus
   | HIDDEN
   deriving (Eq,Show,Read,Enum)
 
-deriveDefault ''RunnerStatus
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''RunnerStatus)

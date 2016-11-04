@@ -12,11 +12,10 @@ module Betfair.APING.Requests.CancelOrders
   ,JsonRequest(..))
   where
 
-import           BasicPrelude
+import           Protolude
 import qualified Data.Aeson    as A (encode)
 import           Data.Aeson.TH (Options (omitNothingFields),
                                 defaultOptions, deriveJSON)
-import           Data.Default  (Default (..))
 --
 import Betfair.APING.API.APIRequest              (apiRequest)
 import Betfair.APING.API.Context
@@ -33,22 +32,11 @@ data JsonRequest =
               ,id      :: Int}
   deriving (Eq,Show)
 
-instance Default JsonRequest where
-  def =
-    JsonRequest "2.0"
-                "SportsAPING/v1.0/cancelOrders"
-                (Just def)
-                1
-
 data JsonParameters =
   JsonParameters {marketId     :: Text
                  ,instructions :: [CancelInstruction]
                  ,customerRef  :: Text}
   deriving (Eq,Show)
-
--- deriveDefault ''JsonParameters
-instance Default JsonParameters where
-  def = JsonParameters "" [] ""
 
 -- instance Default JsonParameters where
 --  def = JsonParameters def def def
@@ -59,7 +47,11 @@ $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonRequest)
 
 jsonRequest :: JsonParameters -> JsonRequest
-jsonRequest jp = def {params = Just jp}
+jsonRequest jp =
+    JsonRequest "2.0"
+                "SportsAPING/v1.0/cancelOrders"
+                (Just jp)
+                1
 
 cancelOrderWithParams
   :: Context -> JsonParameters -> IO CancelExecutionReport

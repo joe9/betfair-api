@@ -6,7 +6,7 @@ module Betfair.APING.Types.ResponsePlaceOrders
   (Response(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.PlaceExecutionReport (PlaceExecutionReport)
 import Data.Aeson.TH                            (Options (omitNothingFields),
                                                  defaultOptions,

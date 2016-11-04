@@ -8,8 +8,7 @@ module Betfair.APING.Requests.KeepAlive
   ,keepAliveOnceEvery10Minutes)
   where
 
-import BasicPrelude
-import Control.Concurrent
+import Protolude
 import Control.Exception.Safe
 import Data.Aeson
 import Data.Aeson.TH

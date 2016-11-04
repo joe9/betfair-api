@@ -10,26 +10,26 @@ module Betfair.APING.Requests.ListMarketCatalogue
   ,marketCatalogue
   ,jsonRequest
   ,JsonRequest(..)
-  ,JsonParameters(..))
+  ,JsonParameters(..)
+  ,defaultJsonParameters
+  )
   where
 
-import           BasicPrelude                                hiding
+import           Protolude                                hiding
                                                               (filter)
 import qualified Data.Aeson                                  as A (encode)
 import           Data.Aeson.TH                               (Options (omitNothingFields),
                                                               defaultOptions,
                                                               deriveJSON)
-import           Data.Default                                (Default (..))
 --
 import           Betfair.APING.API.APIRequest                (apiRequest)
 import           Betfair.APING.API.Context
 import           Betfair.APING.API.GetResponse               (getDecodedResponse)
 import           Betfair.APING.API.Log                       (groomedLog)
-import           Betfair.APING.Types.MarketBettingType       (MarketBettingType)
 import           Betfair.APING.Types.MarketCatalogue         (MarketCatalogue)
-import           Betfair.APING.Types.MarketFilter            (MarketFilter (marketBettingTypes, marketIds))
+import           Betfair.APING.Types.MarketFilter            (MarketFilter (marketIds),defaultMarketFilter)
 import           Betfair.APING.Types.MarketProjection        (MarketProjection (..))
-import           Betfair.APING.Types.MarketSort              (MarketSort)
+import           Betfair.APING.Types.MarketSort              (MarketSort(FIRST_TO_START))
 import           Betfair.APING.Types.ResponseMarketCatalogue (Response (result))
 
 
@@ -40,13 +40,6 @@ data JsonRequest =
               ,id      :: Int}
   deriving (Eq,Show)
 
-instance Default JsonRequest where
-  def =
-    JsonRequest "2.0"
-                "SportsAPING/v1.0/listMarketCatalogue"
-                (Just def)
-                1
-
 data JsonParameters =
   JsonParameters {filter           :: MarketFilter
                  ,marketProjection :: Maybe [MarketProjection]
@@ -55,13 +48,12 @@ data JsonParameters =
                  ,locale           :: Maybe Text}
   deriving (Eq,Show)
 
--- deriveDefault ''JsonParameters
 -- The weight of all the below are 0.
 --   Hence, I should get the maximum of 1000 markets
-instance Default JsonParameters where
-  def =
+defaultJsonParameters :: JsonParameters
+defaultJsonParameters =
     JsonParameters
-      def
+      defaultMarketFilter
       (Just [COMPETITION
             ,EVENT
             ,EVENT_TYPE
@@ -70,9 +62,9 @@ instance Default JsonParameters where
              -- , MARKET_DESCRIPTION
              RUNNER_DESCRIPTION])
       -- , RUNNER_METADATA
-      def
+      FIRST_TO_START
       1000
-      def
+      Nothing
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonParameters)
@@ -81,12 +73,16 @@ $(deriveJSON defaultOptions {omitNothingFields = True}
              ''JsonRequest)
 
 jsonRequest :: JsonParameters -> JsonRequest
-jsonRequest jp = def {params = Just jp}
+jsonRequest jp =
+    JsonRequest "2.0"
+                "SportsAPING/v1.0/listMarketCatalogue"
+                (Just jp)
+                1
 
 type MarketId = Text
 
 marketIdJsonRequest :: MarketId -> JsonParameters
-marketIdJsonRequest mktid = def {filter = def {marketIds = Just [mktid]}}
+marketIdJsonRequest mktid = defaultJsonParameters {filter = defaultMarketFilter {marketIds = Just [mktid]}}
 
 marketCatalogue
   :: Context -> MarketId -> IO [MarketCatalogue]

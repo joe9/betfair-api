@@ -6,7 +6,7 @@ module Betfair.APING.Types.MarketCatalogue
   (MarketCatalogue(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.Competition       (Competition)
 import Betfair.APING.Types.Event             (Event)
 import Betfair.APING.Types.EventType         (EventType)

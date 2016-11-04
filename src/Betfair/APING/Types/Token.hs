@@ -6,7 +6,7 @@ module Betfair.APING.Types.Token
    )
   where
 
-import BasicPrelude
+import Protolude
 
 -- data Token = Token Text
 --    deriving (Eq, Show)

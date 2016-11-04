@@ -5,7 +5,7 @@ module Betfair.APING.Types.AppKey
   (AppKey)
   where
 
-import BasicPrelude
+import Protolude
 
 -- data Token = Token Text
 --    deriving (Eq, Show)

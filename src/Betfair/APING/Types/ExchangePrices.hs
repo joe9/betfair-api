@@ -8,11 +8,10 @@ module Betfair.APING.Types.ExchangePrices
   (ExchangePrices(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.PriceSize (PriceSize)
 import Data.Aeson.TH                 (Options (omitNothingFields),
                                       defaultOptions, deriveJSON)
-import Data.Default.TH               (deriveDefault)
 
 data ExchangePrices =
   ExchangePrices {availableToBack :: Maybe [PriceSize]
@@ -20,7 +19,6 @@ data ExchangePrices =
                  ,tradedVolume    :: Maybe [PriceSize]}
   deriving (Eq,Show)
 
-deriveDefault ''ExchangePrices
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''ExchangePrices)

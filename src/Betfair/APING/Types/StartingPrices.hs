@@ -8,11 +8,10 @@ module Betfair.APING.Types.StartingPrices
   (StartingPrices(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.PriceSize (PriceSize)
 import Data.Aeson.TH                 (Options (omitNothingFields),
                                       defaultOptions, deriveJSON)
-import Data.Default.TH               (deriveDefault)
 
 data StartingPrices =
   StartingPrices {nearPrice         :: Maybe Double
@@ -22,7 +21,6 @@ data StartingPrices =
                  ,actualSP          :: Maybe Double}
   deriving (Eq,Show)
 
-deriveDefault ''StartingPrices
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''StartingPrices)

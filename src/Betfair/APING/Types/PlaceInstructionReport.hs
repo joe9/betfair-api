@@ -8,14 +8,13 @@ module Betfair.APING.Types.PlaceInstructionReport
   (PlaceInstructionReport(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.InstructionReportErrorCode (InstructionReportErrorCode)
 import Betfair.APING.Types.InstructionReportStatus    (InstructionReportStatus)
 import Betfair.APING.Types.PlaceInstruction           (PlaceInstruction)
 import Data.Aeson.TH                                  (Options (omitNothingFields),
                                                        defaultOptions,
                                                        deriveJSON)
-import Data.Default.TH                                (deriveDefault)
 
 -- type DateString = Text
 data PlaceInstructionReport =
@@ -28,7 +27,6 @@ data PlaceInstructionReport =
                          ,sizeMatched :: Maybe Double}
   deriving (Eq,Show)
 
-deriveDefault ''PlaceInstructionReport
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''PlaceInstructionReport)

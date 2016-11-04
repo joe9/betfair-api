@@ -9,10 +9,9 @@ module Betfair.APING.Types.PriceData
   (PriceData(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data PriceData
   = EX_ALL_OFFERS
@@ -22,7 +21,6 @@ data PriceData
   | EX_TRADED
   deriving (Eq,Show)
 
-deriveDefault ''PriceData
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''PriceData)

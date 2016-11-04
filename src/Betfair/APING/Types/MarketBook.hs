@@ -8,12 +8,11 @@ module Betfair.APING.Types.MarketBook
   (MarketBook(..))
   where
 
-import BasicPrelude
+import Protolude
 import Betfair.APING.Types.MarketStatus (MarketStatus)
 import Betfair.APING.Types.Runner       (Runner)
 import Data.Aeson.TH                    (Options (omitNothingFields),
                                          defaultOptions, deriveJSON)
-import Data.Default.TH                  (deriveDefault)
 
 type DateString = Text
 
@@ -37,7 +36,6 @@ data MarketBook =
              ,runners               :: Maybe [Runner]}
   deriving (Eq,Show)
 
-deriveDefault ''MarketBook
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''MarketBook)

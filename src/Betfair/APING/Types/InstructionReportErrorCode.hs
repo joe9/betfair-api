@@ -8,10 +8,9 @@ module Betfair.APING.Types.InstructionReportErrorCode
   (InstructionReportErrorCode(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data InstructionReportErrorCode
   = INVALID_BET_SIZE
@@ -36,7 +35,6 @@ data InstructionReportErrorCode
   | NO_ACTION_REQUIRED
   deriving (Eq,Show)
 
-deriveDefault ''InstructionReportErrorCode
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''InstructionReportErrorCode)

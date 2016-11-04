@@ -8,7 +8,7 @@ module Betfair.APING.Types.Event
   (Event(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
                       deriveJSON)
 
@@ -23,6 +23,5 @@ data Event =
         ,openDate    :: Maybe DateString}
   deriving (Eq,Show)
 
--- deriveDefault ''Event
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''Event)

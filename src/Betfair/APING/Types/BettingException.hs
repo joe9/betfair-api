@@ -7,10 +7,9 @@ module Betfair.APING.Types.BettingException
   (BettingException(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 --
 import Betfair.APING.Types.Error (Error)
 
@@ -20,7 +19,6 @@ data BettingException =
                    ,id      :: Int}
   deriving (Eq,Read,Show,Typeable)
 
-deriveDefault ''BettingException
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''BettingException)

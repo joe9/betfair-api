@@ -6,100 +6,81 @@
 {-# LANGUAGE UndecidableInstances #-}
 
 module Betfair.APING.Requests.ListMarketBook
-  (JsonParameters(..)
-  ,listMarketBook
-  ,marketBook
-  ,marketBooks
-  ,JsonRequest(..))
-  where
+  ( JsonParameters(..)
+  , listMarketBook
+  , marketBook
+  , marketBooks
+  , JsonRequest(..)
+  ) where
 
-import           BasicPrelude
-import qualified Data.Aeson                             as A (encode)
-import           Data.Aeson.TH                          (Options (omitNothingFields),
-                                                         defaultOptions,
-                                                         deriveJSON)
-import           Data.Default                           (Default (..))
+import qualified Data.Aeson    as A (encode)
+import           Data.Aeson.TH (Options (omitNothingFields),
+                                defaultOptions, deriveJSON)
+import           Protolude
+
 --
-import           Betfair.APING.API.APIRequest           (apiRequest)
-import           Betfair.APING.API.Context
-import           Betfair.APING.API.GetResponse          (getDecodedResponse)
-import           Betfair.APING.API.Log
-import           Betfair.APING.Types.MarketBook         (MarketBook)
-import           Betfair.APING.Types.MatchProjection    (MatchProjection)
-import           Betfair.APING.Types.OrderProjection    (OrderProjection)
-import           Betfair.APING.Types.PriceData          (PriceData)
-import           Betfair.APING.Types.PriceProjection    (PriceProjection (priceData))
-import           Betfair.APING.Types.ResponseMarketBook (Response (result))
+import Betfair.APING.API.APIRequest           (apiRequest)
+import Betfair.APING.API.Context
+import Betfair.APING.API.GetResponse          (getDecodedResponse)
+import Betfair.APING.API.Log
+import Betfair.APING.Types.MarketBook         (MarketBook)
+import Betfair.APING.Types.MatchProjection    (MatchProjection (NO_ROLLUP))
+import Betfair.APING.Types.OrderProjection    (OrderProjection (ALL))
+import Betfair.APING.Types.PriceData          (PriceData)
+import Betfair.APING.Types.PriceProjection    (PriceProjection (priceData),
+                                               defaultPriceProjection)
+import Betfair.APING.Types.ResponseMarketBook (Response (result))
 
+data JsonRequest = JsonRequest
+  { jsonrpc :: Text
+  , method  :: Text
+  , params  :: Maybe JsonParameters
+  , id      :: Int
+  } deriving (Eq, Show)
 
-data JsonRequest =
-  JsonRequest {jsonrpc :: Text
-              ,method  :: Text
-              ,params  :: Maybe JsonParameters
-              ,id      :: Int}
-  deriving (Eq,Show)
+data JsonParameters = JsonParameters
+  { marketIds       :: [Text]
+  , priceProjection :: PriceProjection
+  , orderProjection :: OrderProjection
+  , matchProjection :: MatchProjection
+  , currencyCode    :: Text
+  , locale          :: Maybe Text
+  } deriving (Eq, Show)
 
-instance Default JsonRequest where
-  def =
-    JsonRequest "2.0"
-                "SportsAPING/v1.0/listMarketBook"
-                (Just def)
-                1
+defaultJsonParameters :: JsonParameters
+defaultJsonParameters =
+  JsonParameters [] defaultPriceProjection ALL NO_ROLLUP "GBP" Nothing
 
-data JsonParameters =
-  JsonParameters {marketIds       :: [Text]
-                 ,priceProjection :: PriceProjection
-                 ,orderProjection :: OrderProjection
-                 ,matchProjection :: MatchProjection
-                 ,currencyCode    :: Text
-                 ,locale          :: Maybe Text}
-  deriving (Eq,Show)
+$(deriveJSON defaultOptions {omitNothingFields = True} ''JsonParameters)
 
--- deriveDefault ''JsonParameters
-instance Default JsonParameters where
-  def = JsonParameters def def def def "GBP" def
-
-$(deriveJSON defaultOptions {omitNothingFields = True}
-             ''JsonParameters)
-
-$(deriveJSON defaultOptions {omitNothingFields = True}
-             ''JsonRequest)
+$(deriveJSON defaultOptions {omitNothingFields = True} ''JsonRequest)
 
 jsonRequest :: JsonParameters -> JsonRequest
-jsonRequest jp = def {params = Just jp}
+jsonRequest jp = JsonRequest "2.0" "SportsAPING/v1.0/listMarketBook" (Just jp) 1
 
-listMarketBook
-  :: Context -> JsonParameters -> IO [MarketBook]
+listMarketBook :: Context -> JsonParameters -> IO [MarketBook]
 listMarketBook c jp =
   groomedLog c =<<
   fmap result . getDecodedResponse c =<<
-  (\r ->
-     groomedLog c
-                (jsonRequest jp) >>
-     return r) =<<
-  apiRequest c
-             (A.encode $ jsonRequest jp)
+  (\r -> groomedLog c (jsonRequest jp) >> return r) =<<
+  apiRequest c (A.encode $ jsonRequest jp)
 
 type MarketId = Text
 
-marketBook
-  :: Context
-  -> MarketId
-  -> [PriceData]
-  -> IO [MarketBook]
+marketBook :: Context -> MarketId -> [PriceData] -> IO [MarketBook]
 marketBook c mktid pd =
   listMarketBook
     c
-    (def {marketIds = [mktid]
-         ,priceProjection = def {priceData = pd}})
+    (defaultJsonParameters
+     { marketIds = [mktid]
+     , priceProjection = defaultPriceProjection {priceData = pd}
+     })
 
-marketBooks
-  :: Context
-  -> [MarketId]
-  -> [PriceData]
-  -> IO [MarketBook]
+marketBooks :: Context -> [MarketId] -> [PriceData] -> IO [MarketBook]
 marketBooks c mktids pd =
   listMarketBook
     c
-    (def {marketIds = mktids
-         ,priceProjection = def {priceData = pd}})
+    (defaultJsonParameters
+     { marketIds = mktids
+     , priceProjection = defaultPriceProjection {priceData = pd}
+     })

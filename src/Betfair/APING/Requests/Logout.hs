@@ -7,7 +7,7 @@ module Betfair.APING.Requests.Logout
   ,Logout(..))
   where
 
-import BasicPrelude
+import Protolude
 import Control.Exception.Safe
 import Data.Aeson
 import Data.Aeson.TH

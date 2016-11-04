@@ -7,10 +7,9 @@ module Betfair.APING.Types.PersistenceType
   (PersistenceType(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data PersistenceType
   = LAPSE
@@ -18,7 +17,6 @@ data PersistenceType
   | MARKET_ON_CLOSE
   deriving (Eq,Show)
 
-deriveDefault ''PersistenceType
 
 $(deriveJSON defaultOptions {omitNothingFields = True}
              ''PersistenceType)

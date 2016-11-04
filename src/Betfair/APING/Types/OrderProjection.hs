@@ -9,10 +9,9 @@ module Betfair.APING.Types.OrderProjection
   (OrderProjection(..))
   where
 
-import BasicPrelude
+import Protolude
 import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
                         deriveJSON)
-import Data.Default.TH (deriveDefault)
 
 data OrderProjection
   = ALL
@@ -20,7 +19,6 @@ data OrderProjection
   | EXECUTION_COMPLETE
   deriving (Eq,Show)
 
-deriveDefault ''OrderProjection
 
 -- $(deriveJSON id ''Record)
 $(deriveJSON defaultOptions {omitNothingFields = True}
