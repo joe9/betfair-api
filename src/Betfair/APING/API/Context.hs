@@ -2,30 +2,24 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Betfair.APING.API.Context
-  (Context(..)
-  ,initializeContext)
-  where
+  ( Context(..)
+  , initializeContext
+  ) where
 
-import Protolude
 import Betfair.APING.Types.AppKey (AppKey)
 import Betfair.APING.Types.Token  (Token)
 import Network.HTTP.Conduit
+import Protolude
 
-data Context =
-  Context {cAppKey  :: AppKey
-          ,cManager :: Manager
-          ,cToken   :: Token
-          ,cLogger  :: Text -> IO ()}
+data Context = Context
+  { cAppKey  :: AppKey
+  , cManager :: Manager
+  , cToken   :: Token
+  , cLogger  :: Text -> IO ()
+  }
 
-initializeContext
-  :: Manager -> AppKey -> Maybe (Text -> IO ()) -> Context
+initializeContext :: Manager -> AppKey -> Maybe (Text -> IO ()) -> Context
 initializeContext mgr a Nothing =
-  Context {cAppKey = a
-          ,cToken = ""
-          ,cManager = mgr
-          ,cLogger = print}
+  Context {cAppKey = a, cToken = "", cManager = mgr, cLogger = print}
 initializeContext mgr a (Just f) =
-  Context {cAppKey = a
-          ,cToken = ""
-          ,cManager = mgr
-          ,cLogger = f}
+  Context {cAppKey = a, cToken = "", cManager = mgr, cLogger = f}

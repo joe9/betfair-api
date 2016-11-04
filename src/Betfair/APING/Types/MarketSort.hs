@@ -1,16 +1,16 @@
+{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Betfair.APING.Types.MarketSort
-  (MarketSort(..))
-  where
+  ( MarketSort(..)
+  ) where
 
+import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
+                      deriveJSON)
 import Protolude
-import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
-                        deriveJSON)
 
 data MarketSort
   = FIRST_TO_START
@@ -19,8 +19,6 @@ data MarketSort
   | MINIMUM_AVAILABLE
   | MAXIMUM_AVAILABLE
   | LAST_TO_START
-  deriving (Eq,Show)
+  deriving (Eq, Show)
 
-
-$(deriveJSON defaultOptions {omitNothingFields = True}
-             ''MarketSort)
+$(deriveJSON defaultOptions {omitNothingFields = True} ''MarketSort)

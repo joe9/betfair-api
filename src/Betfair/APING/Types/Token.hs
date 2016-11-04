@@ -2,9 +2,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Betfair.APING.Types.Token
-  (Token -- (..)
-   )
-  where
+  ( Token -- (..)
+  ) where
 
 import Protolude
 

@@ -2,8 +2,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Betfair.APING.Types.AppKey
-  (AppKey)
-  where
+  ( AppKey
+  ) where
 
 import Protolude
 

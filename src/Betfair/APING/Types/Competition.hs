@@ -1,23 +1,21 @@
-{-# LANGUAGE NoImplicitPrelude    #-}
-{-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
 {-# LANGUAGE FlexibleContexts     #-}
+{-# LANGUAGE NoImplicitPrelude    #-}
+{-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Betfair.APING.Types.Competition
-  (Competition(..))
-  where
+  ( Competition(..)
+  ) where
 
+import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
+                      deriveJSON)
 import Protolude
-import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
-                        deriveJSON)
 
-data Competition =
-  Competition {id   :: Text
-              ,name :: Text}
-  deriving (Eq,Show)
+data Competition = Competition
+  { id   :: Text
+  , name :: Text
+  } deriving (Eq, Show)
 
-
-$(deriveJSON defaultOptions {omitNothingFields = True}
-             ''Competition)
+$(deriveJSON defaultOptions {omitNothingFields = True} ''Competition)

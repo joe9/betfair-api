@@ -2,103 +2,93 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Betfair.APING
-  (
-   -- API
-   -- Context
-   Context(..)
-  ,initializeContext
-  ,
+-- API
+-- Context
+  ( Context(..)
+  , initializeContext
    -- GetResponse
-   getDecodedResponse
-  ,
+  , getDecodedResponse
    -- Requests
    -- Login
-   sessionToken
-  ,
+  , sessionToken
    -- Logout
-   logout
-  ,
+  , logout
    -- PlaceOrders
-   placeOrder
-  ,placeOrderWithParams
-  ,
+  , placeOrder
+  , placeOrderWithParams
    -- KeepAlive
-   keepAlive
-  ,keepAliveOnceEvery10Minutes
-  ,
+  , keepAlive
+  , keepAliveOnceEvery10Minutes
    -- ListMarketBook
-   listMarketBook
-  ,marketBook
-  ,marketBooks
-  ,
+  , listMarketBook
+  , marketBook
+  , marketBooks
    -- ListMarketCatalogue
-   marketCatalogue
-  ,
+  , marketCatalogue
    -- CancelOrders
-   cancelOrder
-  ,cancelOrderWithParams
-  ,
+  , cancelOrder
+  , cancelOrderWithParams
    -- Types
-   APINGException
-  ,AppKey
-  ,BettingException
-  ,CancelExecutionReport
-  ,CancelInstruction
-  ,CancelInstructionReport
-  ,Competition
-  ,Error
-  ,ErrorData
-  ,Event
-  ,EventType
-  ,ExBestOffersOverrides
-  ,ExchangePrices
-  ,ExecutionReportErrorCode
-  ,ExecutionReportStatus
-  ,InstructionReportErrorCode
-  ,InstructionReportStatus
-  ,LimitOnCloseOrder
-  ,LimitOrder
-  ,Login
-  ,MarketBettingType
-  ,MarketBook
-  ,MarketCatalogue
-  ,MarketDescription
-  ,MarketFilter
-  ,MarketOnCloseOrder
-  ,MarketProjection
-  ,MarketSort
-  ,MarketStatus
-  ,Match
-  ,MatchProjection
-  ,Order
-  ,OrderProjection
-  ,OrderStatus
-  ,OrderType
-  ,PersistenceType
-  ,PlaceExecutionReport
-  ,PlaceInstruction
-  ,PlaceInstructionReport
-  ,PriceData
-  ,PriceProjection
-  ,PriceSize
-  ,
+  , APINGException
+  , AppKey
+  , BettingException
+  , CancelExecutionReport
+  , CancelInstruction
+  , CancelInstructionReport
+  , Competition
+  , Error
+  , ErrorData
+  , Event
+  , EventType
+  , ExBestOffersOverrides
+  , ExchangePrices
+  , ExecutionReportErrorCode
+  , ExecutionReportStatus
+  , InstructionReportErrorCode
+  , InstructionReportStatus
+  , LimitOnCloseOrder
+  , LimitOrder
+  , Login
+  , MarketBettingType
+  , MarketBook
+  , MarketCatalogue
+  , MarketDescription
+  , MarketFilter
+  , MarketOnCloseOrder
+  , MarketProjection
+  , MarketSort
+  , MarketStatus
+  , Match
+  , MatchProjection
+  , Order
+  , OrderProjection
+  , OrderStatus
+  , OrderType
+  , PersistenceType
+  , PlaceExecutionReport
+  , PlaceInstruction
+  , PlaceInstructionReport
+  , PriceData
+  , PriceProjection
+  , PriceSize
    --   ,ResponseCancelOrders
    --   ,ResponseMarketBook
    --   ,ResponseMarketCatalogue
    --   ,ResponsePlaceOrders
-   RollupModel
-  ,Runner
-  ,RunnerCatalog
-  ,RunnerStatus
-  ,Side
-  ,StartingPrices
-  ,TimeRange
-  ,Token)
-  where
+  , RollupModel
+  , Runner
+  , RunnerCatalog
+  , RunnerStatus
+  , Side
+  , StartingPrices
+  , TimeRange
+  , Token
+  ) where
 
 -- import Betfair.APING.API.APIRequest
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse
+
 -- import Betfair.APING.API.Headers
 -- import Betfair.APING.API.Log
 import Betfair.APING.Requests.CancelOrders
@@ -150,6 +140,7 @@ import Betfair.APING.Types.PlaceInstructionReport
 import Betfair.APING.Types.PriceData
 import Betfair.APING.Types.PriceProjection
 import Betfair.APING.Types.PriceSize
+
 -- import Betfair.APING.Types.ResponseCancelOrders
 -- import Betfair.APING.Types.ResponseMarketBook
 -- import Betfair.APING.Types.ResponseMarketCatalogue

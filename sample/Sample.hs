@@ -14,7 +14,8 @@ import Network.HTTP.Conduit
 --
 import Betfair.APING
 import Betfair.APING.Requests.ListMarketCatalogue (JsonParameters (filter, marketProjection),
-                                                   listMarketCatalogue, defaultJsonParameters)
+                                                   defaultJsonParameters,
+                                                   listMarketCatalogue)
 import Betfair.APING.Types.MarketFilter
 import Betfair.APING.Types.MarketProjection       (MarketProjection (COMPETITION, EVENT, EVENT_TYPE, MARKET_START_TIME, RUNNER_DESCRIPTION))
 

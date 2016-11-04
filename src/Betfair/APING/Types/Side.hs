@@ -1,22 +1,20 @@
+{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Betfair.APING.Types.Side
-  (Side(..))
-  where
+  ( Side(..)
+  ) where
 
+import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
+                      deriveJSON)
 import Protolude
-import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
-                        deriveJSON)
 
 data Side
   = BACK
   | LAY
-  deriving (Eq,Show)
+  deriving (Eq, Show)
 
-
-$(deriveJSON defaultOptions {omitNothingFields = True}
-             ''Side)
+$(deriveJSON defaultOptions {omitNothingFields = True} ''Side)

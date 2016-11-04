@@ -1,21 +1,20 @@
+{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Betfair.APING.Types.EventType
-  (EventType(..))
-  where
+  ( EventType(..)
+  ) where
 
-import Protolude
 import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
                       deriveJSON)
+import Protolude
 
-data EventType =
-  EventType {id   :: Text
-            ,name :: Maybe Text}
-  deriving (Eq,Show)
+data EventType = EventType
+  { id   :: Text
+  , name :: Maybe Text
+  } deriving (Eq, Show)
 
-$(deriveJSON defaultOptions {omitNothingFields = True}
-             ''EventType)
+$(deriveJSON defaultOptions {omitNothingFields = True} ''EventType)

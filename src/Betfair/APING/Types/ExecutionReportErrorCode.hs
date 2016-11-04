@@ -1,16 +1,16 @@
+{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Betfair.APING.Types.ExecutionReportErrorCode
-  (ExecutionReportErrorCode(..))
-  where
+  ( ExecutionReportErrorCode(..)
+  ) where
 
+import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
+                      deriveJSON)
 import Protolude
-import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
-                        deriveJSON)
 
 data ExecutionReportErrorCode
   = ERROR_IN_MATCHER
@@ -30,8 +30,8 @@ data ExecutionReportErrorCode
   | NO_ACTION_REQUIRED
   | SERVICE_UNAVAILABLE
   | REJECTED_BY_REGULATOR
-  deriving (Eq,Show)
+  deriving (Eq, Show)
 
-
-$(deriveJSON defaultOptions {omitNothingFields = True}
-             ''ExecutionReportErrorCode)
+$(deriveJSON
+    defaultOptions {omitNothingFields = True}
+    ''ExecutionReportErrorCode)

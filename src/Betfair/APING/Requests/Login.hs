@@ -2,15 +2,16 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Betfair.APING.Requests.Login
-  (sessionToken
-  ,login)
-  where
+  ( sessionToken
+  , login
+  ) where
 
-import           Protolude            hiding (error, null)
 import           Control.Exception.Safe
-import qualified Data.ByteString.Lazy    as L (ByteString)
+import qualified Data.ByteString.Lazy   as L (ByteString)
 import           Data.Text
 import           Network.HTTP.Conduit
+import           Protolude              hiding (error, null)
+
 --
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse
@@ -20,24 +21,21 @@ import Betfair.APING.Types.Login
 import Betfair.APING.Types.Token     (Token)
 
 -- http://stackoverflow.com/questions/3232074/what-is-the-best-way-to-convert-string-to-bytestring
-encodeBody
-  :: AppKey -> Text -> Text -> Request -> Request
+encodeBody :: AppKey -> Text -> Text -> Request -> Request
 encodeBody appKey username password req =
-  urlEncodedBody [("username",toS username),("password",toS password)]
-                 req {requestHeaders = headers appKey Nothing}
+  urlEncodedBody
+    [("username", toS username), ("password", toS password)]
+    req {requestHeaders = headers appKey Nothing}
 
 -- Note that loginRequest uses a url encoded body unlike other
 --   requests (which are json objects)
-loginRequest
-  :: Context -> Text -> Text -> IO Request
+loginRequest :: Context -> Text -> Text -> IO Request
 loginRequest context username password =
-  fmap (encodeBody (cAppKey context)
-                   username
-                   password)
-       (parseUrlThrow "https://identitysso.betfair.com/api/login")
+  fmap
+    (encodeBody (cAppKey context) username password)
+    (parseUrlThrow "https://identitysso.betfair.com/api/login")
 
-sessionToken
-  ::  Context -> Text -> Text -> IO Token
+sessionToken :: Context -> Text -> Text -> IO Token
 sessionToken context username password =
   either throwM pure =<<
   fmap parseLogin . getDecodedResponse context =<<
@@ -48,6 +46,5 @@ parseLogin l
   | null (token l) = Left (toLoginError l)
   | otherwise = Right (token l)
 
-login
-  :: Context -> Text -> Text -> IO (Response L.ByteString)
+login :: Context -> Text -> Text -> IO (Response L.ByteString)
 login c u p = getResponse c =<< loginRequest c u p

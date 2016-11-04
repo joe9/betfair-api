@@ -1,16 +1,16 @@
+{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Betfair.APING.Types.MarketProjection
-  (MarketProjection(..))
-  where
+  ( MarketProjection(..)
+  ) where
 
+import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
+                      deriveJSON)
 import Protolude
-import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
-                        deriveJSON)
 
 data MarketProjection
   = COMPETITION
@@ -20,8 +20,6 @@ data MarketProjection
   | MARKET_DESCRIPTION
   | RUNNER_DESCRIPTION
   | RUNNER_METADATA
-  deriving (Eq,Show)
+  deriving (Eq, Show)
 
-
-$(deriveJSON defaultOptions {omitNothingFields = True}
-             ''MarketProjection)
+$(deriveJSON defaultOptions {omitNothingFields = True} ''MarketProjection)

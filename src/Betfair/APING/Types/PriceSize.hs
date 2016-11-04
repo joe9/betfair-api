@@ -1,22 +1,20 @@
+{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
-{-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE TemplateHaskell      #-}
 {-# LANGUAGE UndecidableInstances #-}
 
 module Betfair.APING.Types.PriceSize
-  (PriceSize(..))
-  where
+  ( PriceSize(..)
+  ) where
 
+import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
+                      deriveJSON)
 import Protolude
-import Data.Aeson.TH   (Options (omitNothingFields), defaultOptions,
-                        deriveJSON)
 
-data PriceSize =
-  PriceSize {price :: Double
-            ,size  :: Double}
-  deriving (Eq,Show,Read,Ord)
+data PriceSize = PriceSize
+  { price :: Double
+  , size  :: Double
+  } deriving (Eq, Show, Read, Ord)
 
-
-$(deriveJSON defaultOptions {omitNothingFields = True}
-             ''PriceSize)
+$(deriveJSON defaultOptions {omitNothingFields = True} ''PriceSize)

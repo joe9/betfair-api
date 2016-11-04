@@ -10,9 +10,9 @@ module Betfair.APING.Types.PriceProjection
   , defaultPriceProjection
   ) where
 
-import Betfair.APING.Types.ExBestOffersOverrides (ExBestOffersOverrides(..))
-import Betfair.APING.Types.RollupModel (RollupModel(NONE))
+import Betfair.APING.Types.ExBestOffersOverrides (ExBestOffersOverrides (..))
 import Betfair.APING.Types.PriceData             (PriceData (EX_ALL_OFFERS, EX_TRADED))
+import Betfair.APING.Types.RollupModel           (RollupModel (NONE))
 import Data.Aeson.TH                             (Options (omitNothingFields),
                                                   defaultOptions,
                                                   deriveJSON)
