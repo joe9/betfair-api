@@ -5,16 +5,18 @@ module Betfair.APING.API.Headers
   ( headers
   ) where
 
-import Betfair.APING.Types.AppKey (AppKey)
-import Betfair.APING.Types.Token  (Token)
 import Network.HTTP.Types.Header  (RequestHeaders)
 import Protolude
+import Data.String.Conversions
+
+import Betfair.APING.Types.AppKey (AppKey)
+import Betfair.APING.Types.Token  (Token)
 
 headers :: AppKey -> Maybe Token -> RequestHeaders
 headers appKey Nothing =
   [ ("Accept", "application/json")
     --     , (   "X-Application" ,   delayedAppKey )
-  , ("X-Application", show appKey)
+  , ("X-Application", cs appKey)
   , ("Content-Type", "application/json")
     -- below as recommended by Betfair "Best Practice"
   , ("Accept-Encoding", "gzip,deflate")
@@ -24,4 +26,4 @@ headers appKey Nothing =
   , ("Connection", "Keep-Alive")
   ]
 headers appKey (Just token) =
-  ("X-Authentication", show token) : headers appKey Nothing
+  ("X-Authentication", cs token) : headers appKey Nothing

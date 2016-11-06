@@ -9,13 +9,14 @@ module Betfair.APING.API.GetResponse
 
 import           Control.Exception.Safe
 import           Data.Aeson
-import qualified Data.ByteString.Lazy   as L (ByteString)
-import           Network.HTTP.Conduit   (HttpException (..),
-                                         HttpExceptionContent (..),
-                                         Request,
-                                         Response (responseBody),
-                                         Response (), httpLbs)
-import           Protolude              hiding (throwIO, try)
+import qualified Data.ByteString.Lazy    as L (ByteString)
+import           Data.String.Conversions
+import           Network.HTTP.Conduit    (HttpException (..),
+                                          HttpExceptionContent (..),
+                                          Request,
+                                          Response (responseBody),
+                                          Response (), httpLbs)
+import           Protolude               hiding (throwIO, try)
 
 import Betfair.APING.API.Context
 import Betfair.APING.API.Log
@@ -66,7 +67,7 @@ getResponse c req =
   groomedLog c =<< flip (tryForResponse c) 0 =<< groomedLog c req
 
 getResponseBodyText :: Context -> Request -> IO Text
-getResponseBodyText c req = fmap (toS . responseBody) (getResponse c req)
+getResponseBodyText c req = fmap (cs . responseBody) (getResponse c req)
 
 getDecodedResponse
   :: FromJSON a
@@ -76,12 +77,12 @@ getDecodedResponse c r =
   (\b -> (either (throwExceptions b) pure . decodeResponse) b)
 
 bettingException :: L.ByteString -> Either ParserError BettingException
-bettingException = either (Left . ParserError . toS) pure . eitherDecode
+bettingException = either (Left . ParserError . cs) pure . eitherDecode
 
 decodeResponse
   :: FromJSON a
   => L.ByteString -> Either ParserError a
-decodeResponse = either (Left . ParserError . toS) pure . eitherDecode
+decodeResponse = either (Left . ParserError . cs) pure . eitherDecode
 
 throwExceptions
   :: (MonadThrow m)

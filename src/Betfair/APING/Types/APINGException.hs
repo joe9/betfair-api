@@ -11,6 +11,7 @@ module Betfair.APING.Types.APINGException
 import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
                       deriveJSON)
 import Data.List
+import Data.String.Conversions
 import GHC.Show
 import Protolude
 
@@ -23,7 +24,7 @@ data APINGException = APINGException
 $(deriveJSON defaultOptions {omitNothingFields = True} ''APINGException)
 
 instance Show APINGException where
-  show = toS . showAPINGException
+  show = cs . showAPINGException
 
 showAPINGException :: APINGException -> Text
 showAPINGException a =

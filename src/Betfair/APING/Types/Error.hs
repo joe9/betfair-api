@@ -8,12 +8,14 @@ module Betfair.APING.Types.Error
   ( Error(..)
   ) where
 
-import Betfair.APING.Types.ErrorData (ErrorData)
 import Data.Aeson.TH                 (Options (fieldLabelModifier, omitNothingFields),
                                       defaultOptions, deriveJSON)
 import Data.List
+import Data.String.Conversions
 import GHC.Show
 import Protolude
+
+import Betfair.APING.Types.ErrorData (ErrorData)
 
 data Error = Error
   { code      :: Integer
@@ -33,7 +35,7 @@ $(deriveJSON
     ''Error)
 
 instance Show Error where
-  show = toS . showError
+  show = cs . showError
 
 showError :: Error -> Text
 showError a =

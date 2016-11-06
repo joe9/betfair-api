@@ -9,11 +9,9 @@ module Betfair.APING.API.Log
   ) where
 
 import Protolude
-
--- import Data.Text
+import Data.String.Conversions
 import Text.Groom (groom)
 
---
 import Betfair.APING.API.Context
 
 type Log = Text
@@ -24,7 +22,7 @@ toLog = cLogger
 groomedLog
   :: Show a
   => Context -> a -> IO a
-groomedLog c s = (toLog c . toS . groom) s >> return s
+groomedLog c s = (toLog c . cs . groom) s >> return s
 
 stdOutAndLog :: Context -> Text -> IO ()
 stdOutAndLog c s = toLog c s >> putText s

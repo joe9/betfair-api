@@ -15,7 +15,6 @@ import Data.Aeson.TH
 import Data.List
 import Protolude     hiding (error)
 
---
 import Betfair.APING.Types.Token (Token)
 
 data Login = Login
