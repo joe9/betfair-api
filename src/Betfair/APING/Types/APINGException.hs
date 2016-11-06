@@ -8,10 +8,10 @@ module Betfair.APING.Types.APINGException
   ( APINGException(..)
   ) where
 
-import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
-                      deriveJSON)
+import Data.Aeson.TH           (Options (omitNothingFields),
+                                defaultOptions, deriveJSON)
 import Data.List
-import Data.String.Conversions
+import Data.String.Conversions (cs)
 import GHC.Show
 import Protolude
 

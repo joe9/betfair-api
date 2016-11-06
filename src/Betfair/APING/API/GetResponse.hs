@@ -10,7 +10,7 @@ module Betfair.APING.API.GetResponse
 import           Control.Exception.Safe
 import           Data.Aeson
 import qualified Data.ByteString.Lazy    as L (ByteString)
-import           Data.String.Conversions
+import           Data.String.Conversions (cs)
 import           Network.HTTP.Conduit    (HttpException (..),
                                           HttpExceptionContent (..),
                                           Request,
