@@ -143,7 +143,6 @@ executable Sample
                      , case-insensitive
                      , http-types
                      , connection
-                     , groom
                      , ansi-terminal
                      , old-locale
                      , betfair-api
