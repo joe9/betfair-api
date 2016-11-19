@@ -1,5 +1,8 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveAnyClass #-}
 
 module Betfair.APING.API.GetResponse
   ( getResponse
@@ -13,10 +16,11 @@ import qualified Data.ByteString.Lazy    as L (ByteString)
 import           Data.String.Conversions (cs)
 import           Network.HTTP.Conduit    (HttpException (..),
                                           HttpExceptionContent (..),
-                                          Request,
+--                                           Request(..),
                                           Response (responseBody),
                                           Response (), httpLbs)
 import           Protolude               hiding (throwIO, try)
+import  Network.HTTP.Client.Types
 
 import Betfair.APING.API.Context
 import Betfair.APING.API.Log
@@ -28,6 +32,9 @@ data ParserError =
 
 instance Exception ParserError
 
+deriving instance Generic Request
+deriving instance ToJSON Request
+
 tryRequestAgain :: Context
                 -> Request
                 -> HttpException
@@ -36,7 +43,7 @@ tryRequestAgain :: Context
 tryRequestAgain c req e i
   | i > 9 = throwM e
   | otherwise =
-    groomedLog
+    traceLog
       c
       ("Betfair.APING.API.GetResponse.hs: HttpException - " <>
        show (e :: HttpException) <>
@@ -64,7 +71,7 @@ tryForResponse c req i = do
 
 getResponse :: Context -> Request -> IO (Response L.ByteString)
 getResponse c req =
-  groomedLog c =<< flip (tryForResponse c) 0 =<< groomedLog c req
+  traceLog c =<< flip (tryForResponse c) 0 =<< tracePPLog c req
 
 getResponseBodyText :: Context -> Request -> IO Text
 getResponseBodyText c req = fmap (cs . responseBody) (getResponse c req)

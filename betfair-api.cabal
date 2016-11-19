@@ -97,7 +97,7 @@ library
                      , http-conduit
                      , http-client >= 0.5.0
                      , http-types
-                     , groom
+                     , aeson-pretty
                      , MissingH
                      , protolude
                      , text

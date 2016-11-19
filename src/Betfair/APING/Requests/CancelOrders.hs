@@ -21,7 +21,7 @@ import           Protolude
 import Betfair.APING.API.APIRequest              (apiRequest)
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse             (getDecodedResponse)
-import Betfair.APING.API.Log                     (groomedLog)
+import Betfair.APING.API.Log                     (tracePPLog)
 import Betfair.APING.Types.CancelExecutionReport (CancelExecutionReport)
 import Betfair.APING.Types.CancelInstruction     (CancelInstruction)
 import Betfair.APING.Types.ResponseCancelOrders  (Response (result))
@@ -50,7 +50,7 @@ jsonRequest jp = JsonRequest "2.0" "SportsAPING/v1.0/cancelOrders" (Just jp) 1
 
 cancelOrderWithParams :: Context -> JsonParameters -> IO CancelExecutionReport
 cancelOrderWithParams c jp =
-  groomedLog c =<<
+  tracePPLog c =<<
   fmap result . getDecodedResponse c =<<
   apiRequest c (A.encode $ jsonRequest jp)
 
@@ -65,4 +65,4 @@ cancelOrder
   -> CustomerRef
   -> IO CancelExecutionReport
 cancelOrder c mktid pin cref =
-  groomedLog c (JsonParameters mktid [pin] cref) >>= cancelOrderWithParams c
+  tracePPLog c (JsonParameters mktid [pin] cref) >>= cancelOrderWithParams c

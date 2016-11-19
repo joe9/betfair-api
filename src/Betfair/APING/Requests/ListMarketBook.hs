@@ -60,9 +60,9 @@ jsonRequest jp = JsonRequest "2.0" "SportsAPING/v1.0/listMarketBook" (Just jp) 1
 
 listMarketBook :: Context -> JsonParameters -> IO [MarketBook]
 listMarketBook c jp =
-  groomedLog c =<<
+  tracePPLog c =<<
   fmap result . getDecodedResponse c =<<
-  (\r -> groomedLog c (jsonRequest jp) >> return r) =<<
+  (\r -> tracePPLog c (jsonRequest jp) >> return r) =<<
   apiRequest c (A.encode $ jsonRequest jp)
 
 type MarketId = Text

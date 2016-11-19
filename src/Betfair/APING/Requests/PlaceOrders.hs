@@ -21,7 +21,7 @@ import           Protolude
 import Betfair.APING.API.APIRequest             (apiRequest)
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse            (getDecodedResponse)
-import Betfair.APING.API.Log                    (groomedLog)
+import Betfair.APING.API.Log                    (tracePPLog)
 import Betfair.APING.Types.PlaceExecutionReport (PlaceExecutionReport)
 import Betfair.APING.Types.PlaceInstruction     (PlaceInstruction)
 
@@ -47,7 +47,7 @@ jsonRequest jp = JsonRequest "2.0" "SportsAPING/v1.0/placeOrders" (Just jp) 1
 
 placeOrderWithParams :: Context -> JsonParameters -> IO PlaceExecutionReport
 placeOrderWithParams c jp =
-  groomedLog c =<<
+  tracePPLog c =<<
   getDecodedResponse c =<< apiRequest c (A.encode $ jsonRequest jp)
 
 type CustomerRef = Text
@@ -61,4 +61,4 @@ placeOrder
   -> CustomerRef
   -> IO PlaceExecutionReport
 placeOrder c mktid pin cref =
-  groomedLog c (JsonParameters mktid [pin] cref) >>= placeOrderWithParams c
+  tracePPLog c (JsonParameters mktid [pin] cref) >>= placeOrderWithParams c

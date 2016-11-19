@@ -23,7 +23,7 @@ import           Protolude     hiding (filter)
 import Betfair.APING.API.APIRequest                (apiRequest)
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse               (getDecodedResponse)
-import Betfair.APING.API.Log                       (groomedLog)
+import Betfair.APING.API.Log                       (tracePPLog)
 import Betfair.APING.Types.MarketCatalogue         (MarketCatalogue)
 import Betfair.APING.Types.MarketFilter            (MarketFilter (marketIds),
                                                     defaultMarketFilter)
@@ -85,7 +85,7 @@ marketCatalogue c mktid = listMarketCatalogue c (marketIdJsonRequest mktid)
 
 listMarketCatalogue :: Context -> JsonParameters -> IO [MarketCatalogue]
 listMarketCatalogue c jp =
-  groomedLog c =<<
+  tracePPLog c =<<
   fmap result . getDecodedResponse c =<<
-  (\r -> groomedLog c (jsonRequest jp) >> return r) =<<
+  (\r -> tracePPLog c (jsonRequest jp) >> return r) =<<
   apiRequest c (A.encode $ jsonRequest jp)
