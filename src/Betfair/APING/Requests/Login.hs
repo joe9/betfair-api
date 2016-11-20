@@ -7,11 +7,11 @@ module Betfair.APING.Requests.Login
   ) where
 
 import           Control.Exception.Safe
-import qualified Data.ByteString.Lazy           as L (ByteString)
+import qualified Data.ByteString.Lazy    as L (ByteString)
 import           Data.String.Conversions
 import           Data.Text
 import           Network.HTTP.Conduit
-import           Protolude                      hiding (error, null)
+import           Protolude               hiding (error, null)
 
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse
