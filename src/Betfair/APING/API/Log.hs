@@ -1,5 +1,3 @@
-{-# LANGUAGE DeriveAnyClass    #-}
-{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
@@ -15,7 +13,6 @@ import Data.Aeson
 import Data.Aeson.Encode.Pretty
 import Data.Text.Lazy.Builder
 import Protolude
-import Text.PrettyPrint.GenericPretty
 
 import Text.PrettyPrint.GenericPretty
 
@@ -30,7 +27,7 @@ toLog = cLogger
 ppText
   :: Pretty a
   => a -> Text
-ppText = toStrict . displayPretty
+ppText = displayPretty
 
 tracePPLog
   :: Pretty a
