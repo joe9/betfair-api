@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -8,12 +10,15 @@ module Betfair.APING.Types.APINGException
   ( APINGException(..)
   ) where
 
-import Data.Aeson.TH           (Options (omitNothingFields),
-                                defaultOptions, deriveJSON)
-import Data.List
-import Data.String.Conversions (cs)
-import GHC.Show
-import Protolude
+import           Data.Aeson.TH                  (Options (omitNothingFields),
+                                                 defaultOptions,
+                                                 deriveJSON)
+import           Data.List
+import           Data.String.Conversions        (cs)
+import           GHC.Show
+import           Protolude
+import           Text.PrettyPrint.GenericPretty
+import qualified Text.PrettyPrint.Leijen.Text   as PP
 
 data APINGException = APINGException
   { errorDetails :: Text
@@ -25,6 +30,9 @@ $(deriveJSON defaultOptions {omitNothingFields = True} ''APINGException)
 
 instance Show APINGException where
   show = cs . showAPINGException
+
+instance Pretty APINGException where
+  pretty = PP.text . cs . showAPINGException
 
 showAPINGException :: APINGException -> Text
 showAPINGException a =

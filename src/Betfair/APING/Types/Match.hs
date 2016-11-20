@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -8,10 +10,11 @@ module Betfair.APING.Types.Match
   ( Match(..)
   ) where
 
-import Betfair.APING.Types.Side (Side)
-import Data.Aeson.TH            (Options (omitNothingFields),
-                                 defaultOptions, deriveJSON)
+import Betfair.APING.Types.Side       (Side)
+import Data.Aeson.TH                  (Options (omitNothingFields),
+                                       defaultOptions, deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 type DateString = Text
 
@@ -22,6 +25,6 @@ data Match = Match
   , price     :: Double
   , size      :: Double
   , matchDate :: Maybe DateString
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''Match)

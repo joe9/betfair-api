@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -13,6 +15,7 @@ import Data.Aeson.TH                         (Options (omitNothingFields),
                                               defaultOptions,
                                               deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 type DateString = Text
 
@@ -33,6 +36,6 @@ data MarketDescription = MarketDescription
   , rulesHasDate       :: Maybe Bool
   , eachWayDivisor     :: Maybe Double
   , clarifications     :: Maybe Text
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''MarketDescription)

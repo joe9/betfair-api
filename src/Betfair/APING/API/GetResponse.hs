@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass    #-}
+{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
@@ -9,14 +11,14 @@ module Betfair.APING.API.GetResponse
 
 import           Control.Exception.Safe
 import           Data.Aeson
-import qualified Data.ByteString.Lazy    as L (ByteString)
-import           Data.String.Conversions (cs)
-import           Network.HTTP.Conduit    (HttpException (..),
-                                          HttpExceptionContent (..),
-                                          Request,
-                                          Response (responseBody),
-                                          Response (), httpLbs)
-import           Protolude               hiding (throwIO, try)
+import qualified Data.ByteString.Lazy           as L (ByteString)
+import           Data.String.Conversions        (cs)
+import           Network.HTTP.Conduit           (HttpException (..), HttpExceptionContent (..),
+                                                 Request,
+                                                 Response (responseBody),
+                                                 Response (), httpLbs)
+import           Protolude                      hiding (throwIO, try)
+import           Text.PrettyPrint.GenericPretty
 
 import Betfair.APING.API.Context
 import Betfair.APING.API.Log
@@ -24,7 +26,7 @@ import Betfair.APING.Types.BettingException
 
 data ParserError =
   ParserError Text
-  deriving (Eq, Read, Show, Typeable)
+  deriving (Eq, Read, Show, Generic, Pretty, Typeable)
 
 instance Exception ParserError
 
@@ -63,8 +65,7 @@ tryForResponse c req i = do
     Right response -> return response
 
 getResponse :: Context -> Request -> IO (Response L.ByteString)
-getResponse c req =
-  traceLog c =<< flip (tryForResponse c) 0 =<< traceLog c req
+getResponse c req = traceLog c =<< flip (tryForResponse c) 0 =<< traceLog c req
 
 getResponseBodyText :: Context -> Request -> IO Text
 getResponseBodyText c req = fmap (cs . responseBody) (getResponse c req)

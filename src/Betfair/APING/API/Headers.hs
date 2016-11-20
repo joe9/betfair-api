@@ -5,9 +5,9 @@ module Betfair.APING.API.Headers
   ( headers
   ) where
 
-import Network.HTTP.Types.Header  (RequestHeaders)
-import Protolude
 import Data.String.Conversions
+import Network.HTTP.Types.Header (RequestHeaders)
+import Protolude
 
 import Betfair.APING.Types.AppKey (AppKey)
 import Betfair.APING.Types.Token  (Token)

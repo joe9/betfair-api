@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass    #-}
+{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell   #-}
@@ -11,6 +13,7 @@ import Control.Exception.Safe
 import Data.Aeson
 import Data.Aeson.TH
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 --
 import Betfair.APING.API.Context
@@ -26,18 +29,18 @@ data Logout = Logout
     -- not converting this to type Error as I get a "" on success
     -- ,error   :: Error
   , error   :: Text
-  } deriving (Eq, Read, Show)
+  } deriving (Eq, Read, Show, Generic, Pretty)
 
 data Status
   = SUCCESS
   | FAIL
-  deriving (Eq, Read, Show)
+  deriving (Eq, Read, Show, Generic, Pretty)
 
 data Error
   = INPUT_VALIDATION_ERROR
   | INTERNAL_ERROR
   | NO_SESSION
-  deriving (Eq, Read, Show)
+  deriving (Eq, Read, Show, Generic, Pretty)
 
 instance Exception Logout
 

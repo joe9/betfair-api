@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -9,9 +11,10 @@ module Betfair.APING.Types.PriceData
   ( PriceData(..)
   ) where
 
-import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
-                      deriveJSON)
+import Data.Aeson.TH                  (Options (omitNothingFields),
+                                       defaultOptions, deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data PriceData
   = EX_ALL_OFFERS
@@ -19,6 +22,6 @@ data PriceData
   | SP_AVAILABLE
   | SP_TRADED
   | EX_TRADED
-  deriving (Eq, Show)
+  deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''PriceData)

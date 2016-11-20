@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -8,9 +10,10 @@ module Betfair.APING.Types.InstructionReportErrorCode
   ( InstructionReportErrorCode(..)
   ) where
 
-import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
-                      deriveJSON)
+import Data.Aeson.TH                  (Options (omitNothingFields),
+                                       defaultOptions, deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data InstructionReportErrorCode
   = INVALID_BET_SIZE
@@ -33,7 +36,7 @@ data InstructionReportErrorCode
   | CANCELLED_NOT_PLACED
   | RELATED_ACTION_FAILED
   | NO_ACTION_REQUIRED
-  deriving (Eq, Show)
+  deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON
     defaultOptions {omitNothingFields = True}

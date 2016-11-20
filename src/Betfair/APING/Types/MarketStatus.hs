@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -8,15 +10,16 @@ module Betfair.APING.Types.MarketStatus
   ( MarketStatus(..)
   ) where
 
-import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
-                      deriveJSON)
+import Data.Aeson.TH                  (Options (omitNothingFields),
+                                       defaultOptions, deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data MarketStatus
   = INACTIVE
   | OPEN
   | SUSPENDED
   | CLOSED
-  deriving (Eq, Show, Read, Enum)
+  deriving (Eq, Show, Generic, Pretty, Read, Enum)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''MarketStatus)

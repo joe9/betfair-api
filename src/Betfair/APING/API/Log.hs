@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass    #-}
+{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
@@ -9,25 +11,29 @@ module Betfair.APING.API.Log
   , stdOutAndLog
   ) where
 
-import           Data.Aeson
-import           Data.Aeson.Encode.Pretty
-import           Data.String.Conversions
-import qualified Data.Text                as T
-import           Data.Text.Lazy.Builder
-import           Protolude
+import Data.Aeson
+import Data.Aeson.Encode.Pretty
+import Data.Text.Lazy.Builder
+import Protolude
+import Text.PrettyPrint.GenericPretty
+
+import Text.PrettyPrint.GenericPretty
 
 import Betfair.APING.API.Context
 
 type Log = Text
 
+-- data Json a = Json {json :: a} deriving (Generic, ToJSON)
 toLog :: Context -> Text -> IO ()
 toLog = cLogger
 
-ppText :: ToJSON a => a -> Text
-ppText = toStrict . toLazyText . encodePrettyToTextBuilder
+ppText
+  :: Pretty a
+  => a -> Text
+ppText = toStrict . displayPretty
 
 tracePPLog
-  :: ToJSON a
+  :: Pretty a
   => Context -> a -> IO a
 tracePPLog c t = (toLog c . ppText) t >> return t
 

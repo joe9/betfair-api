@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -15,6 +17,7 @@ import Data.Aeson.TH                                  (Options (omitNothingField
                                                        defaultOptions,
                                                        deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 -- type DateString = Text
 data PlaceInstructionReport = PlaceInstructionReport
@@ -25,6 +28,6 @@ data PlaceInstructionReport = PlaceInstructionReport
   , placedDate          :: Maybe Text -- DateString
   , averagePriceMatched :: Maybe Double
   , sizeMatched         :: Maybe Double
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''PlaceInstructionReport)

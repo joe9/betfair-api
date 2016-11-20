@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass    #-}
+{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
@@ -6,10 +8,11 @@ module Betfair.APING.API.Context
   , initializeContext
   ) where
 
-import Betfair.APING.Types.AppKey (AppKey)
-import Betfair.APING.Types.Token  (Token)
+import Betfair.APING.Types.AppKey     (AppKey)
+import Betfair.APING.Types.Token      (Token)
 import Network.HTTP.Conduit
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data Context = Context
   { cAppKey  :: AppKey

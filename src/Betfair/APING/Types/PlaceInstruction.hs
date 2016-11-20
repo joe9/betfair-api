@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -17,6 +19,7 @@ import Data.Aeson.TH                          (Options (omitNothingFields),
                                                defaultOptions,
                                                deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data PlaceInstruction = PlaceInstruction
   { orderType          :: OrderType
@@ -26,6 +29,6 @@ data PlaceInstruction = PlaceInstruction
   , limitOrder         :: Maybe LimitOrder
   , limitOnCloseOrder  :: Maybe LimitOnCloseOrder
   , marketOnCloseOrder :: Maybe MarketOnCloseOrder
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''PlaceInstruction)

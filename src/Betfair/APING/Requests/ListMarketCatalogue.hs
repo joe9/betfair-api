@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -14,10 +16,12 @@ module Betfair.APING.Requests.ListMarketCatalogue
   , defaultJsonParameters
   ) where
 
-import qualified Data.Aeson    as A (encode)
-import           Data.Aeson.TH (Options (omitNothingFields),
-                                defaultOptions, deriveJSON)
-import           Protolude     hiding (filter)
+import qualified Data.Aeson                     as A (encode)
+import           Data.Aeson.TH                  (Options (omitNothingFields),
+                                                 defaultOptions,
+                                                 deriveJSON)
+import           Protolude                      hiding (filter)
+import           Text.PrettyPrint.GenericPretty
 
 --
 import Betfair.APING.API.APIRequest                (apiRequest)
@@ -36,7 +40,7 @@ data JsonRequest = JsonRequest
   , method  :: Text
   , params  :: Maybe JsonParameters
   , id      :: Int
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 data JsonParameters = JsonParameters
   { filter           :: MarketFilter
@@ -44,7 +48,7 @@ data JsonParameters = JsonParameters
   , sort             :: MarketSort
   , maxResults       :: Int
   , locale           :: Maybe Text
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 -- The weight of all the below are 0.
 --   Hence, I should get the maximum of 1000 markets

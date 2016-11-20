@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -15,6 +17,7 @@ import Data.Aeson.TH                                (Options (omitNothingFields)
                                                      defaultOptions,
                                                      deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data CancelExecutionReport = CancelExecutionReport
   { customerRef        :: Maybe Text
@@ -22,6 +25,6 @@ data CancelExecutionReport = CancelExecutionReport
   , errorCode          :: Maybe ExecutionReportErrorCode
   , marketId           :: Maybe Text
   , instructionReports :: Maybe [CancelInstructionReport]
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''CancelExecutionReport)

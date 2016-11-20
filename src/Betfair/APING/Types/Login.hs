@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass    #-}
+{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell   #-}
@@ -13,7 +15,8 @@ module Betfair.APING.Types.Login
 import Data.Aeson
 import Data.Aeson.TH
 import Data.List
-import Protolude     hiding (error)
+import Protolude                      hiding (error)
+import Text.PrettyPrint.GenericPretty
 
 import Betfair.APING.Types.Token (Token)
 
@@ -23,14 +26,14 @@ data Login = Login
   , status           :: Status
   , error            :: Text
   , errorDescription :: Maybe Text
-  } deriving (Eq, Read, Show)
+  } deriving (Eq, Read, Show, Generic, Pretty)
 
 data Status
   = SUCCESS
   | LIMITED_ACCESS
   | LOGIN_RESTRICTED
   | FAIL
-  deriving (Eq, Read, Show)
+  deriving (Eq, Read, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''Status)
 
@@ -38,7 +41,7 @@ $(deriveJSON defaultOptions {omitNothingFields = True} ''Login)
 
 data LoginError =
   LoginError Login
-  deriving (Eq, Read, Show)
+  deriving (Eq, Read, Show, Generic, Pretty)
 
 instance Exception LoginError
 

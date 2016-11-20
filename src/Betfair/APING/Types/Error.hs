@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -8,12 +10,15 @@ module Betfair.APING.Types.Error
   ( Error(..)
   ) where
 
-import Data.Aeson.TH           (Options (fieldLabelModifier, omitNothingFields),
-                                defaultOptions, deriveJSON)
-import Data.List
-import Data.String.Conversions (cs)
-import GHC.Show
-import Protolude
+import           Data.Aeson.TH                  (Options (fieldLabelModifier, omitNothingFields),
+                                                 defaultOptions,
+                                                 deriveJSON)
+import           Data.List
+import           Data.String.Conversions        (cs)
+import           GHC.Show
+import           Protolude
+import           Text.PrettyPrint.GenericPretty
+import qualified Text.PrettyPrint.Leijen.Text   as PP
 
 import Betfair.APING.Types.ErrorData (ErrorData)
 
@@ -36,6 +41,9 @@ $(deriveJSON
 
 instance Show Error where
   show = cs . showError
+
+instance Pretty Error where
+  pretty = PP.text . cs . showError
 
 showError :: Error -> Text
 showError a =

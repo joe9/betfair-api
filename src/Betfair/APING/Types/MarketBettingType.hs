@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -8,9 +10,10 @@ module Betfair.APING.Types.MarketBettingType
   ( MarketBettingType(..)
   ) where
 
-import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
-                      deriveJSON)
+import Data.Aeson.TH                  (Options (omitNothingFields),
+                                       defaultOptions, deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data MarketBettingType
   = ODDS
@@ -19,6 +22,6 @@ data MarketBettingType
   | ASIAN_HANDICAP_DOUBLE_LINE
   | ASIAN_HANDICAP_SINGLE_LINE
   | FIXED_ODDS
-  deriving (Eq, Show)
+  deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''MarketBettingType)

@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -8,9 +10,10 @@ module Betfair.APING.Types.ExecutionReportErrorCode
   ( ExecutionReportErrorCode(..)
   ) where
 
-import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
-                      deriveJSON)
+import Data.Aeson.TH                  (Options (omitNothingFields),
+                                       defaultOptions, deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data ExecutionReportErrorCode
   = ERROR_IN_MATCHER
@@ -30,7 +33,7 @@ data ExecutionReportErrorCode
   | NO_ACTION_REQUIRED
   | SERVICE_UNAVAILABLE
   | REJECTED_BY_REGULATOR
-  deriving (Eq, Show)
+  deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON
     defaultOptions {omitNothingFields = True}

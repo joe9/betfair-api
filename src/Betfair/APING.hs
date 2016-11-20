@@ -1,9 +1,9 @@
+{-# LANGUAGE DeriveAnyClass    #-}
+{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module Betfair.APING
--- API
--- Context
   ( Context(..)
   , initializeContext
    -- GetResponse
@@ -85,6 +85,8 @@ module Betfair.APING
   , Token
   ) where
 
+-- API
+-- Context
 -- import Betfair.APING.API.APIRequest
 import Betfair.APING.API.Context
 import Betfair.APING.API.GetResponse

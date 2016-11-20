@@ -8,5 +8,5 @@ module Betfair.APING.Types.AppKey
 import Protolude
 
 -- data Token = Token Text
---    deriving (Eq, Show)
+--    deriving (Eq, Show, Generic, Pretty)
 type AppKey = Text

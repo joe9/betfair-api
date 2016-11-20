@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -17,6 +19,7 @@ import Data.Aeson.TH                         (Options (omitNothingFields),
                                               defaultOptions,
                                               deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data MarketFilter = MarketFilter
   { textQuery          :: Maybe Text
@@ -34,7 +37,7 @@ data MarketFilter = MarketFilter
   , marketTypeCodes    :: Maybe [Text]
   , marketStartTime    :: Maybe TimeRange
   , withOrders         :: Maybe [OrderStatus]
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 defaultMarketFilter :: MarketFilter
 defaultMarketFilter =

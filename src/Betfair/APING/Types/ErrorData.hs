@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -12,11 +14,12 @@ import Betfair.APING.Types.APINGException (APINGException)
 import Data.Aeson.TH                      (Options (fieldLabelModifier, omitNothingFields),
                                            defaultOptions, deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data ErrorData = ErrorData
   { exceptionname  :: Text
   , aPINGException :: APINGException
-  } deriving (Eq, Read, Show)
+  } deriving (Eq, Read, Show, Generic, Pretty)
 
 -- from http://stackoverflow.com/questions/30696089/how-to-handle-capital-case-in-json
 $(deriveJSON

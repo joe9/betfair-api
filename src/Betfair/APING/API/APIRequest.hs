@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass    #-}
+{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 
@@ -6,12 +8,13 @@ module Betfair.APING.API.APIRequest
   , apiRequestString
   ) where
 
-import qualified Data.ByteString.Lazy    as L
+import qualified Data.ByteString.Lazy           as L
 import           Data.String.Conversions
-import           Network.HTTP.Conduit    (Request (method, requestBody, requestHeaders),
-                                          RequestBody (RequestBodyLBS),
-                                          parseUrlThrow)
+import           Network.HTTP.Conduit           (Request (method, requestBody, requestHeaders),
+                                                 RequestBody (RequestBodyLBS),
+                                                 parseUrlThrow)
 import           Protolude
+import           Text.PrettyPrint.GenericPretty
 
 import Betfair.APING.API.Context
 import Betfair.APING.API.Headers (headers)

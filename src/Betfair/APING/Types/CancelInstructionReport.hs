@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -15,6 +17,7 @@ import Data.Aeson.TH                                  (Options (omitNothingField
                                                        defaultOptions,
                                                        deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 -- type DateString = Text
 data CancelInstructionReport = CancelInstructionReport
@@ -23,6 +26,6 @@ data CancelInstructionReport = CancelInstructionReport
   , instruction   :: Maybe CancelInstruction
   , sizeCancelled :: Double
   , cancelledDate :: Maybe Text -- DateString
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''CancelInstructionReport)

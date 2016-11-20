@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -13,6 +15,7 @@ import Betfair.APING.Types.Runner       (Runner)
 import Data.Aeson.TH                    (Options (omitNothingFields),
                                          defaultOptions, deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 type DateString = Text
 
@@ -34,6 +37,6 @@ data MarketBook = MarketBook
   , runnersVoidable       :: Maybe Bool
   , version               :: Maybe Integer
   , runners               :: Maybe [Runner]
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''MarketBook)

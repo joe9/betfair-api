@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -12,10 +14,12 @@ module Betfair.APING.Requests.PlaceOrders
   , JsonRequest(..)
   ) where
 
-import qualified Data.Aeson    as A (encode)
-import           Data.Aeson.TH (Options (omitNothingFields),
-                                defaultOptions, deriveJSON)
+import qualified Data.Aeson                     as A (encode)
+import           Data.Aeson.TH                  (Options (omitNothingFields),
+                                                 defaultOptions,
+                                                 deriveJSON)
 import           Protolude
+import           Text.PrettyPrint.GenericPretty
 
 --
 import Betfair.APING.API.APIRequest             (apiRequest)
@@ -30,13 +34,13 @@ data JsonRequest = JsonRequest
   , method  :: Text
   , params  :: Maybe JsonParameters
   , id      :: Int
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 data JsonParameters = JsonParameters
   { marketId     :: Text
   , instructions :: [PlaceInstruction]
   , customerRef  :: Text
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''JsonParameters)
 

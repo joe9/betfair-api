@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass    #-}
+{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell   #-}
@@ -15,6 +17,7 @@ import Data.Aeson.TH                         (Options (omitNothingFields),
                                               defaultOptions,
                                               deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 type DateString = Text
 
@@ -28,6 +31,6 @@ data MarketCatalogue = MarketCatalogue
   , eventType       :: Maybe EventType
   , competition     :: Maybe Competition
   , event           :: Maybe Event
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''MarketCatalogue)

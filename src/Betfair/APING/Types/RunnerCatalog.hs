@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -8,9 +10,10 @@ module Betfair.APING.Types.RunnerCatalog
   ( RunnerCatalog(..)
   ) where
 
-import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
-                      deriveJSON)
+import Data.Aeson.TH                  (Options (omitNothingFields),
+                                       defaultOptions, deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data RunnerCatalog = RunnerCatalog
   { selectionId  :: Integer
@@ -18,6 +21,6 @@ data RunnerCatalog = RunnerCatalog
   , handicap     :: Double
   , sortPriority :: Int
   , metadata     :: Maybe [Text] -- [Runner_METADATA]
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''RunnerCatalog)

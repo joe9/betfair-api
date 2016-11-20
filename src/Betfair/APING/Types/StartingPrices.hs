@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -8,10 +10,11 @@ module Betfair.APING.Types.StartingPrices
   ( StartingPrices(..)
   ) where
 
-import Betfair.APING.Types.PriceSize (PriceSize)
-import Data.Aeson.TH                 (Options (omitNothingFields),
-                                      defaultOptions, deriveJSON)
+import Betfair.APING.Types.PriceSize  (PriceSize)
+import Data.Aeson.TH                  (Options (omitNothingFields),
+                                       defaultOptions, deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data StartingPrices = StartingPrices
   { nearPrice         :: Maybe Double
@@ -19,6 +22,6 @@ data StartingPrices = StartingPrices
   , backStakeTaken    :: Maybe [PriceSize]
   , layLiabilityTaken :: Maybe [PriceSize]
   , actualSP          :: Maybe Double
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''StartingPrices)

@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveAnyClass     #-}
 {-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE DeriveGeneric      #-}
 {-# LANGUAGE NoImplicitPrelude  #-}
 {-# LANGUAGE OverloadedStrings  #-}
 {-# LANGUAGE TemplateHaskell    #-}
@@ -12,11 +14,12 @@ import Data.Aeson.TH                       (Options (omitNothingFields),
                                             defaultOptions,
                                             deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data Response = Response
   { jsonrpc :: Text
   , result  :: [MarketCatalogue]
   , id      :: Int
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''Response)

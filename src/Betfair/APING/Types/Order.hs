@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass       #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -16,6 +18,7 @@ import Data.Aeson.TH                       (Options (omitNothingFields),
                                             defaultOptions,
                                             deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 type DateString = Text
 
@@ -35,6 +38,6 @@ data Order = Order
   , sizeLapsed      :: Maybe Double
   , sizeCancelled   :: Maybe Double
   , sizeVoided      :: Maybe Double
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''Order)

@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE DeriveDataTypeable   #-}
+{-# LANGUAGE DeriveGeneric        #-}
 {-# LANGUAGE FlexibleContexts     #-}
 {-# LANGUAGE NoImplicitPrelude    #-}
 {-# LANGUAGE OverloadedStrings    #-}
@@ -13,6 +15,7 @@ import Betfair.APING.Types.RollupModel (RollupModel)
 import Data.Aeson.TH                   (Options (omitNothingFields),
                                         defaultOptions, deriveJSON)
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 data ExBestOffersOverrides = ExBestOffersOverrides
   { bestPricesDepth          :: Maybe Int
@@ -20,6 +23,6 @@ data ExBestOffersOverrides = ExBestOffersOverrides
   , rollupLimit              :: Maybe Int
   , rollupLiabilityThreshold :: Maybe Double
   , rollupLiabilityFactor    :: Maybe Int
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''ExBestOffersOverrides)

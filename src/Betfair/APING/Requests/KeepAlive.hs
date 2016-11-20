@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveAnyClass    #-}
+{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell   #-}
@@ -13,6 +15,7 @@ import Data.Aeson
 import Data.Aeson.TH
 import Network.HTTP.Conduit
 import Protolude
+import Text.PrettyPrint.GenericPretty
 
 --
 import Betfair.APING.API.Context
@@ -27,20 +30,20 @@ data KeepAlive = KeepAlive
     -- not converting this to type Error as I get a "" on success
     -- ,error   :: Error
   , error   :: Text
-  } deriving (Eq, Read, Show, Typeable)
+  } deriving (Eq, Read, Show, Generic, Pretty, Typeable)
 
 instance Exception KeepAlive
 
 data Status
   = SUCCESS
   | FAIL
-  deriving (Eq, Show, Read)
+  deriving (Eq, Show, Generic, Pretty, Read)
 
 data Error
   = INPUT_VALIDATION_ERROR
   | INTERNAL_ERROR
   | NO_SESSION
-  deriving (Eq, Show, Read)
+  deriving (Eq, Show, Generic, Pretty, Read)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''KeepAlive)
 
