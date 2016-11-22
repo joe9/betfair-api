@@ -1,0 +1,12 @@
+
+Records The record system is a continual source of pain. It\u2019s best to come up with an internal convention for naming record accessors and use qualified imports. It sucks for now, but there are some changes coming up the 8.0 release that will make life easier.
+
+When using Generics to derive ToJSON and FromJSON instances there is fieldLabelModifier field that can be used to modify the derived field so the serialize does not have to match the Haskell record accessors. For example we\u2019ll drop the first three characters:
+
+data Login = Login
+  { _lgusername :: Text
+  , _lgpassword :: Text
+  } deriving (Eq, Ord, Show, Generic)
+
+instance ToJSON Login where
+  toJSON = genericToJSON defaultOptions { fieldLabelModifier = drop 3 }
