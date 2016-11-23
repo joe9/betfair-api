@@ -97,7 +97,6 @@ library
                      , http-conduit
                      , http-client >= 0.5.0
                      , http-types
-                     , aeson-pretty
                      , MissingH
                      , protolude
                      , text
@@ -135,7 +134,6 @@ executable Sample
                      , json
                      , time
                      , iso8601-time
-                     , aeson
                      , bytestring
                      , safe
                      , utf8-string
