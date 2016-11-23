@@ -14,7 +14,6 @@ import           Network.HTTP.Conduit           (Request (method, requestBody, r
                                                  RequestBody (RequestBodyLBS),
                                                  parseUrlThrow)
 import           Protolude
-import           Text.PrettyPrint.GenericPretty
 
 import Betfair.APING.API.Context
 import Betfair.APING.API.Headers (headers)

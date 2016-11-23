@@ -9,9 +9,6 @@ module Betfair.APING.API.Log
   , stdOutAndLog
   ) where
 
-import Data.Aeson
-import Data.Aeson.Encode.Pretty
-import Data.Text.Lazy.Builder
 import Protolude
 
 import Text.PrettyPrint.GenericPretty
