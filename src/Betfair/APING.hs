@@ -83,6 +83,17 @@ module Betfair.APING
   , StartingPrices
   , TimeRange
   , Token
+  -- common types
+  , SelectionId
+  , MarketId
+  , EventName
+  , MarketName
+  , RunnerName
+  , PointId
+  , Token
+  , AppKey
+  , Price
+  , Size
   ) where
 
 -- API
@@ -155,3 +166,19 @@ import Betfair.APING.Types.Side
 import Betfair.APING.Types.StartingPrices
 import Betfair.APING.Types.TimeRange
 import Betfair.APING.Types.Token
+
+type MarketId = Text
+
+type SelectionId = Integer
+
+type EventName = Text
+
+type MarketName = Text
+
+type RunnerName = Text
+
+type PointId = Int
+
+type Price = Double
+
+type Size = Double
