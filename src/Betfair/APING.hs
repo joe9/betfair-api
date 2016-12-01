@@ -89,7 +89,6 @@ module Betfair.APING
   , EventName
   , MarketName
   , RunnerName
-  , PointId
   , Price
   , Size
   ) where
@@ -176,8 +175,6 @@ type EventName = Text
 type MarketName = Text
 
 type RunnerName = Text
-
-type PointId = Int
 
 type Price = Double
 
