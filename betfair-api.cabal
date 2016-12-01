@@ -85,6 +85,7 @@ library
                    Betfair.APING.Types.MarketStatus
                    Betfair.APING.Types.PlaceExecutionReport
                    Betfair.APING.Types.RunnerStatus
+                   Common.Types
   default-extensions:  NoImplicitPrelude
   other-extensions:    DeriveDataTypeable
                      , FlexibleContexts
