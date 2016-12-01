@@ -90,11 +90,11 @@ module Betfair.APING
   , MarketName
   , RunnerName
   , PointId
-  , Token
-  , AppKey
   , Price
   , Size
   ) where
+
+import Protolude
 
 -- API
 -- Context
