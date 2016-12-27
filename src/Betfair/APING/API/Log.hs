@@ -22,12 +22,12 @@ toLog :: Context -> Text -> IO ()
 toLog = cLogger
 
 ppText
-  :: (Show a, Pretty a)
+  :: (Pretty a)
   => a -> Text
 ppText = displayPretty
 
 tracePPLog
-  :: (Show a, Pretty a)
+  :: (Pretty a)
   => Context -> a -> IO a
 tracePPLog c t = (toLog c . ppText) t >> return t
 
