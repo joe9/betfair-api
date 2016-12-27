@@ -102,7 +102,7 @@ library
                      , text
                      , safe-exceptions
                      , string-conversions
-                     , GenericPretty
+                     , text-generic-pretty
                      , wl-pprint-text
   ghc-options:         -Wall
   hs-source-dirs:      src
