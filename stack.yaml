@@ -2,7 +2,7 @@ flags: {}
 extra-package-dbs: []
 packages:
 - '.'
-- location: /home/j/dev/apps/haskell/libraries/12-GenericPretty
+- location: /home/j/dev/apps/haskell/libraries/12-text-generic-pretty
   extra-dep: true
 extra-deps: []
 resolver: nightly-2016-11-04
