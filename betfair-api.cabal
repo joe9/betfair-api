@@ -85,6 +85,11 @@ library
                    Betfair.APING.Types.MarketStatus
                    Betfair.APING.Types.PlaceExecutionReport
                    Betfair.APING.Types.RunnerStatus
+                   Betfair.APING.Types.KeyLineDescription
+                   Betfair.APING.Types.KeyLineSelection
+                   Betfair.APING.Types.MarketLineRangeInfo
+                   Betfair.APING.Types.PriceLadderDescription
+                   Betfair.APING.Types.PriceLadderType
   default-extensions:  NoImplicitPrelude
   other-extensions:    DeriveDataTypeable
                      , FlexibleContexts

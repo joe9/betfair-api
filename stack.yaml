@@ -5,4 +5,4 @@ packages:
 - location: /home/j/dev/apps/haskell/libraries/12-text-generic-pretty
   extra-dep: true
 extra-deps: []
-resolver: lts-8.15
+resolver: lts-8.23

@@ -10,8 +10,8 @@ module Betfair.APING.Types.PriceLadderDescription
   ( PriceLadderDescription(..)
   ) where
 
-import Data.Aeson.TH (Options (omitNothingFields), defaultOptions,
-                      deriveJSON)
+import Data.Aeson.TH (Options (fieldLabelModifier, omitNothingFields),
+                      defaultOptions, deriveJSON)
 import Protolude
 
 import Text.PrettyPrint.GenericPretty
