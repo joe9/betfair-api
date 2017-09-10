@@ -20,6 +20,6 @@ data PriceLadderType
   = CLASSIC
   | FINEST
   | LINE_RANGE
-  deriving (Eq, Show, Generic, Pretty)
+  deriving (Eq, Read, Show, Generic, Pretty)
 
 $(deriveJSON defaultOptions {omitNothingFields = True} ''PriceLadderType)
